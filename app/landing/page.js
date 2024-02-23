@@ -3,8 +3,8 @@ import Link from "next/link";
 
 // components
 
-import Navbar from "components/Navbars/AuthNavbar.js";
-import Footer from "components/Footers/Footer.js";
+import Navbar from "app/components/Navbars/AuthNavbar.js";
+import Footer from "app/components/Footers/Footer.js";
 
 export default function Landing() {
   return (
@@ -129,10 +129,10 @@ export default function Landing() {
                   good to go. Just make sure you enable them first via
                   JavaScript.
                 </p>
-                <Link href="/">
-                  <a href="#pablo" className="font-bold text-blueGray-700 mt-8">
+                <Link href="/" className="font-bold text-blueGray-700 mt-8" >
+                  
                     Check Notus NextJS!
-                  </a>
+                  
                 </Link>
               </div>
 

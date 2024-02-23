@@ -1,11 +1,9 @@
-import React from "react";
-import Document, { Html, Head, Main, NextScript } from "next/document";
-
-class MyDocument extends Document {
-  render() {
+import React from 'react'
+import ClientLayout from './ClientLayout'
+export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-      <Html lang="en">
-        <Head>
+        <html lang="en">
+        <head>
           <meta charSet="utf-8" />
           <meta name="theme-color" content="#000000" />
           <link rel="shortcut icon" href="/img/brand/favicon.ico" />
@@ -14,15 +12,62 @@ class MyDocument extends Document {
             sizes="76x76"
             href="/img/brand/apple-icon.png"
           />
-        </Head>
+        </head>
         <body className="text-blueGray-700 antialiased">
           <div id="page-transition"></div>
-          <Main />
-          <NextScript />
+          <ClientLayout>{children}</ClientLayout>
         </body>
-      </Html>
-    );
+      </html>
+    )
   }
-}
 
-export default MyDocument;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  

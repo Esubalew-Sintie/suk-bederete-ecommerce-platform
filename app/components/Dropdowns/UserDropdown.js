@@ -1,7 +1,7 @@
 import React from "react";
 import { createPopper } from "@popperjs/core";
-
-const NotificationDropdown = () => {
+import Link from "next/link";
+const UserDropdown = () => {
   // dropdown props
   const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
   const btnDropdownRef = React.createRef();
@@ -17,8 +17,8 @@ const NotificationDropdown = () => {
   };
   return (
     <>
-      <a
-        className="text-blueGray-500 block py-1 px-3"
+      <Link
+        className="text-blueGray-500 block"
         href="#pablo"
         ref={btnDropdownRef}
         onClick={(e) => {
@@ -26,8 +26,16 @@ const NotificationDropdown = () => {
           dropdownPopoverShow ? closeDropdownPopover() : openDropdownPopover();
         }}
       >
-        <i className="fas fa-bell"></i>
-      </a>
+        <div className="items-center flex">
+          <span className="w-12 h-12 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center rounded-full">
+            <img
+              alt="..."
+              className="w-full rounded-full align-middle border-none shadow-lg"
+              src="/img/team-1-800x800.jpg"
+            />
+          </span>
+        </div>
+      </Link>
       <div
         ref={popoverDropdownRef}
         className={
@@ -35,7 +43,7 @@ const NotificationDropdown = () => {
           "bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48"
         }
       >
-        <a
+        <Link
           href="#pablo"
           className={
             "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
@@ -43,8 +51,8 @@ const NotificationDropdown = () => {
           onClick={(e) => e.preventDefault()}
         >
           Action
-        </a>
-        <a
+        </Link>
+        <Link
           href="#pablo"
           className={
             "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
@@ -52,8 +60,8 @@ const NotificationDropdown = () => {
           onClick={(e) => e.preventDefault()}
         >
           Another action
-        </a>
-        <a
+        </Link>
+        <Link
           href="#pablo"
           className={
             "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
@@ -61,9 +69,9 @@ const NotificationDropdown = () => {
           onClick={(e) => e.preventDefault()}
         >
           Something else here
-        </a>
+        </Link>
         <div className="h-0 my-2 border border-solid border-blueGray-100" />
-        <a
+        <Link
           href="#pablo"
           className={
             "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
@@ -71,10 +79,10 @@ const NotificationDropdown = () => {
           onClick={(e) => e.preventDefault()}
         >
           Seprated link
-        </a>
+        </Link>
       </div>
     </>
   );
 };
 
-export default NotificationDropdown;
+export default UserDropdown;

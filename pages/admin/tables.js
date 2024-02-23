@@ -2,7 +2,7 @@ import React from "react";
 
 // components
 
-import CardTable from "components/Cards/CardTable.js";
+import CardTable from "app/components/Cards/CardTable.js";
 
 // layout for page
 

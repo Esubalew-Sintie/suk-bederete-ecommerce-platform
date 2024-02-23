@@ -1,8 +1,8 @@
 import React from "react";
 
-import Navbar from "components/Navbars/AuthNavbar.js";
-import Footer from "components/Footers/Footer.js";
-
+import Navbar from "app/components/Navbars/AuthNavbar.js";
+import Footer from "app/components/Footers/Footer.js";
+import Link from "next/link";
 export default function Profile() {
   return (
     <>
@@ -121,13 +121,13 @@ export default function Profile() {
                         warm, intimate feel with a solid groove structure. An
                         artist of considerable range.
                       </p>
-                      <a
+                      <Link
                         href="#pablo"
                         className="font-normal text-lightBlue-500"
                         onClick={(e) => e.preventDefault()}
                       >
                         Show more
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>

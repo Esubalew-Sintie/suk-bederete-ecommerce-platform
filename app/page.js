@@ -2,8 +2,8 @@
 import React from "react";
 import Link from "next/link";
 
-import IndexNavbar from "components/Navbars/IndexNavbar.js";
-import Footer from "components/Footers/Footer.js";
+import IndexNavbar from "./components/Navbars/IndexNavbar.js";
+import Footer from "./components/Footers/Footer.js";
 
 export default function Index() {
   return (
@@ -19,32 +19,32 @@ export default function Index() {
               <p className="mt-4 text-lg leading-relaxed text-blueGray-500">
                 Notus NextJS is Free and Open Source. It does not change any of
                 the CSS from{" "}
-                <a
+                <Link
                   href="https://tailwindcss.com/?ref=creativetim"
                   className="text-blueGray-600"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   Tailwind CSS
-                </a>
+                </Link>
                 . It features multiple HTML elements and it comes with dynamic
                 components for ReactJS, Vue and Angular.
               </p>
               <div className="mt-12">
-                <a
+                <Link
                   href="https://www.creative-tim.com/learning-lab/tailwind/nextjs/overview/notus?ref=nnjs-index"
                   target="_blank"
                   className="get-started text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-blueGray-400 active:bg-blueGray-500 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150"
                 >
                   Get started
-                </a>
-                <a
+                </Link>
+                <Link
                   href="https://github.com/creativetimofficial/notus-nextjs?ref=nnjs-index"
                   className="github-star ml-1 text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-blueGray-700 active:bg-blueGray-600 uppercase text-sm shadow hover:shadow-lg"
                   target="_blank"
                 >
                   Github Star
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -215,14 +215,14 @@ export default function Index() {
                   Typography
                 </span>
               </div>
-              <a
+              <Link
                 href="https://www.creative-tim.com/learning-lab/tailwind/nextjs/alerts/notus?ref=nnjs-index"
                 target="_blank"
                 className="font-bold text-blueGray-700 hover:text-blueGray-500 ease-linear transition-all duration-150"
               >
                 View All{" "}
                 <i className="fa fa-angle-double-right ml-1 leading-relaxed"></i>
-              </a>
+              </Link>
             </div>
 
             <div className="w-full md:w-5/12 px-4 mr-auto ml-auto mt-32">
@@ -265,7 +265,7 @@ export default function Index() {
             <div className="w-full md:w-6/12 px-4 mr-auto ml-auto mt-32">
               <div className="justify-center flex flex-wrap relative">
                 <div className="my-4 w-full lg:w-6/12 px-4">
-                  <a
+                  <Link
                     href="https://www.creative-tim.com/learning-lab/tailwind/svelte/alerts/notus?ref=vtw-index"
                     target="_blank"
                   >
@@ -279,8 +279,8 @@ export default function Index() {
                         Svelte
                       </p>
                     </div>
-                  </a>
-                  <a
+                  </Link>
+                  <Link
                     href="https://www.creative-tim.com/learning-lab/tailwind/react/alerts/notus?ref=vtw-index"
                     target="_blank"
                   >
@@ -294,8 +294,8 @@ export default function Index() {
                         ReactJS
                       </p>
                     </div>
-                  </a>
-                  <a
+                  </Link>
+                  <Link
                     href="https://www.creative-tim.com/learning-lab/tailwind/nextjs/alerts/notus?ref=vtw-index"
                     target="_blank"
                   >
@@ -309,10 +309,10 @@ export default function Index() {
                         NextJS
                       </p>
                     </div>
-                  </a>
+                  </Link>
                 </div>
                 <div className="my-4 w-full lg:w-6/12 px-4 lg:mt-16">
-                  <a
+                  <Link
                     href="https://www.creative-tim.com/learning-lab/tailwind/js/alerts/notus?ref=vtw-index"
                     target="_blank"
                   >
@@ -326,8 +326,8 @@ export default function Index() {
                         JavaScript
                       </p>
                     </div>
-                  </a>
-                  <a
+                  </Link>
+                  <Link
                     href="https://www.creative-tim.com/learning-lab/tailwind/angular/alerts/notus?ref=vtw-index"
                     target="_blank"
                   >
@@ -341,8 +341,8 @@ export default function Index() {
                         Angular
                       </p>
                     </div>
-                  </a>
-                  <a
+                  </Link>
+                  <Link
                     href="https://www.creative-tim.com/learning-lab/tailwind/vue/alerts/notus?ref=vtw-index"
                     target="_blank"
                   >
@@ -356,7 +356,7 @@ export default function Index() {
                         Vue.js
                       </p>
                     </div>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -403,14 +403,14 @@ export default function Index() {
                   Tooltips
                 </span>
               </div>
-              <a
+              <Link
                 href="https://www.creative-tim.com/learning-lab/tailwind/nextjs/alerts/notus?ref=nnjs-index"
                 target="_blank"
                 className="font-bold text-blueGray-700 hover:text-blueGray-500 ease-linear transition-all duration-150"
               >
                 View all{" "}
                 <i className="fa fa-angle-double-right ml-1 leading-relaxed"></i>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -571,13 +571,13 @@ export default function Index() {
               </h3>
               <p className="text-lg font-light leading-relaxed mt-4 mb-4 text-blueGray-400">
                 Since{" "}
-                <a
+                <Link
                   href="https://tailwindcss.com/?ref=creative"
                   className="text-blueGray-300"
                   target="_blank"
                 >
                   Tailwind CSS
-                </a>{" "}
+                </Link>{" "}
                 is an open source project we wanted to continue this movement
                 too. You can give this version a try to feel the design and also
                 test the quality of the code!
@@ -586,13 +586,13 @@ export default function Index() {
                 Get it free on Github and please help us spread the news with a
                 Star!
               </p>
-              <a
+              <Link
                 href="https://github.com/creativetimofficial/notus-nextjs?ref=nnjs-index"
                 target="_blank"
                 className="github-star mt-4 inline-block text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-blueGray-700 active:bg-blueGray-600 uppercase text-sm shadow hover:shadow-lg"
               >
                 Github Star
-              </a>
+              </Link>
             </div>
 
             <div className="w-full md:w-4/12 px-4 mr-auto ml-auto mt-32 relative">
@@ -640,21 +640,21 @@ export default function Index() {
                 new web app or give an old project a new look!
               </p>
               <div className="sm:block flex flex-col mt-10">
-                <a
+                <Link
                   href="https://www.creative-tim.com/learning-lab/tailwind/nextjs/overview/notus?ref=nnjs-index"
                   target="_blank"
                   className="get-started text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-2 bg-blueGray-400 active:bg-blueGray-500 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150"
                 >
                   Get started
-                </a>
-                <a
+                </Link>
+                <Link
                   href="https://github.com/creativetimofficial/notus-nextjs?ref=nnjs-index"
                   target="_blank"
                   className="github-star sm:ml-1 text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-blueGray-700 active:bg-blueGray-600 uppercase text-sm shadow hover:shadow-lg"
                 >
                   <i className="fab fa-github text-lg mr-1"></i>
                   <span>Help With a Star</span>
-                </a>
+                </Link>
               </div>
               <div className="text-center mt-16"></div>
             </div>
