@@ -1,9 +1,10 @@
+'use client'
 import React from "react";
 import Link from "next/link";
 // components
 
-import PagesDropdown from "app/components/Dropdowns/PagesDropdown.js";
 
+import PagesDropdown from "../Dropdowns/PagesDropdown"
 export default function Navbar(props) {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
   return (

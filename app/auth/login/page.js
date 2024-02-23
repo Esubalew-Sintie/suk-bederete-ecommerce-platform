@@ -3,8 +3,8 @@ import Link from "next/link";
 
 // layout for page
 
-import Auth from "layouts/Auth.js";
 
+import Auth from "../../../layouts/Auth"
 export default function Login() {
   return (
     <>
@@ -94,19 +94,19 @@ export default function Login() {
             </div>
             <div className="flex flex-wrap mt-6 relative">
               <div className="w-1/2">
-                <a
+                <Link
                   href="#pablo"
                   onClick={(e) => e.preventDefault()}
                   className="text-blueGray-200"
                 >
                   <small>Forgot password?</small>
-                </a>
+                </Link>
               </div>
               <div className="w-1/2 text-right">
-                <Link href="/auth/register">
-                  <a href="#pablo" className="text-blueGray-200">
+                <Link href="/auth/register" className="text-blueGray-200">
+                  
                     <small>Create new account</small>
-                  </a>
+                  
                 </Link>
               </div>
             </div>
