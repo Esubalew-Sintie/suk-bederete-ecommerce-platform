@@ -1,13 +1,10 @@
-
-
 import React from "react";
 import Link from "next/link";
 
 // components
 
-
 import Footer from "./components/Footers/Footer.js";
-import Navbar from "./components/Navbars/AuthNavbar.js"
+import Navbar from "./components/Navbars/AuthNavbar.js";
 export default function Index() {
   return (
     <>
@@ -18,7 +15,7 @@ export default function Index() {
             className="absolute top-0 w-full h-full bg-center bg-cover"
             style={{
               backgroundImage:
-                "url('https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80')",
+                "url('https://images.pexels.com/photos/6214476/pexels-photo-6214476.jpeg?auto=compress&cs=tinysrgb&w=600')",
             }}
           >
             <span
@@ -28,6 +25,13 @@ export default function Index() {
           </div>
           <div className="container relative mx-auto">
             <div className="items-center flex flex-wrap">
+              <button
+                className="bg-blueGray-800 text-white hover:bg-blue-200 active:bg-blueGray-600  active:bg-opacity-100 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none  focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                type="button"
+              >
+                go to store
+              </button>
+
               <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
                 <div className="pr-12">
                   <h1 className="text-white font-semibold text-5xl">
@@ -131,10 +135,8 @@ export default function Index() {
                   good to go. Just make sure you enable them first via
                   JavaScript.
                 </p>
-                <Link href="/" className="font-bold text-blueGray-700 mt-8" >
-                  
-                    Check Notus NextJS!
-                  
+                <Link href="/" className="font-bold text-blueGray-700 mt-8">
+                  Check Notus NextJS!
                 </Link>
               </div>
 
