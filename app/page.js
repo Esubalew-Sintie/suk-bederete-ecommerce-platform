@@ -29,9 +29,14 @@ export default function Index() {
                 className="bg-blueGray-800 text-white hover:bg-blue-200 active:bg-blueGray-600  active:bg-opacity-100 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none  focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 type="button"
               >
+                store
+              </button>
+              <button
+                className="bg-blueGray-800 text-white hover:bg-blue-200 active:bg-blueGray-600  active:bg-opacity-100 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none  focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                type="button"
+              >
                 go to store
               </button>
-
               <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
                 <div className="pr-12">
                   <h1 className="text-white font-semibold text-5xl">
