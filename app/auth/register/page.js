@@ -1,12 +1,13 @@
+'use client'
 import React from "react";
 
 // layout for page
 
-import Auth from "layouts/Auth.js";
 
+import Auth from "../../layouts/Auth"
 export default function Register() {
   return (
-    <>
+    <Auth>
       <div className="container mx-auto px-4 h-full">
         <div className="flex content-center items-center justify-center h-full">
           <div className="w-full lg:w-6/12 px-4">
@@ -116,8 +117,8 @@ export default function Register() {
           </div>
         </div>
       </div>
-    </>
+    </Auth>
   );
 }
 
-Register.layout = Auth;
+
