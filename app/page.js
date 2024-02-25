@@ -25,12 +25,13 @@ export default function Index() {
           </div>
           <div className="container relative mx-auto">
             <div className="items-center flex flex-wrap">
-              <button
+              <Link
+                href='selecttheme'
                 className="bg-blueGray-800 text-white hover:bg-blue-200 active:bg-blueGray-600  active:bg-opacity-100 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none  focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                type="button"
+                
               >
-                store
-              </button>
+               Add Store
+              </Link>
               <button
                 className="bg-blueGray-800 text-white hover:bg-blue-200 active:bg-blueGray-600  active:bg-opacity-100 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none  focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 type="button"
