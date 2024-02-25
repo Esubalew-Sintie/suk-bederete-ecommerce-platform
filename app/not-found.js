@@ -1,4 +1,4 @@
-"use client"
+// "use client"
 // import React from "react";
 // import Router from "next/router";
 // import { Component } from 'react';
@@ -12,3 +12,13 @@
 //     return <div />;
 //   }
 // }
+
+import React from 'react'
+
+function NotFound() {
+  return (
+    <div className=' text-black'>NotFound</div>
+  )
+}
+
+export default NotFound
