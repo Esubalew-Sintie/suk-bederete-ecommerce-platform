@@ -14,7 +14,7 @@ import Admin from "../../layouts/Admin.js";
 
 export default function Dashboard() {
   return (
-    <>
+    <Admin>
       <div className="flex flex-wrap">
         <div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
           <CardLineChart />
@@ -31,8 +31,8 @@ export default function Dashboard() {
           <CardSocialTraffic />
         </div>
       </div>
-    </>
+    </Admin>
   );
 }
 
-Dashboard.layout = Admin;
+
