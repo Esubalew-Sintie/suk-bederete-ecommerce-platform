@@ -43,10 +43,10 @@ export default function Sidebar() {
               collapseShow
             }
           >
-            <div className="rounded-md bg-slate-100 px-2">
+            <div className="rounded-md bg-slate-100 px-2 py-2">
 
             <ul className="md:flex-col md:min-w-full flex flex-col list-none">
-              <li className="items-center">
+              <li className="items-center rounded-md hover:bg-slate-400 px-3">
                 <Link href="/admin/dashboard" className={
                       "text-xs uppercase py-3 font-bold block " +
                       (pathname.indexOf("/admin/dashboard") !== -1
@@ -68,7 +68,7 @@ export default function Sidebar() {
                 </Link>
               </li>
 
-              <li className="items-center">
+              <li className="items-center rounded-md hover:bg-slate-400 px-3">
                 <Link href="/admin/settings" className={
                       "text-xs uppercase py-3 font-bold block " +
                       (pathname.indexOf("/admin/settings") !== -1
@@ -91,7 +91,7 @@ export default function Sidebar() {
                 </Link>
               </li>
 
-              <li className="items-center">
+              <li className="items-center rounded-md hover:bg-slate-400 px-3">
                 <Link href="/admin/tables" className={
                       "text-xs uppercase py-3 font-bold block " +
                       (pathname.indexOf("/admin/tables") !== -1
@@ -113,7 +113,7 @@ export default function Sidebar() {
                 </Link>
               </li>
 
-              <li className="items-center">
+              <li className="items-center rounded-md hover:bg-slate-400 px-3">
                 <Link href="/admin/maps" className={
                       "text-xs uppercase py-3 font-bold block " +
                       (pathname.indexOf("/admin/maps") !== -1
@@ -141,7 +141,7 @@ export default function Sidebar() {
             {/* Heading */}
             <div className='mt-20'>
 			  
-				<button className='w-full bg-slate-100 p-3 rounded-md hover:bg-slate-200'>
+				<button className='w-full bg-slate-100 p-3 rounded-md hover:bg-slate-400'>
 				<i className="fas fa-plus mr-3"></i>
 					Add Section
 					</button>
