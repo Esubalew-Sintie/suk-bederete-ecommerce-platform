@@ -2,15 +2,15 @@ import React from "react";
 
 // components
 
-import CardTable from "app/components/Cards/CardTable.js";
+import CardTable from "@/app/components/Cards/CardTable.js";
 
 // layout for page
 
-import Admin from "layouts/Admin.js";
 
+import Admin from "@/app/layouts/Admin";
 export default function Tables() {
   return (
-    <>
+    <Admin>
       <div className="flex flex-wrap mt-4">
         <div className="w-full mb-12 px-4">
           <CardTable />
@@ -19,8 +19,8 @@ export default function Tables() {
           <CardTable color="dark" />
         </div>
       </div>
-    </>
+    </Admin>
   );
 }
 
-Tables.layout = Admin;
+
