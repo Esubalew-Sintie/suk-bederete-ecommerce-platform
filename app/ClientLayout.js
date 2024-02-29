@@ -23,14 +23,14 @@ import "../styles/tailwind.css";
 export default function ClientLayout({ children }) {
     return (
       <>
-        <head>
+        {/* <head>
           <meta
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
           />
           <title> NextJS by Creative Tim</title>
           <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
-        </head>
+        </head> */}
         
         <>{children}</>
       </>

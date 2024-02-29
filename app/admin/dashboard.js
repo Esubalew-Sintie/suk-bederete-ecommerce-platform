@@ -2,19 +2,18 @@ import React from "react";
 
 // components
 
-// import CardLineChart from "app/components/Cards/CardLineChart.js";
-import CardBarChart from "../../components/Cards/CardBarChart.js";
-import CardPageVisits from "../../components/Cards/CardPageVisits.js";
-import CardSocialTraffic from "../../components/Cards/CardSocialTraffic.js";
-import CardLineChart from "../../components/Cards/CardLineChart";
+import CardLineChart from "app/components/Cards/CardLineChart.js";
+import CardBarChart from "app/components/Cards/CardBarChart.js";
+import CardPageVisits from "app/components/Cards/CardPageVisits.js";
+import CardSocialTraffic from "app/components/Cards/CardSocialTraffic.js";
 
 // layout for page
 
-import Admin from "../../layouts/Admin.js";
+import Admin from "layouts/Admin.js";
 
 export default function Dashboard() {
   return (
-    <Admin>
+    <>
       <div className="flex flex-wrap">
         <div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
           <CardLineChart />
@@ -31,8 +30,8 @@ export default function Dashboard() {
           <CardSocialTraffic />
         </div>
       </div>
-    </Admin>
+    </>
   );
 }
 
-
+Dashboard.layout = Admin;

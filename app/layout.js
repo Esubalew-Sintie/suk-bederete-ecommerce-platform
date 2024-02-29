@@ -1,73 +1,25 @@
-import React from 'react'
-import ClientLayout from './ClientLayout'
-export default function RootLayout({ children }) {
-    return (
-        <html lang="en">
-        <head>
-          <meta charSet="utf-8" />
-          <meta name="theme-color" content="#000000" />
-          <link rel="shortcut icon" href="/img/brand/favicon.ico" />
-          <link
-            rel="apple-touch-icon"
-            sizes="76x76"
-            href="/img/brand/apple-icon.png"
-          />
-        </head>
-        <body className="text-blueGray-700 antialiased">
-          <div id="page-transition"></div>
-          <ClientLayout>{children}</ClientLayout>
-        </body>
-      </html>
-    )
-  }
+import React from "react";
+import ClientLayout from "./ClientLayout";
+import {Inter} from "next/font/google";
+import "./globals.css";
 
+const inter = Inter({subsets: ["latin"]});
 
+export const metadata = {
+	title: "Suk-Bederete",
+	description: "ecommerce application",
+};
 
+export default function RootLayout({children}) {
+	return (
+		<html lang="en">
+			<body className={inter.className}>
+				<div className=" flex flex-col w-full min-h-screen">
+					<div id="page-transition"></div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
+					<ClientLayout>{children}</ClientLayout>
+				</div>
+			</body>
+		</html>
+	);
+}

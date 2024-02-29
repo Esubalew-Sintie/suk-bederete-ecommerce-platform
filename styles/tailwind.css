@@ -282,7 +282,84 @@ summary {
 /**
  * Removes the default spacing and border for appropriate elements.
  */
+ .draggable-item {
+  cursor: grab;
+  background-color: lightblue;
+  padding: 8px;
+  margin-bottom: 8px;
+}
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
+  padding: 1rem;
+}
 
+.fruit-list-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.fruit-list-section > h1 {
+  text-decoration: underline;
+}
+
+.fruit-list {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  gap: 1rem;
+}
+
+.cart-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 75%;
+}
+.cart-section > h1 {
+  text-decoration: underline;
+}
+.fruit-item {
+  display: flex;
+  border: 1px solid black;
+  padding: 0.5rem 2rem;
+  font-size: 1.5rem;
+  border-radius: 1rem;
+  background-color: white;
+}
+.fruit-item:hover {
+  cursor: grab;
+}
+.fruit-item:active {
+  cursor: grabbing;
+}
+.cart {
+  display: flex;
+  padding: 1rem;
+  width: 100%;
+  min-height: 8rem;
+  border: 1px solid black;
+  border-radius: 1rem;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.cart-item {
+  border: 1px solid black;
+  padding: 0.5rem 2rem;
+  font-size: 1.5rem;
+  border-radius: 1rem;
+  height: fit-content;
+}
+
+.draggable-item:active {
+  cursor: grabbing;
+}
 blockquote,
 dl,
 dd,
