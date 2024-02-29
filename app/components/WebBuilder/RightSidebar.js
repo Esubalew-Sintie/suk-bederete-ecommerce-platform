@@ -10,5 +10,3 @@ function RightSidebar() {
     </div>
   );
 }
-
-export default RightSidebar;
