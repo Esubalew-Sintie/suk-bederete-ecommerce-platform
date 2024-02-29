@@ -1,3 +1,5 @@
+'use client'
+
 import React from "react";
 
 import UserDropdown from "@/app/components/Dropdowns/UserDropdown.js";

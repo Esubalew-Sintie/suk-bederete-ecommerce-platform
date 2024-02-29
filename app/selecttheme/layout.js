@@ -1,10 +1,12 @@
 import React from 'react'
-import ThemeNavbar from '../components/Navbars/ThemeNavbar'
+import Navbar from '../components/Navbars/AdminNavbar'
 
 function ThemeLayout({children}) {
   return (
+      <div className='bg-blueGray-800 text-white'>
       <div>
-          <ThemeNavbar />
+      <Navbar />
+          </div>
           
           {children}
     </div>
