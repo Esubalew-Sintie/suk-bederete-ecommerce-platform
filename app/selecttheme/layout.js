@@ -1,5 +1,5 @@
 import React from 'react'
-import Navbar from '../components/Navbars/AdminNavbar'
+import Navbar from '../components/Navbars/ThemeNavbar'
 
 function ThemeLayout({children}) {
   return (

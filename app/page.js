@@ -131,13 +131,13 @@ export default function Index() {
                   Working with us is a pleasure
                 </h3>
                 <p className="text-lg font-light leading-relaxed mt-4 mb-4 text-blueGray-600">
-                  Don't let your uses guess by attaching tooltips and popoves to
+                  Don&apos;t let your uses guess by attaching tooltips and popoves to
                   any element. Just make sure you enable them first via
                   JavaScript.
                 </p>
                 <p className="text-lg font-light leading-relaxed mt-0 mb-4 text-blueGray-600">
                   The kit comes with three pre-built pages to help you get
-                  started faster. You can change the text and images and you're
+                  started faster. You can change the text and images and you&apos;re
                   good to go. Just make sure you enable them first via
                   JavaScript.
                 </p>
@@ -219,7 +219,7 @@ export default function Index() {
                   <p className="mt-4 text-lg leading-relaxed text-blueGray-500">
                     The extension comes with three pre-built pages to help you
                     get started faster. You can change the text and images and
-                    you're good to go.
+                    you&apos;re good to go.
                   </p>
                   <ul className="list-none mt-6">
                     <li className="py-2">

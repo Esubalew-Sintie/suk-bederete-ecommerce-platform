@@ -1,10 +1,18 @@
+<<<<<<< HEAD
 "use client"
 import React, {useState} from "react";
 import { DndContext } from "@dnd-kit/core";
+=======
+"use client";
+import { useState } from "react";
+import { DndContext } from "@dnd-kit/core";
+import DraggableItem from "../components/WebBuilder/DraggableItem";
+>>>>>>> main
 import DroppableContainer from "../components/WebBuilder/DroppableContainer";
 import RightSidebar from "../components/WebBuilder/RightSidebar";
 import LeftSidebar from "../components/WebBuilder/LeftSidebar";
 const WebBuilder = () => {
+<<<<<<< HEAD
 	const [Clickedbutton, setClickedbutton] = useState(null);
 	const handleSidebarClick = (clickedbtn) => {
 		setClickedbutton(clickedbtn);
@@ -27,6 +35,42 @@ const WebBuilder = () => {
         </div>
       </div>
     </>
+=======
+  const [draggableElement, setDraggrableElement] = useState([
+    "button",
+    "Image",
+    "Card",
+    "TextField",
+  ]);
+  const [containerItem, setContainerItem] = useState(["button"]);
+  const addToContiner = (e) => {
+    // console.log(e.active);
+    const newItem = e.active.data?.current?.dr;
+    if (e.over?.id !== "droppable" || !newItem) return;
+    const temp = [...containerItem];
+    temp.push(newItem);
+    setContainerItem(temp);
+  };
+  return (
+    <DndContext onDragEnd={addToContiner}>
+      <div className=" flex w-screen bg-black h-full ">
+        <div className="w-1/4 flex gap-5 flex-col justify-start  ">
+          {draggableElement.map((dr) => (
+            <LeftSidebar key={dr} dr={dr} />
+          ))}
+        </div>
+        <div className=" w-[57%] ">
+          <DroppableContainer
+            setContainerItem={setContainerItem}
+            containerItem={containerItem}
+          />
+        </div>
+        <div className=" w-1/4 justify-end ">
+          <RightSidebar />
+        </div>
+      </div>
+    </DndContext>
+>>>>>>> main
   );
 };
 

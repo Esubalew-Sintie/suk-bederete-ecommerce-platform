@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 "use client"
 import React from "react";
 import Link from "next/link";
@@ -18,5 +19,17 @@ export default function RightSidebar({Clickedbutton}) {
       <button className='bg-lightBlue-400 rounded-md p-2 hover:bg-cyan-500 border-none outline-none focus:outline-none '>Done</button>
       </div>
     </nav>
+=======
+import { useState } from "react";
+import Style from "./RightSidbar.module.css";
+import EditImage from "./EditImage";
+import EditText from "./EditText";
+function RightSidebar() {
+  const [isText, setText] = useState(true);
+  return (
+    <div className={Style.container}>
+      {isText ? <EditText /> : <EditImage />}
+    </div>
+>>>>>>> main
   );
 }
