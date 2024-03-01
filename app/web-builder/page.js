@@ -1,47 +1,37 @@
-"use client";
-import {useState} from "react";
-import {DndContext} from "@dnd-kit/core";
-import DraggableItem from "../components/WebBuilder/DraggableItem";
+"use client"
+import React, {useState} from "react";
+import { DndContext } from "@dnd-kit/core";
 import DroppableContainer from "../components/WebBuilder/DroppableContainer";
-import LeftSidebar from "../components/WebBuilder/LeftSidebar";
 import RightSidebar from "../components/WebBuilder/RightSidebar";
+import LeftSidebar from "../components/WebBuilder/LeftSidebar";
 const WebBuilder = () => {
-	const [draggableElement, setDraggrableElement] = useState([
-		"button",
-		"Image",
-		"Card",
-		"TextField",
-	]);
-	const [containerItem, setContainerItem] = useState(["button"]);
-	const addToContiner = (e) => {
-		// console.log(e.active);
-		const newItem = e.active.data?.current?.dr;
-		if (e.over?.id !== "droppable" || !newItem) return;
-		const temp = [...containerItem];
-		temp.push(newItem);
-		setContainerItem(temp);
-	};
-	return (
-		<DndContext onDragEnd={addToContiner}>
-			<div className=" flex w-screen bg-black h-full ">
-				<div className="w-1/4 flex gap-5 flex-col   ">
-					{draggableElement.map((dr) => (
-						<LeftSidebar key={dr} dr={dr} />
-					))}
-				</div>
-				<div className=" w-full ">
-					<DroppableContainer setContainerItem={setContainerItem} containerItem={containerItem} />
-				</div>
-				<div className=" w-1/4 justify-end ">
-          <RightSidebar />
-           
-				</div>
-			</div>
-		</DndContext>
-	);
+	const [Clickedbutton, setClickedbutton] = useState(null);
+	const handleSidebarClick = (clickedbtn) => {
+		setClickedbutton(clickedbtn);
+	  };
+  return (
+    <>
+      <div className="flex w-screen">
+        Left Sidebar
+        <div className="w-1/4 flex flex-col">
+		<RightSidebar Clickedbutton={Clickedbutton} />
+		
+        </div>
+        {/* Middle Droppable Container */}
+        <div className="w-1/2">
+          <DroppableContainer />
+        </div>
+        {/* Right Sidebar */}
+        <div className="w-1/4">
+		<LeftSidebar handleSidebarClick={handleSidebarClick} />
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default WebBuilder;
+
 
 // 'use client'
 // import { DndContext } from "@dnd-kit/core";

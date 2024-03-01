@@ -472,7 +472,7 @@ export default function Index() {
                 </h6>
                 <p className="mt-2 mb-4 text-blueGray-400">
                   Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
+                  the bulk of the card&apos;s content.
                 </p>
               </div>
               <div className="w-full lg:w-3/12 px-4 text-center">
@@ -484,7 +484,7 @@ export default function Index() {
                 </h5>
                 <p className="mt-2 mb-4 text-blueGray-400">
                   Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
+                  the bulk of the card&apos;s content.
                 </p>
               </div>
               <div className="w-full lg:w-3/12 px-4 text-center">
@@ -496,7 +496,7 @@ export default function Index() {
                 </h5>
                 <p className="mt-2 mb-4 text-blueGray-400">
                   Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
+                  the bulk of the card&apos;s content.
                 </p>
               </div>
             </div>
