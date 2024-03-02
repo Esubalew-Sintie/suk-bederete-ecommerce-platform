@@ -1,21 +1,20 @@
-"use client"
-import React, {useState} from "react";
+"use client";
+import React, { useState } from "react";
 import { DndContext } from "@dnd-kit/core";
 import DroppableContainer from "../components/WebBuilder/DroppableContainer";
 import RightSidebar from "../components/WebBuilder/RightSidebar";
 import LeftSidebar from "../components/WebBuilder/LeftSidebar";
 const WebBuilder = () => {
-	const [Clickedbutton, setClickedbutton] = useState(null);
-	const handleSidebarClick = (clickedbtn) => {
-		setClickedbutton(clickedbtn);
-	  };
+  const [Clickedbutton, setClickedbutton] = useState(null);
+  const handleSidebarClick = (clickedbtn) => {
+    setClickedbutton(clickedbtn);
+  };
   return (
     <>
       <div className="flex w-screen">
         Left Sidebar
         <div className="w-1/4 flex flex-col">
-		<RightSidebar Clickedbutton={Clickedbutton} />
-		
+          <RightSidebar Clickedbutton={Clickedbutton} />
         </div>
         {/* Middle Droppable Container */}
         <div className="w-1/2">
@@ -23,7 +22,7 @@ const WebBuilder = () => {
         </div>
         {/* Right Sidebar */}
         <div className="w-1/4">
-		<LeftSidebar handleSidebarClick={handleSidebarClick} />
+          <LeftSidebar handleSidebarClick={handleSidebarClick} />
         </div>
       </div>
     </>
@@ -31,7 +30,6 @@ const WebBuilder = () => {
 };
 
 export default WebBuilder;
-
 
 // 'use client'
 // import { DndContext } from "@dnd-kit/core";
