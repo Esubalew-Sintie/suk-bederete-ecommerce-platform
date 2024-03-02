@@ -3,23 +3,6 @@ import { DndContext, useDroppable } from "@dnd-kit/core";
 import { SortableContext } from "@dnd-kit/sortable";
 import Backdrop from "./backdrop";
 
-<<<<<<< HEAD
-const DroppableContainer = () => {
-	
-
-	
-
-	return (
-		<div
-			className=" w-full h-full bg-white"
-		>
-			<h2>Droppable Container</h2>
-			<div className=" flex flex-col gap-5">
-				
-			</div>
-		</div>
-	);
-=======
 const DroppableContainer = ({ containerItem }, { children }) => {
   const { setNodeRef, isOver } = useDroppable({
     id: "droppable",
@@ -95,7 +78,6 @@ const DroppableContainer = ({ containerItem }, { children }) => {
       </div>
     </div>
   );
->>>>>>> main
 };
 export default DroppableContainer;
 
