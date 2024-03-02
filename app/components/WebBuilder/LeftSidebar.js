@@ -47,7 +47,7 @@ export default function LeftSidebar({ handleSidebarClick }) {
                   <li key={button.id} className="items-center rounded-md hover:bg-slate-400 px-3">
                     <button
                       className="text-xs uppercase py-3 font-bold block w-full text-left border-none outline-none focus:outline-none"
-                      onClick={() => handleSidebarClick(button.id)}
+                      onClick={() => handleSidebarClick(button.label)}
                     >
                       <i className={button.icon + " mr-2 text-sm"}></i>
                       {button.label}
