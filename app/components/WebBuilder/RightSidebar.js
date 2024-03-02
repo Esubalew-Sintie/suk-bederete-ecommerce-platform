@@ -3,6 +3,7 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from 'next/navigation'
 import styles from './RightSidbar.module.css'
+import Footer from "./Footer/Footer";
 
 export default function RightSidebar({Clickedbutton}) {
   
@@ -36,9 +37,7 @@ export default function RightSidebar({Clickedbutton}) {
 
      )}
      {Clickedbutton === "Footer" &&(
-      <div>
-        <h3 className='text-black font-semibold text-2xl'>{Clickedbutton}</h3>
-      </div>
+      <Footer />
      )}
       
       

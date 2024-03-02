@@ -1,6 +1,7 @@
-"use client"
+"use client";
 import React from "react";
 import Link from "next/link";
+import {DropdownMenuRadioGroupDemo} from "./AddPage/dropDown.js";
 import { usePathname } from 'next/navigation'
 
 export default function LeftSidebar({ handleSidebarClick }) {
@@ -31,9 +32,7 @@ export default function LeftSidebar({ handleSidebarClick }) {
             <div className="rounded-md bg-slate-200 p-2">
               <i className="fas fa-cog fa-lg ml-2"></i>
             </div>
-            <div className="rounded-md bg-slate-200 p-2">
-              <i className="fas fa-plus-circle fa-lg"></i>
-            </div>
+            <DropdownMenuRadioGroupDemo />
           </div>
           <div
             className={
