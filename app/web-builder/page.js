@@ -1,6 +1,7 @@
-"use client"
-import React, {useState} from "react";
-import { DndContext } from "@dnd-kit/core";
+"use client";
+import {useState} from "react";
+import {DndContext} from "@dnd-kit/core";
+import DraggableItem from "../components/WebBuilder/AddPage/dropDown";
 import DroppableContainer from "../components/WebBuilder/DroppableContainer";
 import RightSidebar from "../components/WebBuilder/RightSidebar";
 import LeftSidebar from "../components/WebBuilder/LeftSidebar";
