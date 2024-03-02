@@ -74,7 +74,6 @@
     @apply bg-background text-foreground;
   }
 }
-
 /*! tailwindcss v2.0.4 | MIT License | https://tailwindcss.com */
 
 /*! modern-normalize v1.0.0 | MIT License | https://github.com/sindresorhus/modern-normalize */
@@ -743,7 +742,7 @@ select {
   background-size: 1.5em 1.5em;
   padding-right: 2.5rem;
   -webkit-print-color-adjust: exact;
-         print-color-adjust: exact;
+  print-color-adjust: exact;
 }
 
 [multiple] {
