@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import styles from './RightSidbar.module.css'
 import Footer from "./Footer/Footer";
 import Header from "./Header/header"
+import EmailNewsLetter from "./EmailNewsLetter/EmailNewLetter"
 export default function RightSidebar({Clickedbutton}) {
   
   return (
@@ -19,9 +20,7 @@ export default function RightSidebar({Clickedbutton}) {
   <h3 className='text-black font-semibold text-2xl'>{Clickedbutton}</h3>
      )}
      {Clickedbutton === "Email Newsletter" && (
-      <div>
-      <h3 className='text-black font-semibold text-xl'>{Clickedbutton}</h3>
-      </div>
+      <EmailNewsLetter />
 
      )}
      {Clickedbutton === "Footer" &&(
