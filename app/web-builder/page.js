@@ -11,13 +11,13 @@ const WebBuilder = () => {
   };
   return (
     <>
-      <div className="flex w-screen">
-        Left Sidebar
+      <div className="flex w-full">
+        {/* Left Sidebar */}
         <div className="w-1/4 flex flex-col">
           <RightSidebar Clickedbutton={Clickedbutton} />
         </div>
         {/* Middle Droppable Container */}
-        <div className="w-1/2">
+        <div className="w-[55%] mx-auto">
           <DroppableContainer />
         </div>
         {/* Right Sidebar */}

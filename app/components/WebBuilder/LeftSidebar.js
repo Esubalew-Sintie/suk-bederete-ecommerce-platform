@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import {DropdownMenuRadioGroupDemo} from "./AddPage/dropDown.js";
-import { usePathname } from 'next/navigation'
-import {Button} from "@/components/ui/button";
+import { DropdownMenuRadioGroupDemo } from "./AddPage/dropDown.js";
+import { usePathname } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 export default function LeftSidebar({ handleSidebarClick }) {
   const [collapseShow, setCollapseShow] = React.useState("hidden");
@@ -11,7 +11,11 @@ export default function LeftSidebar({ handleSidebarClick }) {
   const buttons = [
     { id: "header", label: "Header", icon: "fas fa-heading" },
     { id: "mainBanner", label: "Main Banner", icon: "far fa-bookmark" },
-    { id: "emailNewsletter", label: "Email Newsletter", icon: "fas fa-mail-bulk" },
+    {
+      id: "emailNewsletter",
+      label: "Email Newsletter",
+      icon: "fas fa-mail-bulk",
+    },
     { id: "footer", label: "Footer", icon: "far fa-window-maximize" },
   ];
   return (
@@ -20,23 +24,28 @@ export default function LeftSidebar({ handleSidebarClick }) {
         <div className="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto">
           {/* Toggler */}
           <Button variant="outline">
-					{" "}
-					<i className="fas fa-sign-out-alt fa-lg"></i>
-				</Button>
+            {" "}
+            <i className="fas fa-sign-out-alt fa-lg"></i>
+          </Button>
           {/* Brand */}
           <div className="flex items-center space-x-4 justify-items-start my-4">
             {/* Input select */}
-            <select className="block appearance-none bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:border-blue-500 focus:ring" defaultValue="default">
-              <option value="default" disabled>Home</option>
+            <select
+              className="block appearance-none bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:border-blue-500 focus:ring"
+              defaultValue="default"
+            >
+              <option value="default" disabled>
+                Home
+              </option>
               <option value="1">Product detail</option>
               <option value="2">Checkout</option>
               <option value="3">payment</option>
             </select>
             {/* Settings icon */}
             <Button variant="outline">
-					{" "}
-					<i className="fas fa-cog fa-lg"></i>
-				</Button>
+              {" "}
+              <i className="fas fa-cog fa-lg"></i>
+            </Button>
             <DropdownMenuRadioGroupDemo />
           </div>
           <div
@@ -48,7 +57,10 @@ export default function LeftSidebar({ handleSidebarClick }) {
             <div className="rounded-md bg-slate-100 px-2 py-2">
               <ul className="md:flex-col md:min-w-full flex flex-col list-none">
                 {buttons.map((button) => (
-                  <li key={button.id} className="items-center rounded-md hover:bg-slate-400 px-3">
+                  <li
+                    key={button.id}
+                    className="items-center rounded-md hover:bg-slate-400 px-3"
+                  >
                     <button
                       className="text-xs uppercase py-3 font-bold block w-full text-left border-none outline-none focus:outline-none"
                       onClick={() => handleSidebarClick(button.label)}
@@ -61,8 +73,11 @@ export default function LeftSidebar({ handleSidebarClick }) {
               </ul>
             </div>
             {/* Heading */}
-            <div className='mt-20'>
-              <button className='w-full bg-slate-100 p-3 rounded-md hover:bg-slate-400'>
+            <div className="mt-20">
+              <button
+                className="w-full bg-slate-100 p-3 rounded-md hover:bg-slate-400"
+                onClick={() => handleSidebarClick("Add Section")}
+              >
                 <i className="fas fa-plus mr-3"></i>
                 Add Section
               </button>
