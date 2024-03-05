@@ -3,6 +3,7 @@ import React from "react";
 import Link from "next/link";
 import { DropdownMenuRadioGroupDemo } from "./AddPage/dropDown.js";
 import { usePathname } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 export default function LeftSidebar({ handleSidebarClick }) {
   const [collapseShow, setCollapseShow] = React.useState("hidden");
@@ -22,7 +23,10 @@ export default function LeftSidebar({ handleSidebarClick }) {
       <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-white flex flex-wrap items-center justify-between relative md:w-80 z-10 py-4 px-4">
         <div className="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto">
           {/* Toggler */}
-          <i className="fas fa-sign-out-alt fa-lg"></i>
+          <Button variant="outline">
+            {" "}
+            <i className="fas fa-sign-out-alt fa-lg"></i>
+          </Button>
           {/* Brand */}
           <div className="flex items-center space-x-4 justify-items-start my-4">
             {/* Input select */}
@@ -38,9 +42,10 @@ export default function LeftSidebar({ handleSidebarClick }) {
               <option value="3">payment</option>
             </select>
             {/* Settings icon */}
-            <div className="rounded-md bg-slate-200 p-2">
-              <i className="fas fa-cog fa-lg ml-2"></i>
-            </div>
+            <Button variant="outline">
+              {" "}
+              <i className="fas fa-cog fa-lg"></i>
+            </Button>
             <DropdownMenuRadioGroupDemo />
           </div>
           <div
