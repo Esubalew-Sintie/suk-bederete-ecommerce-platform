@@ -46,7 +46,7 @@ const DroppableContainer = ({ containerItem }, { children }) => {
     //     ))}
     //   </div>
     // </div>
-    <div className="text-gray-800 text-lg bg-slate-100 w-full mx-auto min-h-full">
+    <div className="text-gray-800 text-lg bg-slate-100 w-full  min-h-full">
       <NavBar onButtonClick={toggleView} />
       <div className="shadow-md flex justify-center mx-auto  w-full min-h-[90vh] relative bg-neutral-200 rounded-lg">
         desk top view
