@@ -93,15 +93,7 @@ const DropdownNavbar = () => {
 
 						{isExternalLinkOpen && <SubscriptionTitle />}
 					</div>
-					<div
-						onClick={() => setIsPaymentOpen((pr) => !pr)}
-						className=" flex justify-between focus:border-0 hover:cursor-pointer w-full border-0 hover:text-blue-300 "
-					>
-						<p className=" text-gray-300 font-semibold text-md  mb-2">
-							Payment Method
-						</p>
-						{isPaymentOpen ? <PiCaretUpBold /> : <PiCaretDownBold />}
-					</div>
+					
 				</div>
 			)}
 		</div>

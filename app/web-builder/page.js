@@ -4,6 +4,14 @@ import { DndContext } from "@dnd-kit/core";
 import DroppableContainer from "../components/WebBuilder/DroppableContainer";
 import RightSidebar from "../components/WebBuilder/RightSidebar";
 import LeftSidebar from "../components/WebBuilder/LeftSidebar";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 const WebBuilder = () => {
   const [Clickedbutton, setClickedbutton] = useState(null);
   const handleSidebarClick = (clickedbtn) => {
@@ -11,20 +19,19 @@ const WebBuilder = () => {
   };
   return (
     <>
-      <div className="flex w-screen">
-        Left Sidebar
-        <div className="w-1/4 flex flex-col">
+      
+        <div className="w-1/5 flex flex-col">
           <RightSidebar Clickedbutton={Clickedbutton} />
         </div>
         {/* Middle Droppable Container */}
-        <div className="w-1/2">
+        <div  className="w-3/5 text-gray-800 text-lg bg-slate-100  mx-auto min-h-screen relative ">
           <DroppableContainer />
         </div>
         {/* Right Sidebar */}
         <div className="w-1/4">
           <LeftSidebar handleSidebarClick={handleSidebarClick} />
         </div>
-      </div>
+      
     </>
   );
 };

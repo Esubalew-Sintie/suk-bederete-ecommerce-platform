@@ -1,5 +1,5 @@
 import React from "react";
-
+import Image from 'next/image'
 const NavBar = ({ onButtonClick }) => {
   const handleClick = (view) => {
     onButtonClick(view);
@@ -12,8 +12,8 @@ const NavBar = ({ onButtonClick }) => {
           className="mx-4 "
           onClick={() => handleClick("desktop")}
         >
-          <img
-            src="computer.png"
+          <Image
+            src="/computer.png"
             alt="desktop"
             width={50}
             height={20}
@@ -21,8 +21,8 @@ const NavBar = ({ onButtonClick }) => {
           />
         </button>
         <button className="mx-4 " onClick={() => handleClick("mobile")}>
-          <img
-            src="mobile-phone.png"
+          <Image
+            src="/mobile-phone.png"
             alt="desktop"
             width={50}
             height={20}
