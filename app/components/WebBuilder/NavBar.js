@@ -6,7 +6,7 @@ const NavBar = ({ onButtonClick }) => {
   };
   return (
     <>
-      <div className="flex items-center pl-4 mb-5 py-2 px-5">
+      <div className="flex items-center  mb-5 h-10 px-5">
         <button
           type="button"
           className="mx-4 "
@@ -15,7 +15,7 @@ const NavBar = ({ onButtonClick }) => {
           <Image
             src="/computer.png"
             alt="desktop"
-            width={50}
+            width={30}
             height={20}
             className="   "
           />
@@ -24,27 +24,37 @@ const NavBar = ({ onButtonClick }) => {
           <Image
             src="/mobile-phone.png"
             alt="desktop"
-            width={50}
+            width={30}
+            height={15}
+            className="   "
+          />
+        </button>
+        <button className="mx-4">
+          <img
+            src="undo.png"
+            alt="undo"
+            width={30}
             height={20}
             className="   "
           />
         </button>
         <button>
-          <span>
-            <i class="fa-solid fa-rotate-left"></i>
-          </span>
+          <img
+            src="redo.png"
+            alt="redo"
+            width={30}
+            height={20}
+            className="   "
+          />
         </button>
-        <button>
-          <span className="text-base z-10">
-            <i class="fa-solid fa-rotate-right"></i>
-          </span>
-        </button>
-        <button className="bg-blueGray-800 text-white hover:bg-blue-200  text-sm font-bold uppercase rounded shadow hover:shadow-lg ml-auto py-2 px-2 ease-linear transition-all duration-150">
-          Preview
-        </button>
-        <button className="bg-blueGray-800 text-white hover:bg-blue-200  text-sm font-bold uppercase py-2 px-2 rounded shadow hover:shadow-lg ml-auto">
-          Publish
-        </button>
+        <div className="flex ml-auto space-x-4">
+          <button className="bg-blueGray-800 text-white hover:bg-blue-200  text-sm font-bold uppercase rounded shadow hover:shadow-lg ml-auto  py-2 px-2 ease-linear transition-all duration-150">
+            Preview
+          </button>
+          <button className="bg-blueGray-800 text-white hover:bg-blue-200  text-sm font-bold uppercase py-2 px-2 rounded shadow hover:shadow-lg ml-auto">
+            Publish
+          </button>
+        </div>
       </div>
     </>
   );
