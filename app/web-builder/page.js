@@ -27,9 +27,9 @@ const WebBuilder = () => {
   </div>
 
   {/* Middle Droppable Container */}
-  <div className="w-3/5 max-w-4xl text-gray-800 text-lg bg-slate-100 mx-auto min-h-screen relative">
-    <DroppableContainer />
-  </div>
+  <div className="md:w-3/5 md:max-w-4xl text-gray-800 text-lg bg-slate-100 mx-auto min-h-screen relative">
+  <DroppableContainer />
+</div>
 
   {/* Right Sidebar */}
   <div className="w-1/5 flex flex-col">

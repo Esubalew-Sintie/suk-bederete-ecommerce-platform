@@ -1,5 +1,5 @@
 .hovered {
-    border-color: red; /* Change border color on hover */
+    border: solid brown 2px; /* Change border color on hover */
   }
   
   .hovered::before {
