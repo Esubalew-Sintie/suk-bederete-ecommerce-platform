@@ -5,6 +5,8 @@ import grapesjs from 'grapesjs';
 import 'grapesjs/dist/css/grapes.min.css';
 import { createCustomComponent } from './customComponent';
 import parserPostCSS from 'grapesjs-parser-postcss';
+import plugin from 'grapesjs-blocks-basic';
+import grapes from 'grapesjs-preset-webpage'
 
 const GrapesEditor = () => {
    
@@ -12,7 +14,7 @@ const GrapesEditor = () => {
     const editor = grapesjs.init({
       container: '#gjs',
       storageManager: false, // Disable storage manager
-      plugins: ['gjs-preset-webpage', parserPostCSS], // Load a preset plugin for a basic webpage
+      plugins: [grapes, parserPostCSS, plugin], // Load a preset plugin for a basic webpage
       pluginsOpts: {
         'gjs-preset-webpage': {
           modalImportTitle: 'Import Template', // Title for the import modal
@@ -23,7 +25,7 @@ const GrapesEditor = () => {
         },
         
       },
-      components: '<h1>This is Demo template</h1>', // Initial content of the editor
+      components: '<h1>This is Demo editor</h1>', // Initial content of the editor
       css: "../../../styles/grapes.css"// Initial CSS styling of the editor
     });
     editor.BlockManager.add('my-block-id', {
