@@ -1,5 +1,5 @@
 import React from 'react'
-import GrapesEditor from '../components/sitebuilder/GrapesjsMain'
+import GrapesEditor from '../components/SiteBuilder/GrapesjsMain'
 const page = () => {
   return (
     <>

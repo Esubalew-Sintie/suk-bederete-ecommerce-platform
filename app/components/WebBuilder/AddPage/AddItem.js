@@ -15,7 +15,7 @@ import {AddItemForm} from "./AddItemForm";
 
 export function DialogDemo() {
 	return (
-		<Dialog className='overflow-y-auto'>
+		<Dialog className="overflow-y-auto">
 			<DialogTrigger asChild>
 				<Button variant="outline" className="flex gap-10">
 					{" "}
@@ -30,7 +30,7 @@ export function DialogDemo() {
 					</DialogDescription> */}
 				</DialogHeader>
 				<AddItemForm />
-				
+
 				<DialogFooter>
 					<Button type="submit">Save changes</Button>
 				</DialogFooter>
