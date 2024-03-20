@@ -1,7 +1,8 @@
 import React from "react"
 import "../../../styles/grapes.css"
-export const createCustomComponent = () => {
-    return `
+export default function CreateCustomComponent() {
+    return 
+    <>
     <header id="ibft" class="header-banner">
     <div id="iooi" class="container-width">
       <div class="logo-container">
@@ -30,7 +31,7 @@ export const createCustomComponent = () => {
     <div class="container-width">
       <div class="flex-title">Flex is the new black
       </div>
-      <div id="i3ehv" class="flex-desc">With flexbox system you're able to build complex layouts easily and with free responsivity
+      <div id="i3ehv" class="flex-desc">With flexbox system you&apos;re able to build complex layouts easily and with free responsivity
       </div>
       <div class="cards">
         <div class="card">
@@ -313,5 +314,5 @@ export const createCustomComponent = () => {
       </div>
     </div>
   </footer>
-    `;
+  </>
   };
