@@ -9,7 +9,7 @@ function Theme({theme}) {
 			<div className=" w-[300px] h-[270px]">
 				<Link href={`site-builder/${theme.id}`}>
 					<Image
-						src={theme.preview_imag}
+						src={`http://127.0.0.1:8000/${theme.preview_image}`}
 						alt={theme.name}
 						width={300}
 						height={270}

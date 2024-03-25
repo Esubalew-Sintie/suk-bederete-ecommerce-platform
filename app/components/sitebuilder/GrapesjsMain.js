@@ -9,6 +9,7 @@ import { style } from './components/common';
 import { KeyboardBackspaceOutlined } from '@mui/icons-material';
 import { useRouter } from 'next/navigation'
 import { data } from 'autoprefixer';
+import { useGetWebBuilderQuery } from '@/lib/features/webBuilder/webBuilder';
 
 const filterAssets = (assets, group) => {
   const images = assets
@@ -28,13 +29,16 @@ const filterAssets = (assets, group) => {
 
 
 
-const WithGrapesjs = props => {
+const WithGrapesjs = ({data, templateId}) => {
+
+//   console.log(templateId);
   
-  
-  const { data, setData } = props;
+//  const {data:template} = useGetWebBuilderQuery(templateId)
+console.log(data.content)
+ 
   const initialHtmlState = {
-    html: data.content.html,
-    css: data.content.css,
+    html: data?.content?.html,
+    css: data?.content?.css,
     assets: [],
     custom_body: `<script>console.log('body')</script>`,
     custom_footer: `<script>console.log('footer')</script>`,
@@ -42,7 +46,7 @@ const WithGrapesjs = props => {
       '<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">',
   };
   const router = useRouter()
-  console.log(props)
+  
   /** props */
   
 
@@ -381,7 +385,10 @@ const WithGrapesjs = props => {
       <div className="editor-row ml-4">
         <div id="blocks" />
         <div className="editor-canvas">
-          <div id="gjs" />
+          <div id="gjs"  >
+            {/* {template?.html}
+            <h1>Hello world</h1> */}
+          </div>
         </div>
           <div className="panel__right" style={builder.panelRight ? {display:'block'}: {display:'none'}}>
             <div className="close-icon">
