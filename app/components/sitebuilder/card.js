@@ -2,6 +2,7 @@
 import React,{ useState, useEffect } from 'react';
 import WithGrapesjs from './GrapesjsMain';
 import grapesJSMJML from 'grapesjs-mjml'
+import { useGetWebBuilderQuery, useGetWebBuildersQuery } from '@/lib/features/webBuilder/webBuilder';
 
 const dynamicConfiguration = {
     plugin: [
@@ -39,6 +40,8 @@ const dynamicConfiguration = {
   };
 
 const Card = (props) => {
+  const { data } = useGetWebBuilderQuery(props.templteId)
+  console.log(data);
     const [initAppData, setData] = useState(initialAppState);
     const { pageData, updatePageSelector } = props;
     const [loading, setLoading] = useState({
@@ -51,7 +54,6 @@ const Card = (props) => {
       setData({...initialAppState})
       setDisplayPage(false)
     }, [])
-    
     return (
         <div>
           {

@@ -4,7 +4,7 @@ import "../../../../styles/index.css"
 const Pagebuilder = (props) => {
   return (
     <>
-        <Base/>
+      <Base {...props} />
     </>
   )
 }

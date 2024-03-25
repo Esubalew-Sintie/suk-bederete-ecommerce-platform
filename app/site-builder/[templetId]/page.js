@@ -1,11 +1,11 @@
 import React from 'react'
 import Pagebuilder from '@/app/components/SiteBuilder/pageBuilder'
 
-function Template() {
+function Template({ params }) {
   return (
     <div className="App">
     {/* <GrapesjsMain/> */}
-    <Pagebuilder/>
+      <Pagebuilder templetId={ params.templetId} />
   </div>
   )
 }
