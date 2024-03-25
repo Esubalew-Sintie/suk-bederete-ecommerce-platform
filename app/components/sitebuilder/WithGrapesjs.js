@@ -26,6 +26,7 @@ function loadDependency(plugin) {
 const WithGrapesjsConfig = dynamicConfiguration => {
     const pluginName = dynamicConfiguration.plugin.map((value) => value.name);
     const pluginOpts = getOptions(dynamicConfiguration.plugin);
+    
     // loadDependency(dynamicConfiguration.plugin);
   const config = {
     // Indicate where to init the editor. You can also pass an HTMLElement
@@ -188,6 +189,16 @@ const WithGrapesjsConfig = dynamicConfiguration => {
     // different states (eg. :hover) on components.
     // Generally, it's used in conjunction with Style Manager
     // but it's not mandatory
+    pageManager: {
+      pages: [
+        {
+          id: 'home',
+          styles: `.my-class { color: red }`, // or a JSON of styles
+          component: '<div class="my-class">Home page</div>', // or a JSON of components
+        }
+     ]
+    },
+
     selectorManager: {
       appendTo: '#traits-container',
       componentFirst: true,

@@ -8,6 +8,7 @@ import { TuneOutlined } from '@mui/icons-material';
 import { style } from './components/common';
 import { KeyboardBackspaceOutlined } from '@mui/icons-material';
 import { useRouter } from 'next/navigation'
+import { data } from 'autoprefixer';
 
 const filterAssets = (assets, group) => {
   const images = assets
@@ -25,21 +26,25 @@ const filterAssets = (assets, group) => {
   return imageData;
 };
 
-const initialHtmlState = {
-  html: `<div class="grp-display-flex grp-justify-content-center grp-py-32 grp-fontSize-32">WelCome to builder</div>`,
-  css: ``,
-  assets: [],
-  custom_body: `<script>console.log('body')</script>`,
-  custom_footer: `<script>console.log('footer')</script>`,
-  custom_head:
-    '<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">',
-};
+
 
 const WithGrapesjs = props => {
+  
+  
+  const { data, setData } = props;
+  const initialHtmlState = {
+    html: data.content.html,
+    css: data.content.css,
+    assets: [],
+    custom_body: `<script>console.log('body')</script>`,
+    custom_footer: `<script>console.log('footer')</script>`,
+    custom_head:
+      '<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">',
+  };
   const router = useRouter()
   console.log(props)
   /** props */
-  const { data, setData } = props;
+  
 
   /** initial mount ref */
   const isInitialMount = useRef(true);
@@ -81,6 +86,7 @@ const WithGrapesjs = props => {
     isStylesOpen(editor);
     imageUploader(editor);
     addStyleManager(editor);
+    addPage(editor)
     onLoad(editor);
     const canvas = editor.Canvas;
     // assetManager.add(assets);
@@ -94,6 +100,7 @@ const WithGrapesjs = props => {
     canvas.scrollTo(selected, { force: true });
     // editor.StyleManager.getProperty('typography', 'Rubik');
   };
+   
 
   /** handle open style container */
   const handleopen = () => {
@@ -172,7 +179,7 @@ const WithGrapesjs = props => {
     });
     commands.add('set-device-xl', {
       run(editor) {
-        editor.setDevice('Extra Large');
+        editor.setDevice('Desktop');
       },
     });
     commands.add('open-assset-manager', {
@@ -182,6 +189,12 @@ const WithGrapesjs = props => {
         myCommands.run(editor, { target: '_blank' });
       },
     });
+  };
+
+  const addPage = editor => {
+    
+    
+    
   };
 
   // add devices
@@ -295,7 +308,7 @@ const WithGrapesjs = props => {
   }
   
   const previewPage = () => {
-    window.open(data.live_url, data.live_url)
+    window.open(data.live_url, '_blank');
   }
   
   
@@ -306,6 +319,7 @@ const WithGrapesjs = props => {
               <form onSubmit={handleUpdatePage}>
                   <div id="Page-name" className="field-wrapper input">
                     <label htmlFor="page-name">Page Name</label>
+                    
                     <input
                       id="name"
                       name="page-name"
