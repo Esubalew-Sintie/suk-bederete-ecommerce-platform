@@ -1,14 +1,13 @@
-'use client'
+"use client";
 import React from "react";
 import Theme from "../components/theme/Theme";
 import SelectedTheme from "../components/theme/SelectedTheme";
 import Footer from "../components/Footers/Footer";
-import { useGetWebBuildersQuery } from "@/lib/features/webBuilder/webBuilder";
-
+import {useGetWebBuildersQuery} from "@/lib/features/webBuilder/webBuilder";
 
 function SelectTheme() {
-    const { data, error, isLoading } = useGetWebBuildersQuery()
-     console.log(data);
+	const {data, error, isLoading} = useGetWebBuildersQuery();
+	console.log(data);
 	return (
 		<div className=" mt-24 ">
 			<SelectedTheme />

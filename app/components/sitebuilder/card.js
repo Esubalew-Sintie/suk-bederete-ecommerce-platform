@@ -24,14 +24,18 @@ const dynamicConfiguration = {
   };
 
   const initialAppState = {
-    name : "page 1", // remove name field from here
+    name : "Home", // remove name field from here
     brand_url:'',
     canonical:null,
     slug:'',
     configuration: dynamicConfiguration,
     content:{
-      html : "",
-      css: ""
+      html :` <h1 class="helo">Hello world</h1>`,
+      css: `.helo{
+         color: blue;
+      }
+        `,
+      live_url: 'http://localhost:3000/site-builder'
     }
   };
 
