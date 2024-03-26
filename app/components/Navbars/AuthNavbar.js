@@ -1,10 +1,9 @@
-'use client'
+"use client";
 import React from "react";
 import Link from "next/link";
 // components
 
-
-import PagesDropdown from "../Dropdowns/PagesDropdown"
+import PagesDropdown from "../Dropdowns/PagesDropdown";
 
 export default function Navbar(props) {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
@@ -13,10 +12,11 @@ export default function Navbar(props) {
       <nav className="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg">
         <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
           <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
-            <Link href="/" className="text-white text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase" >
-              
-                Suk-Bederete
-              
+            <Link
+              href="/"
+              className="text-white text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase"
+            >
+              Suk-Bederete
             </Link>
             <button
               className="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
@@ -33,17 +33,13 @@ export default function Navbar(props) {
             }
             id="example-navbar-warning"
           >
-            
             <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
               <li className="flex items-center">
                 <PagesDropdown />
               </li>
               <li>
-                <Link href='/auth/login'>
-                Login
-                </Link>
-                </li>
-              
+                <Link href="/auth/login">Login</Link>
+              </li>
             </ul>
           </div>
         </div>
