@@ -1,35 +1,13 @@
+"use client";
 import React from "react";
 import Theme from "../components/theme/Theme";
 import SelectedTheme from "../components/theme/SelectedTheme";
 import Footer from "../components/Footers/Footer";
-const themes = [
-	{
-		themeName: "Theme1",
-		url: "/pro.jpg",
-	},
-	{
-		themeName: "Theme6",
-		url: "/pro1.jpg",
-	},
-	{
-		themeName: "Theme2",
-		url: "/pro2.jpg",
-	},
-	{
-		themeName: "Theme3",
-		url: "/pr3.jpg",
-	},
-	{
-		themeName: "Theme4",
-		url: "/pro4.jpg",
-	},
-	{
-		themeName: "Theme5",
-		url: "/pro5.jpg",
-	},
-];
+import {useGetWebBuildersQuery} from "@/lib/features/webBuilder/webBuilder";
 
 function SelectTheme() {
+	const {data, error, isLoading} = useGetWebBuildersQuery();
+	console.log(data);
 	return (
 		<div className=" mt-24 ">
 			<SelectedTheme />
@@ -42,7 +20,7 @@ function SelectTheme() {
 					</p>
 				</div>
 				<div className=" flex w-full h-full gap-6 flex-wrap justify-center ">
-					{themes.map((theme) => (
+					{data?.map((theme) => (
 						<Theme key={theme.themeName} theme={theme} />
 					))}
 				</div>
