@@ -1,25 +1,40 @@
-export const plugin1 = (editor, opts={}) =>{
-    const labels = {
-        block1: true,
-        block2: true,
-    }
+export const plugin1 = (editor, opts = {}) => {
+  const labels = {
+    block1: true,
+    block2: true,
+    block3: true,
+    block4: true,
+    block5: true,
+    block6: true,
+    block7: true,
+    block8: true,
+    block9: true,
+    block10: true,
+    block11: true,
+    block12: true,
+  };
 
-    const categories = {
-        category1: 'Header',
-        category2: 'Main Banner',
-    }
+  const categories = {
+    category1: "Header",
+    category2: "Main Banner",
+    category3: "Contact Form",
+    category4: "File Upload",
+    category5: "Product Card",
+    category6: "Gallery",
+    category7: "Testimonials",
+  };
 
-    opts = { labels: labels, categories: categories };
-    loadComponents(editor, opts)
-}
+  opts = { labels: labels, categories: categories };
+  loadComponents(editor, opts);
+};
 
 const loadComponents = (editor, options) => {
-    const { labels, categories } = options;
-    if(labels?.block1){
-        editor.BlockManager.add('block1', {
-            label: 'Header',
-            category: categories?.category1,
-            content: `
+  const { labels, categories } = options;
+  if (labels?.block1) {
+    editor.BlockManager.add("block1", {
+      label: "Header",
+      category: categories?.category1,
+      content: `
             <!--
   This example requires updating your template:
 
@@ -157,15 +172,495 @@ const loadComponents = (editor, options) => {
     </div>
   </main>
 </div>
-
             `,
-          });
-    }
-    if(labels?.block2){
-        editor.BlockManager.add('my-second-block', {
-            label: 'Main Banner',
-            category: categories?.category2,
-            content: '<div class="my-block">This is a Main Banner</div>',
-          });   
-    }
-}
+    });
+  }
+  if (labels?.block2) {
+    editor.BlockManager.add("my-second-block", {
+      label: "Main Banner",
+      category: categories?.category2,
+      content: `<div class="my-block">This is a Main Banner</div>`,
+    });
+  }
+  if (labels?.block3) {
+    editor.BlockManager.add("block3", {
+      label: "Contact Form",
+      category: categories?.category3,
+      content: `<div id="contact" class="relative w-3/4 min-h-screen bg-transparent text-black">
+
+<!-- wrapper -->
+<div class="relative p-5 lg:px-20 flex flex-col md:flex-row items-center justify-center">
+    <!-- Contact Me -->
+    <form action="#" class="w-full md:w-1/2 border border-gray-900 p-6 bg-transparent">
+    <h2 class="text-2xl pb-3 font-semibold">
+        Send Message
+    </h2>
+    <div>
+        <div class="flex flex-col mb-3">
+        <label for="name">Name</label>
+        <input 
+            type="text" id="name" 
+            class="px-3 py-2 bg-gray-200 border border-gray-900 focus:border-gray-500 focus:outline-none focus:bg-gray-400 focus:text-gray-800 rounded"
+            autocomplete="off"
+        >
+        </div>
+        <div class="flex flex-col mb-3">
+        <label for="email">Email</label>
+        <input 
+            type="text" id="email" 
+            class="px-3 py-2 bg-gray-200 border border-gray-800 focus:border-gray-500 focus:outline-none focus:bg-gray-400 focus:text-gray-800 rounded"
+            autocomplete="off"
+        >
+        </div>
+        <div class="flex flex-col mb-3">
+        <label for="message">Message</label>
+        <textarea 
+            rows="4" id="message" 
+            class="px-3 py-2 bg-gray-200 border border-gray-800 focus:border-gray-500 focus:outline-none focus:bg-gray-400 focus:text-gray-800 rounded"
+        ></textarea>
+        </div>
+    </div>
+    <div class="w-full pt-3">
+        <button type="submit" class="w-full bg-gray-900 border border-gray-500 px-4 py-2 transition duration-50 focus:outline-none font-semibold hover:bg-gray-700 hover:text-white text-xl cursor-pointer">
+        Submit
+        </button>
+    </div>
+    </form>
+</div>
+</div>`,
+    });
+  }
+  if (labels?.block4) {
+    editor.BlockManager.add("block4", {
+      label: "File Upload",
+      category: categories?.category4,
+      content: `
+      <form class="max-w-lg mx-auto">
+  <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="user_avatar">Upload file</label>
+  <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="user_avatar_help" id="user_avatar" type="file">
+  
+</form>`,
+    });
+  }
+  if (labels?.block5) {
+    editor.BlockManager.add("block5", {
+      label: "Purchase Card",
+      category: categories?.category5,
+      content: `<div class="bg-white rounded-lg overflow-hidden shadow-lg ring-4 ring-red-500 ring-opacity-40 max-w-sm ">
+    <div class="relative">
+        <img class="w-full" src="./placeholder-images.webp" alt="Product Image">
+        <div class="absolute top-0 right-0 bg-red-500 text-white px-2 py-1 m-2 rounded-md text-sm font-medium">SALE
+        </div>
+    </div>
+    <div class="p-4">
+        <h3 class="text-lg font-medium mb-2">Product Title</h3>
+        <p class="text-gray-600 text-sm mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae ante
+            vel eros fermentum faucibus sit amet euismod lorem.</p>
+        <div class="flex items-center justify-between">
+            <span class="font-bold text-lg">$19.99</span>
+            <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                Buy Now
+            </button>
+        </div>
+    </div>
+</div>`,
+    });
+  }
+  if (labels?.block6) {
+    editor.BlockManager.add("block6", {
+      label: "Subscription",
+      category: categories?.category5,
+      content: `
+
+<div class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+<h5 class="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">Standard plan</h5>
+<div class="flex items-baseline text-gray-900 dark:text-white">
+<span class="text-3xl text-gray-400 font-semibold">$</span>
+<span class="text-5xl text-gray-400 font-extrabold tracking-tight">49</span>
+<span class="ms-1 text-xl font-normal text-gray-500 dark:text-gray-400">/month</span>
+</div>
+<ul role="list" class="space-y-5 my-7">
+<li class="flex items-center">
+<svg class="flex-shrink-0 w-4 h-4 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+<path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+</svg>
+<span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">2 team members</span>
+</li>
+<li class="flex">
+<svg class="flex-shrink-0 w-4 h-4 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+<path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+</svg>
+<span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">20GB Cloud storage</span>
+</li>
+<li class="flex">
+<svg class="flex-shrink-0 w-4 h-4 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+<path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+</svg>
+<span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">Integration help</span>
+</li>
+<li class="flex line-through decoration-gray-500">
+<svg class="flex-shrink-0 w-4 h-4 text-gray-400 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+<path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+</svg>
+<span class="text-base font-normal leading-tight text-gray-500 ms-3">Sketch Files</span>
+</li>
+<li class="flex line-through decoration-gray-500">
+<svg class="flex-shrink-0 w-4 h-4 text-gray-400 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+<path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+</svg>
+<span class="text-base font-normal leading-tight text-gray-500 ms-3">API Access</span>
+</li>
+<li class="flex line-through decoration-gray-500">
+<svg class="flex-shrink-0 w-4 h-4 text-gray-400 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+<path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+</svg>
+<span class="text-base font-normal leading-tight text-gray-500 ms-3">Complete documentation</span>
+</li>
+<li class="flex line-through decoration-gray-500">
+<svg class="flex-shrink-0 w-4 h-4 text-gray-400 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+<path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+</svg>
+<span class="text-base font-normal leading-tight text-gray-500 ms-3">24×7 phone & email support</span>
+</li>
+</ul>
+<button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-3 inline-flex justify-center w-full text-center">Choose plan</button>
+</div>
+`,
+    });
+  }
+  if (labels?.block7) {
+    editor.BlockManager.add("block7", {
+      label: "Product",
+      category: categories?.category5,
+      content: `<div class="flex flex-col justify-center h-screen">
+	<div
+		class="relative flex flex-col md:flex-row md:space-x-5 space-y-3 md:space-y-0 rounded-xl shadow-lg p-3 max-w-xs md:max-w-3xl mx-auto border border-white bg-white">
+		<div class="w-full md:w-1/3 bg-white grid place-items-center">
+			<img src="./placeholder-images-product-1_large.webp" alt="tailwind logo" class="rounded-xl" />
+    </div>
+			<div class="w-full md:w-2/3 bg-white flex flex-col space-y-2 p-3">
+				<div class="flex justify-between item-center">
+					<p class="text-gray-500 font-medium hidden md:block">Vacations</p>
+					<div class="flex items-center">
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 20 20"
+							fill="currentColor">
+							<path
+								d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+						</svg>
+						<p class="text-gray-600 font-bold text-sm ml-1">
+							4.96
+							<span class="text-gray-500 font-normal">(76 reviews)</span>
+						</p>
+					</div>
+					<div class="">
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-pink-500" viewBox="0 0 20 20"
+							fill="currentColor">
+							<path fill-rule="evenodd"
+								d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+								clip-rule="evenodd" />
+						</svg>
+					</div>
+					<div class="bg-gray-200 px-3 py-1 rounded-full text-xs font-medium text-gray-800 hidden md:block">
+						Superhost</div>
+				</div>
+				<h3 class="font-black text-gray-800 md:text-3xl text-xl">The Majestic and Wonderful Bahamas</h3>
+				<p class="md:text-lg text-gray-500 text-base">The best kept secret of The Bahamas is the country’s sheer
+					size and diversity. With 16 major islands, The Bahamas is an unmatched destination</p>
+				<p class="text-xl font-black text-gray-800">
+					$110
+					<span class="font-normal text-gray-600 text-base">/night</span>
+				</p>
+			</div>
+		</div>
+	</div>`,
+    });
+  }
+  if (labels?.block8) {
+    editor.BlockManager.add("block8", {
+      label: "Gallery",
+      category: categories?.category6,
+      content: `<div class="bg-white dark:bg-gray-800 max-h-[75%] py-6 sm:py-8 lg:py-12">
+    <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
+        <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-6 xl:gap-8">
+            <!-- image - start -->
+            <a href="#"
+                class="group relative flex h-48 items-end overflow-hidden rounded-lg bg-gray-100 shadow-lg md:h-80">
+                <img src="./ImageGallery.avif" loading="lazy" alt="Gallery image" class="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110" />
+
+                <div
+                    class="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-50">
+                </div>
+
+                <span class="relative ml-4 mb-3 inline-block text-sm text-white md:ml-5 md:text-lg">Text</span>
+            </a>
+            <!-- image - end -->
+
+            <!-- image - start -->
+            <a href="#"
+                class="group relative flex h-48 items-end overflow-hidden rounded-lg bg-gray-100 shadow-lg md:col-span-2 md:h-80">
+                <img src="./ImageGallery.avif" loading="lazy" alt="gallery image" class="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110" />
+
+                <div
+                    class="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-50">
+                </div>
+
+                <span class="relative ml-4 mb-3 inline-block text-sm text-white md:ml-5 md:text-lg">Text</span>
+            </a>
+            <!-- image - end -->
+
+            <!-- image - start -->
+            <a href="#"
+                class="group relative flex h-48 items-end overflow-hidden rounded-lg bg-gray-100 shadow-lg md:col-span-2 md:h-80">
+                <img src="./ImageGallery.avif" loading="lazy" alt="gallery image" class="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110" />
+
+                <div
+                    class="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-50">
+                </div>
+
+                <span class="relative ml-4 mb-3 inline-block text-sm text-white md:ml-5 md:text-lg">Text</span>
+            </a>
+            <!-- image - end -->
+
+            <!-- image - start -->
+            <a href="#"
+                class="group relative flex h-48 items-end overflow-hidden rounded-lg bg-gray-100 shadow-lg md:h-80">
+                <img src="./ImageGallery.avif" loading="lazy" alt="gallery image" class="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110" />
+
+                <div
+                    class="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-50">
+                </div>
+
+                <span class="relative ml-4 mb-3 inline-block text-sm text-white md:ml-5 md:text-lg">Text</span>
+            </a>
+            <!-- image - end -->
+        </div>
+    </div>
+</div>`,
+    });
+  }
+  if (labels?.block9) {
+    editor.BlockManager.add("block9", {
+      label: "Testimonials",
+      category: categories?.category7,
+      content: `<!-- Container for demo purpose -->
+<div class="container my-24 mx-auto md:px-6">
+  <!-- Section: Design Block -->
+  <section class="mb-32 text-center">
+    <h2 class="mb-12 pb-4 text-center text-3xl font-bold">Testimonials</h2>
+
+    <div class="grid gap-6 md:grid-cols-3 xl:gap-x-12">
+      <div class="mb-6 lg:mb-0">
+        <div
+          class="relative block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
+          <div class="flex">
+            <div
+              class="relative w-full overflow-hidden rounded-lg bg-cover bg-no-repeat shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]">
+              <img src="./person-Placeholder.png" class="w-full" />
+              <a href="#!">
+                <div
+                  class="absolute top-0 right-0 bottom-0 left-0 h-full w-full overflow-hidden bg-[hsl(0,0%,98.4%,0.15)] bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-100">
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="p-6 bg-gray-100">
+            <h5 class="mb-2 text-lg font-bold">John Doe</h5>
+            <h6 class="mb-4 font-medium text-primary dark:text-primary-400">
+              Web Developer
+            </h6>
+            <ul class="mb-6 flex justify-center">
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 96 960 960" class="w-5 text-warning">
+                  <path fill="currentColor"
+                    d="m233 976 65-281L80 506l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Z" />
+                </svg>
+              </li>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 96 960 960" class="w-5 text-warning">
+                  <path fill="currentColor"
+                    d="m233 976 65-281L80 506l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Z" />
+                </svg>
+              </li>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 96 960 960" class="w-5 text-warning">
+                  <path fill="currentColor"
+                    d="m233 976 65-281L80 506l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Z" />
+                </svg>
+              </li>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 96 960 960" class="w-5 text-warning">
+                  <path fill="currentColor"
+                    d="m233 976 65-281L80 506l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Z" />
+                </svg>
+              </li>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 96 960 960" class="w-5 text-warning">
+                  <path fill="currentColor"
+                    d="m480 757 157 95-42-178 138-120-182-16-71-168v387ZM233 976l65-281L80 506l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Z" />
+                </svg>
+              </li>
+            </ul>
+            <p>
+              Ut pretium ultricies dignissim. Sed sit amet mi eget urna
+              placerat vulputate. Ut vulputate est non quam dignissim
+              elementum. Donec a ullamcorper diam.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-6 lg:mb-0">
+        <div
+          class="relative block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
+          <div class="flex">
+            <div
+              class="relative w-full overflow-hidden rounded-lg bg-cover bg-no-repeat shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]">
+              <img src="./person-Placeholder.png" class="w-full" />
+              <a href="#!">
+                <div
+                  class="absolute top-0 right-0 bottom-0 left-0 h-full w-full overflow-hidden bg-[hsl(0,0%,98.4%,0.15)] bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-100">
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="p-6 bg-gray-100">
+            <h5 class="mb-2 text-lg font-bold">Halley Frank</h5>
+            <h6 class="mb-4 font-medium text-primary dark:text-primary-400">
+              Marketing Specialist
+            </h6>
+            <ul class="mb-6 flex justify-center">
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 96 960 960" class="w-5 text-warning">
+                  <path fill="currentColor"
+                    d="m233 976 65-281L80 506l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Z" />
+                </svg>
+              </li>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 96 960 960" class="w-5 text-warning">
+                  <path fill="currentColor"
+                    d="m233 976 65-281L80 506l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Z" />
+                </svg>
+              </li>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 96 960 960" class="w-5 text-warning">
+                  <path fill="currentColor"
+                    d="m233 976 65-281L80 506l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Z" />
+                </svg>
+              </li>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 96 960 960" class="w-5 text-warning">
+                  <path fill="currentColor"
+                    d="m233 976 65-281L80 506l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Z" />
+                </svg>
+              </li>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 96 960 960" class="w-5 text-warning">
+                  <path fill="currentColor"
+                    d="m323 851 157-94 157 95-42-178 138-120-182-16-71-168-71 167-182 16 138 120-42 178Zm-90 125 65-281L80 506l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-355Z" />
+                </svg>
+              </li>
+            </ul>
+            <p>
+              At vero eos et accusamus et iusto odio dignissimos ducimus qui
+              blanditiis praesentium accusamus contestatur voluptatum
+              deleniti atque corrupti.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-0">
+        <div
+          class="relative block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
+          <div class="flex">
+            <div
+              class="relative w-full overflow-hidden rounded-lg bg-cover bg-no-repeat shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]">
+              <img src="./person-Placeholder.png" class="w-full" />
+              <a href="#!">
+                <div
+                  class="absolute top-0 right-0 bottom-0 left-0 h-full w-full overflow-hidden bg-[hsl(0,0%,98.4%,0.15)] bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-100">
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="p-6 bg-gray-100">
+            <h5 class="mb-2 text-lg font-bold">Lisa Trey</h5>
+            <h6 class="mb-4 font-medium text-primary dark:text-primary-400">
+              Public Relations
+            </h6>
+            <ul class="mb-6 flex justify-center">
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 96 960 960" class="w-5 text-warning">
+                  <path fill="currentColor"
+                    d="m233 976 65-281L80 506l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Z" />
+                </svg>
+              </li>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 96 960 960" class="w-5 text-warning">
+                  <path fill="currentColor"
+                    d="m233 976 65-281L80 506l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Z" />
+                </svg>
+              </li>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 96 960 960" class="w-5 text-warning">
+                  <path fill="currentColor"
+                    d="m233 976 65-281L80 506l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Z" />
+                </svg>
+              </li>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 96 960 960" class="w-5 text-warning">
+                  <path fill="currentColor"
+                    d="m233 976 65-281L80 506l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Z" />
+                </svg>
+              </li>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 96 960 960" class="w-5 text-warning">
+                  <path fill="currentColor"
+                    d="m233 976 65-281L80 506l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Z" />
+                </svg>
+              </li>
+            </ul>
+            <p>
+              Enim ad minima veniam, quis nostrum exercitationem ullam
+              corporis suscipit laboriosam, nisi ut aliquid commodi quis
+              nostrum minima.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Section: Design Block -->
+</div>
+<!-- Container for demo purpose -->`,
+    });
+  }
+  if (labels?.block10) {
+    editor.BlockManager.add("block10", {
+      label: "Testimonial card",
+      category: categories?.category7,
+      content: `<div class="p-4">
+  <figure class="md:flex max-w-2xl rounded-xl p-8 md:p-0 dark:bg-slate-800 text-black">
+    <img class="w-24 h-24 md:w-48 md:h-auto md:rounded-none rounded-full mx-auto object-cover" src="./person-Placeholder.png" alt="testimony image" width="384" height="512">
+    <div class="pt-6 text-black md:p-8 text-center md:text-left space-y-4 bg-gray-100 ">
+      <blockquote>
+        <p class="text-lg  font-medium ">
+          “Tailwind CSS is the only framework that I've seen scale
+          on large teams. It’s easy to customize, adapts to any design,
+          and the build size is tiny.”
+        </p>
+      </blockquote>
+      <figcaption class="font-medium">
+        <div class="text-sky-500 dark:text-sky-400">
+          Sarah Dayan
+        </div>
+        <div class="text-bg-slate-950 dark:text-slate-400">
+          Staff Engineer, Algolia
+        </div>
+      </figcaption>
+    </div>
+  </figure>
+</div>`,
+    });
+  }
+};

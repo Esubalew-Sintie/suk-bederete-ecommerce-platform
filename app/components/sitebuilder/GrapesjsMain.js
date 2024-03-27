@@ -308,7 +308,16 @@ const WithGrapesjs = ({data, templateId}) => {
 
 	const [updateTemplate, {isLoading: isUpdating}] = useUpdateTemplateMutation();
 	const updateTemplateHanlder = async () => {
-		await updateTemplate();
+    await updateTemplate(
+      {
+        id: data._id,
+          content: {
+            html: editor.getHtml(),
+            css: editor.getCss(),
+            
+          },
+      }
+    );
 	};
 	return (
 		<div>
