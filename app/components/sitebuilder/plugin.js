@@ -1,3 +1,4 @@
+import "./BlockStyles/file.css";
 export const plugin1 = (editor, opts = {}) => {
   const labels = {
     block1: true,
@@ -176,16 +177,51 @@ const loadComponents = (editor, options) => {
     });
   }
   if (labels?.block2) {
-    editor.BlockManager.add("my-second-block", {
+    editor.BlockManager.add("block2", {
       label: "Main Banner",
       category: categories?.category2,
-      content: `<div class="my-block">This is a Main Banner</div>`,
+      attributes: { class: "block2-preview" },
+
+      content: `<div class="relative bg-gradient-to-r from-purple-600 to-blue-600 h-screen text-white overflow-hidden">
+  <div class="absolute inset-0">
+    <img src="https://images.unsplash.com/photo-1522252234503-e356532cafd5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHw2fHxjb2RlfGVufDB8MHx8fDE2OTQwOTg0MTZ8MA&ixlib=rb-4.0.3&q=80&w=1080" alt="Background Image" class="object-cover object-center w-full h-full" />
+    <div class="absolute inset-0 bg-black opacity-50"></div>
+  </div>
+  
+  <div class="relative z-10 flex flex-col justify-center items-center h-full text-center">
+    <h1 class="text-5xl font-bold leading-tight mb-4">Welcome to Our Awesome Website</h1>
+    <p class="text-lg text-gray-300 mb-8">Discover amazing features and services that await you.</p>
+    <a href="#" class="bg-yellow-400 text-gray-900 hover:bg-yellow-300 py-2 px-6 rounded-full text-lg font-semibold transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg">Get Started</a>
+  </div>
+</div>
+`,
+    });
+  }
+  if (labels?.block11) {
+    editor.BlockManager.add("block11", {
+      label: "Main Banner",
+      category: categories?.category2,
+      attributes: { class: "block11-preview" },
+
+      content: `<div class="relative font-[sans-serif] before:absolute before:w-full before:h-full before:inset-0 before:bg-black before:opacity-50 before:z-10">
+      <img src="https://readymadeui.com/cardImg.webp" alt="Banner Image" class="absolute inset-0 w-full h-full object-cover" />
+      <div class="min-h-[300px] relative z-50 h-full max-w-6xl mx-auto flex flex-col justify-center items-center text-center text-white p-6">
+        <h2 class="sm:text-4xl text-2xl font-bold mb-6">Explore the World</h2>
+        <p class="text-lg text-center text-gray-200">Embark on unforgettable journeys. Book your dream vacation today!</p>
+        <a href="javascript:void(0)"
+          class="mt-8 bg-transparent text-white text-base font-semibold py-2.5 px-6 border-2 border-white rounded hover:bg-white hover:text-black transition duration-300 ease-in-out">
+          Book Now
+        </a>
+      </div>
+    </div>`,
     });
   }
   if (labels?.block3) {
     editor.BlockManager.add("block3", {
       label: "Contact Form",
       category: categories?.category3,
+      attributes: { class: "block3-preview" },
+
       content: `<div id="contact" class="relative w-3/4 min-h-screen bg-transparent text-black">
 
 <!-- wrapper -->
@@ -234,6 +270,8 @@ const loadComponents = (editor, options) => {
     editor.BlockManager.add("block4", {
       label: "File Upload",
       category: categories?.category4,
+      attributes: { class: "block4-preview" },
+
       content: `
       <form class="max-w-lg mx-auto">
   <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="user_avatar">Upload file</label>
@@ -244,8 +282,10 @@ const loadComponents = (editor, options) => {
   }
   if (labels?.block5) {
     editor.BlockManager.add("block5", {
-      label: "Purchase Card",
+      label: "Product",
       category: categories?.category5,
+      attributes: { class: "block5-preview" },
+
       content: `<div class="bg-white rounded-lg overflow-hidden shadow-lg ring-4 ring-red-500 ring-opacity-40 max-w-sm ">
     <div class="relative">
         <img class="w-full" src="./placeholder-images.webp" alt="Product Image">
@@ -270,6 +310,8 @@ const loadComponents = (editor, options) => {
     editor.BlockManager.add("block6", {
       label: "Subscription",
       category: categories?.category5,
+      attributes: { class: "block6-preview" },
+
       content: `
 
 <div class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
@@ -332,6 +374,8 @@ const loadComponents = (editor, options) => {
     editor.BlockManager.add("block7", {
       label: "Product",
       category: categories?.category5,
+      attributes: { class: "block7-preview" },
+
       content: `<div class="flex flex-col justify-center h-screen">
 	<div
 		class="relative flex flex-col md:flex-row md:space-x-5 space-y-3 md:space-y-0 rounded-xl shadow-lg p-3 max-w-xs md:max-w-3xl mx-auto border border-white bg-white">
@@ -379,6 +423,8 @@ const loadComponents = (editor, options) => {
     editor.BlockManager.add("block8", {
       label: "Gallery",
       category: categories?.category6,
+      attributes: { class: "block8-preview" },
+
       content: `<div class="bg-white dark:bg-gray-800 max-h-[75%] py-6 sm:py-8 lg:py-12">
     <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
         <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-6 xl:gap-8">
@@ -442,6 +488,8 @@ const loadComponents = (editor, options) => {
     editor.BlockManager.add("block9", {
       label: "Testimonials",
       category: categories?.category7,
+      attributes: { class: "block9-preview" },
+
       content: `<!-- Container for demo purpose -->
 <div class="container my-24 mx-auto md:px-6">
   <!-- Section: Design Block -->
@@ -639,6 +687,7 @@ const loadComponents = (editor, options) => {
     editor.BlockManager.add("block10", {
       label: "Testimonial card",
       category: categories?.category7,
+      attributes: { class: "block10-preview" },
       content: `<div class="p-4">
   <figure class="md:flex max-w-2xl rounded-xl p-8 md:p-0 dark:bg-slate-800 text-black">
     <img class="w-24 h-24 md:w-48 md:h-auto md:rounded-none rounded-full mx-auto object-cover" src="./person-Placeholder.png" alt="testimony image" width="384" height="512">
