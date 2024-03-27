@@ -1,146 +1,61 @@
-*,
-*:after,
-*:before {
-  box-sizing: border-box;
+.gjs-title {
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 1.2rem;
 }
-
-:root {
-  --c-action-primary: #2e44ff;
-  --c-action-primary-accent: #e9e5ff;
-  --c-action-secondary: #e5e5e5;
-  --c-text-primary: #0d0f21;
-  --c-text-secondary: #6a6b76;
-  --c-background-primary: #d0d1de;
+.gjs-blocks-c .block5-preview,
+.gjs-blocks-c .block7-preview {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
+    url("../../../../public/shoes-product-card.png") !important;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
-
-input,
-button,
-select,
-textarea {
-  font: inherit;
+.gjs-blocks-c .block6-preview {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
+    url("../../../../public/657c6f368334e05ac4e1cad5_IMG_CARD_SUBSCRIPTION.png") !important;
+  background-size: cover; /* Cover the entire block with the image */
+  background-position: center; /* Center the image within the block */
+  background-repeat: no-repeat;
 }
-
-.modal {
-  width: 90%;
-  max-width: 500px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 10vh;
-  margin-bottom: 10vh;
-  background-color: #fff;
-  border-radius: 0.5rem;
-  box-shadow: 0 5px 15px rgba(#000, 0.2);
+.gjs-blocks-c .block2-preview,
+.gjs-blocks-c .block11-preview {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
+    url("../../../../public/istockphoto-486916254-612x612.jpg") !important;
+  background-size: cover; /* Cover the entire block with the image */
+  background-position: center; /* Center the image within the block */
+  background-repeat: no-repeat;
 }
-
-.modal-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  padding: 1.5rem 1.5rem 1rem;
+.gjs-blocks-c .block4-preview {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
+    url("../../../../public/istockphoto-915201060-612x612.jpg") !important;
+  background-size: cover; /* Cover the entire block with the image */
+  background-position: center; /* Center the image within the block */
+  background-repeat: no-repeat;
 }
-
-.logo-circle {
-  width: 3.5rem;
-  height: 3.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  background-color: var(--c-action-primary-accent);
-  svg {
-    max-width: 1.5rem;
-  }
+.gjs-blocks-c .block3-preview {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
+    url("../../../../public/istockphoto-940823482-612x612.jpg") !important;
+  background-size: cover; /* Cover the entire block with the image */
+  background-position: center; /* Center the image within the block */
+  background-repeat: no-repeat;
 }
-
-.btn-close {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.25rem;
-  height: 2.25rem;
-  border-radius: 0.25rem;
-  border: none;
-  background-color: transparent;
-  &:hover,
-  &:focus {
-    background-color: var(--c-action-primary-accent);
-  }
+.gjs-blocks-c .block8-preview {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
+    url("../../../../public/pexels-photo-2480854.webp") !important;
+  background-size: cover; /* Cover the entire block with the image */
+  background-position: center; /* Center the image within the block */
+  background-repeat: no-repeat;
 }
-
-.modal-body {
-  padding: 1rem 1.5rem;
+.gjs-blocks-c .block9-preview,
+.gjs-blocks-c .block10-preview {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
+    url("../../../../public/istockphoto-1504315312-612x612.jpg") !important;
+  background-size: cover; /* Cover the entire block with the image */
+  background-position: center; /* Center the image within the block */
+  background-repeat: no-repeat;
 }
-
-.modal-title {
-  font-weight: 700;
-}
-
-.modal-description {
-  color: var(--c-text-secondary);
-}
-
-.upload-area {
-  margin-top: 1.25rem;
-  border: none;
-  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23ccc' stroke-width='3' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
-  background-color: transparent;
-  padding: 3rem;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  &:hover,
-  &:focus {
-    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%232e44ff' stroke-width='3' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
-  }
-}
-
-.upload-area-icon {
-  display: block;
-  width: 2.25rem;
-  height: 2.25rem;
-  svg {
-    max-height: 100%;
-    max-width: 100%;
-  }
-}
-
-.upload-area-title {
-  margin-top: 1rem;
-  display: block;
-  font-weight: 700;
-  color: var(--c-text-primary);
-}
-
-.upload-area-description {
-  display: block;
-  color: var(--c-text-secondary);
-  strong {
-    color: var(--c-action-primary);
-    font-weight: 700;
-  }
-}
-
-.modal-footer {
-  padding: 1rem 1.5rem 1.5rem;
-  display: flex;
-  justify-content: flex-end;
-  [class*="btn-"] {
-    margin-left: 0.75rem;
-  }
-}
-
-.btn-secondary,
-.btn-primary {
-  padding: 0.5rem 1rem;
-  font-weight: 500;
-  border: 2px solid var(--c-action-secondary);
-  border-radius: 0.25rem;
-  background-color: transparent;
-}
-
-.btn-primary {
-  color: #fff;
-  background-color: var(--c-action-primary);
-  border-color: var(--c-action-primary);
+.gjs-block-label {
+  color: white;
+  font-size: 13px;
+  font-weight: bold;
 }
