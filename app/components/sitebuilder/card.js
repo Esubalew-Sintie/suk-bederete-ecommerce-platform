@@ -44,7 +44,6 @@ const Card = (props) => {
         content: {
           html: template.html,
           css: template.css,
-          live_url: 'http://localhost:3000/site-builder'
         }
       });
       setDisplayPage(true);

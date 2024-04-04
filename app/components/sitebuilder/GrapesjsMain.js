@@ -9,6 +9,7 @@ import {style} from "./components/common";
 import {KeyboardBackspaceOutlined} from "@mui/icons-material";
 import {useRouter} from "next/navigation";
 import {data} from "autoprefixer";
+import Link from "next/link";
 import {
 	useGetWebBuilderQuery,
 	useUpdateTemplateMutation,
@@ -34,7 +35,7 @@ const WithGrapesjs = ({data, templateId}) => {
 	//   console.log(templateId);
 
 	//  const {data:template} = useGetWebBuilderQuery(templateId)
-	console.log(data.content);
+	
 
 	const initialHtmlState = {
 		html: data?.content?.html,
@@ -307,18 +308,28 @@ const WithGrapesjs = ({data, templateId}) => {
 	};
 
 	const [updateTemplate, {isLoading: isUpdating}] = useUpdateTemplateMutation();
-	const updateTemplateHanlder = async () => {
-    await updateTemplate(
-      {
-        id: data._id,
-          content: {
-            html: editor.getHtml(),
-            css: editor.getCss(),
-            
-          },
-      }
-    );
-	};
+	const updateTemplateHandler = async () => {
+		try {
+		  const templateContent = {
+			html: editor.getHtml(),
+			css: editor.getCss(),
+		  };
+		  
+		  console.log('Template content to be sent to the backend:', templateContent.html);
+	  
+		  const response = await updateTemplate({
+			id: templateId,
+			content: templateContent,
+		  });
+	  
+		  // Handle the successful response
+		  console.log('Updated template:', response.data.html);
+			
+		} catch (error) {
+		  // Handle any errors
+		  console.error('Error updating template:', error);
+		}
+	  };
 	return (
 		<div>
 			<Drawer anchor={"right"} open={settingOpen.open} onClose={toggleDrawer}>
@@ -364,7 +375,7 @@ const WithGrapesjs = ({data, templateId}) => {
 							/>
 						</div>
 						<button
-							onClick={() => updateTemplateHanlder()}
+							onClick={() => handleUpdatePage()}
 							className="btn btn-primary"
 						>
 							Save
@@ -385,16 +396,18 @@ const WithGrapesjs = ({data, templateId}) => {
 				<div className="views-actions" style={{position: "static"}}></div>
 
 				<div className="panel-action">
-					<button className="btn btn-primary" onClick={updatePage}>
+					<button className="btn btn-primary" onClick={() => updateTemplateHandler ()}>
 						Save
 					</button>
+					<Link href={`/preview/${templateId}`} target="_blank" rel="noopener noreferrer">
 					<button
 						className="btn btn-primary"
 						style={{marginLeft: "1rem"}}
-						onClick={previewPage}
+						
 					>
 						Preview
 					</button>
+					</Link>
 					<TuneOutlined
 						style={{marginLeft: "1rem", cursor: "pointer"}}
 						fontSize="medium"
