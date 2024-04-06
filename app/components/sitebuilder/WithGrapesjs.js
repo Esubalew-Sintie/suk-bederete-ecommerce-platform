@@ -24,9 +24,9 @@ const getOptions = (plugin) => {
   return Object.fromEntries(optMap);
 };
 
-const WithGrapesjsConfig = (dynamicConfiguration) => {
-  const pluginName = dynamicConfiguration.plugin.map((value) => value.name);
-  const pluginOpts = getOptions(dynamicConfiguration.plugin);
+const WithGrapesjsConfig = () => {
+  // const pluginName = dynamicConfiguration.plugin.map((value) => value.name);
+  // const pluginOpts = getOptions(dynamicConfiguration.plugin);
   // loadDependency(dynamicConfiguration.plugin);
   const config = {
     // Indicate where to init the editor. You can also pass an HTMLElement

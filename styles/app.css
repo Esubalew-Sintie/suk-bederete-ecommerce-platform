@@ -202,6 +202,35 @@ div#blocks::-webkit-scrollbar {
 .views-actions{
   background-color: white !important;
 }
+.form-control {
+  width: 100%; /* Full width */
+  padding: 12px 20px; /* Padding inside the input */
+  margin: 8px 0; /* Margin around the input */
+  box-sizing: border-box; /* Ensures padding and border are included in the width */
+  border: 2px solid #ccc; /* Gray border */
+  border-radius: 4px; /* Rounded corners */
+  font-size: 16px; /* Font size */
+  color: #333; /* Text color */
+  background-color: #fff; /* Background color */
+  transition: border-color 0.3s ease; /* Smooth transition for border color */
+}
+
+.form-control:focus {
+  border-color: #007bff; /* Blue border when focused */
+  outline: none; /* Removes the default browser outline */
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25); /* Optional: Adds a blue glow around the input when focused */
+}
+
+.form-control::placeholder {
+  color: #888; /* Placeholder text color */
+  opacity: 1; /* Ensures the placeholder is visible */
+}
+
+.form-control:disabled {
+  background-color: #eee; /* Lighter background for disabled inputs */
+  color: #aaa; /* Grayed out text for disabled inputs */
+  cursor: not-allowed; /* Changes the cursor to indicate the input is not interactive */
+}
 
 .gjs-pn-panel{
   position: relative !important;
