@@ -349,7 +349,7 @@ const WithGrapesjs = ({data, page, templateId}) => {
 		   console.log('Template content to be sent to the backend:', templateContent.html)
 		   const response = await updateTemplate({
 			 templateId: templateId,
-			 page_id: settingOpen.pageId, // Use the selected page's ID
+			 page_id: pageContent.id, // Use the selected page's ID
 			 content: templateContent,
 		   });
 	   
