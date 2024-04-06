@@ -13,6 +13,7 @@ import Link from "next/link";
 import {
 	useGetWebBuilderQuery,
 	useUpdateTemplateMutation,
+	useUpdatePageContentMutation
 } from "@/lib/features/webBuilder/webBuilder";
 
 const filterAssets = (assets, group) => {
@@ -31,20 +32,37 @@ const filterAssets = (assets, group) => {
 	return imageData;
 };
 
-const WithGrapesjs = ({data, templateId}) => {
+const WithGrapesjs = ({data, page, templateId}) => {
+	const [pageContent, setpageContent] = useState({})
 	//   console.log(templateId);
+	const handlePageChange = (e) => {
+		const selectedPageName = e.target.value;
+		const selectedPage = page.find(pa => pa.name === selectedPageName);
+		setpageContent(selectedPage)
+	
+		if (selectedPage && editor.getHtml() !== selectedPage.html) {
+		  editor.setComponents(selectedPage.html);
+		  editor.setStyle(selectedPage.css);
+		}
+		
+	
+		setsettingOpen({
+		  ...settingOpen,
+		  name: selectedPageName,
+		  pageId: selectedPage.id,
+		});
+	 };
+	
 
-	//  const {data:template} = useGetWebBuilderQuery(templateId)
 	
 
 	const initialHtmlState = {
-		html: data?.content?.html,
-		css: data?.content?.css,
+		html: "",
+		css: "",
 		assets: [],
 		custom_body: `<script>console.log('body')</script>`,
 		custom_footer: `<script>console.log('footer')</script>`,
-		custom_head:
-			'<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">',
+		custom_head: '<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">',
 	};
 	const router = useRouter();
 
@@ -53,9 +71,6 @@ const WithGrapesjs = ({data, templateId}) => {
 	/** initial mount ref */
 	const isInitialMount = useRef(true);
 
-	/** content from api */
-	// const content =
-	//   data && data.content ? JSON.parse(data.content) : initialHtmlState;
 	const [initialComponents, setInitialComponents] = useState(initialHtmlState);
 	const [editor, setEditor] = useState({});
 	const [builder, setBuilder] = useState({
@@ -64,25 +79,44 @@ const WithGrapesjs = ({data, templateId}) => {
 	const [settingOpen, setsettingOpen] = useState({
 		name: "",
 		domain: "",
+		pageId:null,
 		open: false,
 	});
 
 	useEffect(() => {
-		setInitialComponents({
-			...initialComponents,
-			html: data.content.html,
-			css: data.content.css,
-		});
-		setsettingOpen({
-			...settingOpen,
-			name: data.name,
-			domain: data.customdomain,
-		});
-	}, [data]);
+		if (page) {
+		   // Filter the data to include only the page with the name "home"
+		   const homePage = page.find((pa) => pa.name === "Home");
+		   // If a home page is found, set it as the initial pageContent
+		   if (homePage) {
+			 setpageContent(homePage);
+		   } else {
+			 // If no home page is found, you can set the first page as the initial pageContent
+			 // or handle this case as needed
+			 setpageContent(data[0]);
+		   }
+		}
+		if (data) {
+			const homePage = data.find((page) => page.name === "home");
+			const pageToRender = homePage || data[0]; // If home page not found, render the first page
+			console.log(pageToRender.content.html)
+			setInitialComponents({
+			  html: pageToRender?.content.html,
+			  css: pageToRender?.content.css,
+			  custom_head: pageToRender.custom_head || "",
+			  custom_footer: pageToRender.custom_footer || "",
+			});
+			setsettingOpen({
+			  name: pageToRender.name,
+			  domain: pageToRender?.customdomain || "",
+			  open: false,
+			});
+		  }
+		}, [data, page]);
 
 	/** Grapes js Initialization */
 	const loadGrapesJs = async () => {
-		const editor = await Grapesjs.init(dynamicConfig(data.configuration));
+		const editor = await Grapesjs.init(dynamicConfig());
 		const assetManager = editor.AssetManager;
 		setEditor(editor);
 		addCommands(editor);
@@ -94,7 +128,7 @@ const WithGrapesjs = ({data, templateId}) => {
 		onLoad(editor);
 		const canvas = editor.Canvas;
 		// assetManager.add(assets);
-		// setTimeout(addStyleManager(editor),0);
+		// setTimeout(addStyleManager(editor),0); 
 		const selected = editor.getSelected();
 		// console.log(editor.getSelected);
 		// Scroll smoothly (this behavior can be polyfilled)
@@ -117,21 +151,23 @@ const WithGrapesjs = ({data, templateId}) => {
 		setBuilder({...builder, panelRight: false});
 	};
 
+	
 	/** after loaading of grapejs  */
 	const onLoad = (editor) => {
 		const categories = editor.BlockManager.getCategories();
-		// const catBlocks = editor.BlockManager.getAll();
-		// const customhead = editor.Canvas.getDocument().head;
-		// const custombody = editor.Canvas.getDocument().body;
-		// const customfooter = editor.Canvas.getDocument().body;
-
-		/** set inital html in builder */
-		editor.setComponents(initialComponents.html);
-
-		// setting css
-		editor.setStyle(initialComponents.css);
-
-		/** find block categories and make default open false */
+	
+		// Assuming `data` is the prop that contains the updated content
+		const homePage = data.find((page) => page.name === "home");
+		const pageToRender = homePage || data[0]; // If home page not found, render the first page
+	
+		// Set initial HTML in builder using the updated data
+		editor.setComponents(pageToRender?.content.html);
+		console.log(pageToRender);
+	
+		// Setting CSS
+		editor.setStyle(pageToRender?.content.css);
+	
+		/** Find block categories and make default open false */
 		categories.forEach((category) => {
 			category.set("open", false).on("change:open", (opened) => {
 				opened.get("open") &&
@@ -140,11 +176,6 @@ const WithGrapesjs = ({data, templateId}) => {
 					});
 			});
 		});
-
-		// const document = editor.Canvas.getDocument();
-		// const styleEle = document.createElement('style');
-		// styleEle.append(style);
-		// document.head.appendChild(styleEle);
 	};
 
 	/** Load custom data */
@@ -307,52 +338,50 @@ const WithGrapesjs = ({data, templateId}) => {
 		window.open(data.live_url, "_blank");
 	};
 
-	const [updateTemplate, {isLoading: isUpdating}] = useUpdateTemplateMutation();
-	const updateTemplateHandler = async () => {
+	const [updateTemplate, {isLoading: isUpdating}] = useUpdatePageContentMutation();
+	const updatePageHandler = async () => {
 		try {
-		  const templateContent = {
-			html: editor.getHtml(),
-			css: editor.getCss(),
-		  };
-		  
-		  console.log('Template content to be sent to the backend:', templateContent.html);
-	  
-		  const response = await updateTemplate({
-			id: templateId,
-			content: templateContent,
-		  });
-	  
-		  // Handle the successful response
-		  console.log('Updated template:', response.data.html);
-			
+		   const templateContent = {
+			 html: editor.getHtml(),
+			 css: editor.getCss(),
+		   };
+	   
+		   console.log('Template content to be sent to the backend:', templateContent.html)
+		   const response = await updateTemplate({
+			 templateId: templateId,
+			 page_id: settingOpen.pageId, // Use the selected page's ID
+			 content: templateContent,
+		   });
+	   
+		   // Handle the successful response
+		   console.log('Updated template:', response.data.html);
 		} catch (error) {
-		  // Handle any errors
-		  console.error('Error updating template:', error);
+		   // Handle any errors
+		   console.error('Error updating template:', error);
 		}
-	  };
+	   };
 	return (
 		<div>
 			<Drawer anchor={"right"} open={settingOpen.open} onClose={toggleDrawer}>
 				<div style={{padding: "1rem"}}>
 					<form onSubmit={handleUpdatePage}>
-						<div id="Page-name" className="field-wrapper input">
-							<label htmlFor="page-name">Page Name</label>
+					<div id="Page-name" className="field-wrapper input">
+			<label htmlFor="page-name">Page Name</label>
 
-							<input
-								id="name"
-								name="page-name"
-								type="text"
-								className="form-control"
-								placeholder="Type your page name"
-								value={settingOpen.name}
-								onChange={(e) => {
-									setsettingOpen({
-										...settingOpen,
-										name: e.target.value,
-									});
-								}}
-							/>
-						</div>
+			<select
+				id="name"
+				name="page-name"
+				className="form-control"
+				value={settingOpen.name}
+				onChange={handlePageChange}
+			>
+				{data.map((page, index) => (
+					<option key={index} value={page.name}>
+						{page.name}
+					</option>
+				))}
+			</select>
+			</div>
 						<div
 							id="Domain-name"
 							className="field-wrapper input"
@@ -396,18 +425,19 @@ const WithGrapesjs = ({data, templateId}) => {
 				<div className="views-actions" style={{position: "static"}}></div>
 
 				<div className="panel-action">
-					<button className="btn btn-primary" onClick={() => updateTemplateHandler ()}>
+					<button className="btn btn-primary" onClick={() => updatePageHandler ()}>
 						Save
 					</button>
-					<Link href={`/preview/${templateId}`} target="_blank" rel="noopener noreferrer">
-					<button
-						className="btn btn-primary"
-						style={{marginLeft: "1rem"}}
-						
-					>
-						Preview
-					</button>
-					</Link>
+					{pageContent.id && (
+ <Link href={`/preview/${templateId}/${pageContent.id}`} target="_blank" rel="noopener noreferrer">
+    <button
+      className="btn btn-primary"
+      style={{marginLeft: "1rem"}}
+    >
+      Preview
+    </button>
+ </Link>
+)}
 					<TuneOutlined
 						style={{marginLeft: "1rem", cursor: "pointer"}}
 						fontSize="medium"
