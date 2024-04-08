@@ -93,7 +93,7 @@ const WithGrapesjs = ({data, page, templateId}) => {
 		   } else {
 			 // If no home page is found, you can set the first page as the initial pageContent
 			 // or handle this case as needed
-			 setpageContent(data[0]);
+			 setpageContent(page[0]);
 		   }
 		}
 		if (data) {
@@ -429,15 +429,15 @@ const WithGrapesjs = ({data, page, templateId}) => {
 						Save
 					</button>
 					{pageContent.id && (
- <Link href={`/preview/${templateId}/${pageContent.id}`} target="_blank" rel="noopener noreferrer">
-    <button
-      className="btn btn-primary"
-      style={{marginLeft: "1rem"}}
-    >
-      Preview
-    </button>
- </Link>
-)}
+						<Link href={`/preview/${templateId}/${pageContent.id}`} target="_blank" rel="noopener noreferrer">
+							<button
+							className="btn btn-primary"
+							style={{marginLeft: "1rem"}}
+							>
+							Preview
+							</button>
+						</Link>
+						)}
 					<TuneOutlined
 						style={{marginLeft: "1rem", cursor: "pointer"}}
 						fontSize="medium"

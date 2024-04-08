@@ -804,6 +804,7 @@ const WithGrapesjsConfig = () => {
         "https://my-assets-bucket.s3.amazonaws.com/assets/framework1.css",
         "https://fonts.googleapis.com/css2?family=Manrope:wght@200,300,400,500,600,700&display=swap",
         "https://fonts.googleapis.com/css2?family=Nunito:wght@200,300,400,500,600,700&display=swap",
+        "https://kit.fontawesome.com/0e53af926d.js" 
       ],
       scripts: [
         "https://cdn.tailwindcss.com",
