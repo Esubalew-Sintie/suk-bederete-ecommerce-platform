@@ -17,6 +17,7 @@ import {
 } from "@/lib/features/webBuilder/webBuilder";
 import { toast } from "react-hot-toast";
 import CustomToaster from "@/app/Toaster/Toaster";
+import { AlertDialogDemo } from "./AlertDialoge";
 
 const filterAssets = (assets, group) => {
   const images = assets
@@ -340,7 +341,7 @@ const WithGrapesjs = ({ data, page, templateId }) => {
     useUpdatePageContentMutation();
   const updatePageHandler = async () => {
     toast.dismiss();
-    const loadingToast = toast.loading("Saving...", { duration: 3000 });
+    const loadingToast = toast.loading("Saving...", { duration: 500 });
     try {
       const templateContent = {
         html: editor.getHtml(),
@@ -356,21 +357,27 @@ const WithGrapesjs = ({ data, page, templateId }) => {
         page_id: pageContent.id, // Use the selected page's ID
         content: templateContent,
       });
-      //   setTimeout(() => {
-      //     toast.dismiss(loadingToast);
-      //   }, 3000);
+
       // Handle the successful response
       console.log("Updated template:", response.data.html);
       setTimeout(() => {
         toast.success("Saved successfully");
-      }, 3000);
+      }, 500);
     } catch (error) {
       // Handle any errors
       console.error("Error updating template:", error);
-      toast.error("Saving failed");
+      setTimeout(() => {
+        toast.error("Saving failed");
+      }, 1000);
     }
   };
-  const publishHandler = () => {
+  const publishHandlerOnSave = () => {
+    updatePageHandler();
+    setTimeout(() => {
+      router.push("/admin/dashboard");
+    }, 3000);
+  };
+  const publishHandlerNoSave = () => {
     router.push("/admin/dashboard");
   };
   return (
@@ -446,13 +453,18 @@ const WithGrapesjs = ({ data, page, templateId }) => {
           </button>
           <CustomToaster />
           {/* <Link href=""> */}
-          <button
+          {/* <button
             onClick={() => publishHandler()}
             className="btn btn-primary"
             style={{ marginLeft: "1rem" }}
           >
             Publish
-          </button>
+          </button> */}
+          <AlertDialogDemo
+            button="publish"
+            publishSaveClick={publishHandlerOnSave}
+            publishCancelClick={publishHandlerNoSave}
+          />
           {/* </Link> */}
           {pageContent.id && (
             <Link
