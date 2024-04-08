@@ -1,8 +1,12 @@
-"use client"
-import React, { useState, useEffect } from 'react';
-import WithGrapesjs from './GrapesjsMain';
-import grapesJSMJML from 'grapesjs-mjml';
-import { useGetWebBuilderQuery, useGetWebBuildersQuery,useGetPageContentQuery } from '@/lib/features/webBuilder/webBuilder';
+"use client";
+import React, { useState, useEffect } from "react";
+import WithGrapesjs from "./GrapesjsMain";
+import grapesJSMJML from "grapesjs-mjml";
+import {
+  useGetWebBuilderQuery,
+  useGetWebBuildersQuery,
+  useGetPageContentQuery,
+} from "@/lib/features/webBuilder/webBuilder";
 
 const dynamicConfiguration = {
   plugin: [
@@ -25,33 +29,34 @@ const dynamicConfiguration = {
 
 const Card = (props) => {
   const templateId = props.templetId;
-  const { data: page, isLoading: pageLoading } = useGetPageContentQuery(templateId);
+  const { data: page, isLoading: pageLoading } =
+    useGetPageContentQuery(templateId);
   console.log(page);
   const [initAppData, setData] = useState(null);
   const [loading, setLoading] = useState({
     get: false,
-    update: false
+    update: false,
   });
   const [displayPage, setDisplayPage] = useState(false);
 
   useEffect(() => {
     if (page && !pageLoading) {
       // Map over each page in the list and create an array of page configurations
-      const pageConfigs = page.map(pageItem => ({
+      const pageConfigs = page.map((pageItem) => ({
         name: pageItem?.name,
-        brand_url: '',
+        brand_url: "",
         canonical: null,
-        slug: '',
+        slug: "",
         configuration: dynamicConfiguration,
         content: {
           html: pageItem?.html,
           css: pageItem?.css,
-        }
+        },
       }));
-  
+
       // Set the page configurations array as the data
       setData(pageConfigs);
-  
+
       // Set displayPage to true to render the component
       setDisplayPage(true);
     }
@@ -60,12 +65,18 @@ const Card = (props) => {
   return (
     <div>
       {displayPage && initAppData ? (
-        <WithGrapesjs templateId={templateId} page={page} {...props} data={initAppData} setData={setData} />
+        <WithGrapesjs
+          templateId={templateId}
+          page={page}
+          {...props}
+          data={initAppData}
+          setData={setData}
+        />
       ) : (
         <p>Loading...</p>
       )}
     </div>
   );
-}
+};
 
 export default Card;
