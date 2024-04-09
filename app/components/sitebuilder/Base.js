@@ -1,13 +1,13 @@
-import React from 'react';
-import Card from './card';
+import React from "react";
+import Card from "./card";
 
 const Base = (props) => {
-    console.log(props)
-    return (
-        <div>
-            <Card {...props}/>
-        </div>
-    )
-}
+	console.log(props);
+	return (
+		<div>
+			<Card {...props} />
+		</div>
+	);
+};
 
-export default Base
+export default Base;
