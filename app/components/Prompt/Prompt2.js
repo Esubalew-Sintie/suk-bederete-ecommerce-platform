@@ -36,7 +36,7 @@ const Prompt2 = () => {
 	};
 
 	return (
-		<div className="bg-white shadow-md rounded-lg p-6 max-w-md mx-auto">
+		<div className="bg-white shadow-xl border-[1px] border-slate-1 rounded-sm 00 p-6 max-w-md mx-auto">
 			<input
 				checked={isChecked}
 				type="checkbox"
@@ -46,7 +46,7 @@ const Prompt2 = () => {
 			/>
 			<label htmlFor="physical-shop" className=" text-xl">
 				{" "}
-				do you have physical shop
+				Do you have physical shop
 			</label>
 			<form onSubmit={handleSubmit(onSubmit)} className="mt-4">
 				{isChecked ? (
