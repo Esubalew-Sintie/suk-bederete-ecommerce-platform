@@ -26,14 +26,13 @@ const ShopItem = () => {
             eiusmod
           </p>
         </div>
-        <div className="transition-all duration-500 hover:border-stone-500 hover:bg-stone-200 p-4 border-t border-b text-xs text-gray-700 bg-stone-300 text-orange-800 ">
+        <div className="transition-all duration-500 hover:border-stone-500 hover:bg-stone-200 p-4 border-t border-b text-xs text-gray-700 bg-stone-300 text-orange-800 flex">
           <span className=" hover:ml-2 flex items-center text-xl font-bold  transition-all duration-500">
             <i className="far fa-address-card fa-fw text-gray-900 mr-2"></i>{" "}
             Category
           </span>
-        </div>
-        <div className="transition-all duration-500 hover:border-stone-500 border hover:bg-stone-200 p-4 flex items-center text-sm text-gray-600 bg-stone-300 text-orange-800 text-xl">
-          <span className=" ml-2">Rating: </span>
+
+          <span className="text-xl ml-auto">Rating: </span>
         </div>
       </a>
     </div>
