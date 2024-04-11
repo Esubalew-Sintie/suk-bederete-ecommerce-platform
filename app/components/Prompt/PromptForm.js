@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/form";
 import {toast} from "@/components/ui/use-toast";
 import Image from "next/image";
+import Link from "next/link";
 
 const items = [
 	{
@@ -45,7 +46,7 @@ const FormSchema = z.object({
 	items: z.string().optional(),
 });
 
-export function PromptForm() {
+export function PromptForm({link}) {
 	const form = useForm({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
@@ -65,45 +66,20 @@ export function PromptForm() {
 	}
 
 	return (
-		<Form {...form}>
-			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-				<FormField
-					control={form.control}
-					name="items"
-					render={() => (
-						<FormItem>
-							{items.map((item) => (
-								<FormItem
-									key={item.id}
-									className="flex flex-row items-start space-x-3 space-y-0"
-								>
-									<FormControl>
-										{/* Custom radio button implementation */}
-										<input
-											type="radio"
-											name="items"
-											value={item.id}
-											checked={form.watch("items") === item.id}
-											onChange={(e) => form.setValue("items", e.target.value)}
-											className="form-radio text-blue-600"
-										/>
-									</FormControl>
-									<FormLabel className="flex gap-5 font-bold text-xl">
-										<Image
-											src={item.imgUrl}
-											width={40}
-											height={40}
-											className=" rounded-full"
-										/>
-										{item.label}
-									</FormLabel>
-								</FormItem>
-							))}
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-			</form>
-		</Form>
+		<div className=" flex  flex-col gap-8">
+			{items.map((item) => (
+				<Button asChild className=" w-80 flex justify-start">
+					<Link href={link} className=" flex justify-start gap-x-6 ">
+						<Image
+							src={item.imgUrl}
+							width={20}
+							height={20}
+							className="mr-2 h-8 w-8 rounded-full"
+						/>{" "}
+						<p>{item.label}</p>
+					</Link>
+				</Button>
+			))}
+		</div>
 	);
 }
