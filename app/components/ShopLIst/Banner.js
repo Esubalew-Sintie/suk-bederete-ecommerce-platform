@@ -14,9 +14,11 @@ const Banner = () => {
       <div className="xl:w-1/2 lg:w-[70%] sm:w-full">
         <div>
           <p className="text-7xl font-bold mb-10">SHOP HUB</p>
-          <p class="text-8xl font-thin mb-10 leading-none">
+          <p class="md:text-8xl font-thin mb-10 leading-none sm:text-7xl">
             List of shops at your{" "}
-            <span className="text-orange-500 font-semibold">finger tips</span>
+            <span className="text-orange-500 md:font-semibold sm:font-sans">
+              finger tips
+            </span>
           </p>
         </div>
       </div>
