@@ -17,7 +17,7 @@ export default function Register() {
       await register({ email, password }).unwrap();
       // Handle successful registration, e.g., redirect to login page
       console.log("Registration successful");
-    router.push("selecttheme/");
+    router.push("/prompt/");
     } catch (error) {
       // Handle registration error
       console.error("Registration failed:", error.message);
@@ -109,7 +109,7 @@ export default function Register() {
                   <div className="text-center mt-6">
                     <button
                       className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                      type="button"
+                      type="submit"
                       disabled={isLoading}
                     >
                       Create Account
