@@ -1,25 +1,47 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
 
-*{
-  font-family: 'Montserrat', sans-serif;
+* {
+  font-family: "Montserrat", sans-serif;
 }
 
-body{
+body {
   /* overflow: hidden; */
 }
 /* Let's highlight canvas boundaries */
 #gjs {
   /* border: 1px solid rgb(95 95 95 / 37%); */
   padding: 0.5rem;
-  
 }
-
+.carousel-item-padding-small {
+  margin-right: 2px;
+  padding-right: 10px; /* Adjust the margin values as needed */
+}
+.slick-prev::before,
+.slick-next::before {
+  font-family: FontAwesome;
+  background-color: #000;
+  height: 50px;
+  color: black;
+  padding: 10px;
+  border-radius: 50%;
+  z-index: 10;
+}
+.slick-prev::before {
+  /* fa-arrow-circle-left */
+  /* content: "\f0a8"; */
+}
+.slick-next::before {
+  /* fa-arrow-circle-right */
+  /* content: "\f0a9"; */
+}
 .gjs-field-integer input {
   padding-right: 30px;
   max-height: 28px;
 }
 
-.gjs-field input, .gjs-field select, .gjs-field textarea{
+.gjs-field input,
+.gjs-field select,
+.gjs-field textarea {
   max-height: 28px;
 }
 
@@ -90,8 +112,8 @@ body{
 }
 .panel__switcher {
   position: initial;
-  background-color:white !important;
-  color:black !important;
+  background-color: white !important;
+  color: black !important;
 }
 #blocks {
   width: 15%;
@@ -106,26 +128,26 @@ div#blocks::-webkit-scrollbar {
 .gjs-block-label img {
   width: 100%;
 }
-.gjs-block{
-    min-width: 45%;
-    box-shadow: 0px 0px 10px -3px #bdbdbd !important;
-    border: none;
+.gjs-block {
+  min-width: 45%;
+  box-shadow: 0px 0px 10px -3px #bdbdbd !important;
+  border: none;
 }
-.gjs-blocks-cs{
+.gjs-blocks-cs {
   background-color: white !important;
 }
 
-.gjs-mdl-dialog{
+.gjs-mdl-dialog {
   margin-top: 5rem;
 }
 
-.gjs-am-add-asset button{
+.gjs-am-add-asset button {
   width: auto !important;
-  background-color: #367BEE;
+  background-color: #367bee;
   color: white !important;
 }
 
-.gjs-title{
+.gjs-title {
   background-color: white !important;
   padding: 16px 10px 16px 20px !important;
   font-weight: 600 !important;
@@ -134,7 +156,7 @@ div#blocks::-webkit-scrollbar {
 .gjs-three-bg {
   background-color: white;
 }
-.close-icon{
+.close-icon {
   padding: 0.5rem;
 }
 .panel-action .MuiButton-containedPrimary {
@@ -142,64 +164,61 @@ div#blocks::-webkit-scrollbar {
   background-color: #3f51b500;
   border: 1px solid black;
 }
-.gjs-sm-title{
+.gjs-sm-title {
   font-weight: 600 !important;
   background-color: rgb(255, 255, 255) !important;
   border-bottom: 2px solid #eef3f5 !important;
 }
-.gjs-layer-title{
+.gjs-layer-title {
   border-bottom: 2px solid #eef3f5 !important;
 }
-.gjs-field{
+.gjs-field {
   background-color: #bdbdbd;
 }
-.gjs-blocks-c{
+.gjs-blocks-c {
   padding: 0.5rem;
 }
 
-.gjs-am-file-uploader{
+.gjs-am-file-uploader {
   width: 50%;
 }
-.gjs-am-assets-cont{
+.gjs-am-assets-cont {
   width: 50%;
   height: 304px;
 }
-.gjs-am-assets-header form{
+.gjs-am-assets-header form {
   display: flex;
   justify-content: space-between;
 }
 
-.btn{
-
+.btn {
   padding: 8px 32px;
   border-radius: 4px;
   cursor: pointer;
-
 }
 
-.btn-primary{
+.btn-primary {
   background-color: #367bee;
-  border: 1px solid #367BEE;
+  border: 1px solid #367bee;
   color: white;
   transition: 500ms;
 }
 
-.btn:hover{
+.btn:hover {
   transition: 500ms;
   transform: translate(0px, -2px);
   background-color: #2563cf;
 }
 
-.panel__switcher{
+.panel__switcher {
   display: flex;
   align-items: center;
-  
 }
-.go_back{
+.go_back {
   margin-right: 2rem;
   cursor: pointer;
 }
-.views-actions{
+.views-actions {
   background-color: white !important;
 }
 .form-control {
@@ -218,7 +237,7 @@ div#blocks::-webkit-scrollbar {
 .form-control:focus {
   border-color: #007bff; /* Blue border when focused */
   outline: none; /* Removes the default browser outline */
-  box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25); /* Optional: Adds a blue glow around the input when focused */
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Optional: Adds a blue glow around the input when focused */
 }
 
 .form-control::placeholder {
@@ -232,50 +251,49 @@ div#blocks::-webkit-scrollbar {
   cursor: not-allowed; /* Changes the cursor to indicate the input is not interactive */
 }
 
-.gjs-pn-panel{
+.gjs-pn-panel {
   position: relative !important;
   display: flex !important ;
 }
 
-.selectIcon{
-  content: url('/icons/send-1.svg');
+.selectIcon {
+  content: url("/icons/send-1.svg");
 }
-.screenWindow{
-  content: url('/icons/screen.svg');
+.screenWindow {
+  content: url("/icons/screen.svg");
 }
-.mobilewindow{
-  content: url('/icons/smartphone.svg');
+.mobilewindow {
+  content: url("/icons/smartphone.svg");
 }
-.tabWindow{
-  content: url('/icons/tab.svg');
+.tabWindow {
+  content: url("/icons/tab.svg");
 }
-.undo{
-  content: url('/icons/rotate-left.svg');
+.undo {
+  content: url("/icons/rotate-left.svg");
 }
-.redo{
-  content: url('/icons/rotate-right.svg');
+.redo {
+  content: url("/icons/rotate-right.svg");
 }
-.image{
-  content: url('/icons/image-1.svg');
+.image {
+  content: url("/icons/image-1.svg");
 }
-.trash{
-  content: url('/icons/cross-circle.svg');
+.trash {
+  content: url("/icons/cross-circle.svg");
 }
-.editor{
-  content: url('/icons/edit-4.svg');
+.editor {
+  content: url("/icons/edit-4.svg");
 }
-.export{
-  content: url('/icons/download.svg');
+.export {
+  content: url("/icons/download.svg");
 }
-.crossCircle{
-  content: url('/icons/cross-circle.svg');
-  
+.crossCircle {
+  content: url("/icons/cross-circle.svg");
 }
-
-
 
 @keyframes slideright {
-  0% {right: -250px;}
+  0% {
+    right: -250px;
+  }
   100% {
     right: 0px;
   }

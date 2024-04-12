@@ -11,7 +11,7 @@ const Banner = () => {
         backgroundPosition: "center",
       }}
     >
-      <div className="md:w-1/2  ">
+      <div className="xl:w-1/2 lg:w-[70%] sm:w-full">
         <div>
           <p className="text-7xl font-bold mb-10">SHOP HUB</p>
           <p class="text-8xl font-thin mb-10 leading-none">
