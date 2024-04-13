@@ -12,11 +12,13 @@ import { data } from "autoprefixer";
 import Link from "next/link";
 import {
   useGetWebBuilderQuery,
-  useUpdateTemplateMutation,
   useUpdatePageContentMutation,
-  useCreateShopMutation ,
   useCustomisedTemplateMutation
 } from "@/lib/features/webBuilder/webBuilder";
+import {
+  useCreateShopMutation,
+  useUpdateShopMutation
+} from "@/lib/features/shop/shop";
 import { toast } from "react-hot-toast";
 import CustomToaster from "@/app/Toaster/Toaster";
 import { AlertDialogDemo } from "./AlertDialoge";
