@@ -7,9 +7,7 @@ import CardBarChart from "@/app/components/Cards/CardBarChart.js";
 import CardPageVisits from "@/app/components/Cards/CardPageVisits.js";
 import CardSocialTraffic from "@/app/components/Cards/CardSocialTraffic.js";
 
-
 // layout for page
-
 
 import Admin from "@/app/layouts/Admin";
 
@@ -35,5 +33,3 @@ export default function Dashboard() {
     </Admin>
   );
 }
-
-

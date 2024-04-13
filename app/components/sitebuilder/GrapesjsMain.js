@@ -16,7 +16,7 @@ import {
   useUpdatePageContentMutation,
 } from "@/lib/features/webBuilder/webBuilder";
 import { toast } from "react-hot-toast";
-import CustomToaster from "@/app/Toaster/Toaster";
+import CustomToaster from "@/app/components/sitebuilder/Toaster/Toaster";
 import { AlertDialogDemo } from "./AlertDialoge";
 
 const filterAssets = (assets, group) => {
