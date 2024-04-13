@@ -20,7 +20,7 @@ import {
   useUpdateShopMutation
 } from "@/lib/features/shop/shop";
 import { toast } from "react-hot-toast";
-import CustomToaster from "@/app/Toaster/Toaster";
+import CustomToaster from "@/app/components/sitebuilder/Toaster/Toaster";
 import { AlertDialogDemo } from "./AlertDialoge";
 
 const filterAssets = (assets, group) => {

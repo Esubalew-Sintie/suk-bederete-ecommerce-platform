@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from "react";
 
 // components
@@ -7,7 +7,6 @@ import CardSettings from "@/app/components/Cards/CardSettings.js";
 import CardProfile from "@/app/components/Cards/CardProfile.js";
 
 // layout for page
-
 
 import Admin from "@/app/layouts/Admin";
 export default function Settings() {
@@ -24,5 +23,3 @@ export default function Settings() {
     </Admin>
   );
 }
-
-
