@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 
 import Auth from "../../layouts/Auth"
-import { useRegisterMutation } from "@/lib/features/webBuilder/webBuilder";
+import { useRegisterMutation } from "@/lib/features/auth/authMerchant"; 
 export default function Register() {
   const [register, { isLoading, isError, error }] = useRegisterMutation();
  const [email, setEmail] = useState("");

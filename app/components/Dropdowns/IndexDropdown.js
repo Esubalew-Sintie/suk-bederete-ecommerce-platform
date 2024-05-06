@@ -44,45 +44,33 @@ const IndexDropdown = () => {
         >
           Admin Layout
         </span>
-        <Link href="/admin/dashboard">
-          <Link
-            href="#pablo"
+        <Link href="/admin/dashboard"
             className={
               "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
             }
           >
             Dashboard
-          </Link>
         </Link>
-        <Link href="/admin/settings">
-          <Link
-            href="#pablo"
+        <Link href="/admin/settings"
             className={
               "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
             }
           >
             Settings
-          </Link>
         </Link>
-        <Link href="/admin/tables">
-          <Link
-            href="#pablo"
+        <Link href="/admin/tables"
             className={
               "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
             }
           >
             Tables
-          </Link>
         </Link>
-        <Link href="/admin/maps">
-          <Link
-            href="#pablo"
+        <Link href="/admin/maps"
             className={
               "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
             }
           >
             Maps
-          </Link>
         </Link>
         <div className="h-0 mx-4 my-2 border border-solid border-blueGray-100" />
         <span
@@ -92,26 +80,20 @@ const IndexDropdown = () => {
         >
           Auth Layout
         </span>
-        <Link href="/auth/login">
-          <Link
-            href="#pablo"
+        <Link href="/auth/login"
             className={
               "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
             }
           >
             Login
-          </Link>
         </Link>
-        <Link href="/auth/register">
-          <Link
-            href="#pablo"
+        <Link href="/auth/register"
             className={
               "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
             }
           >
             Register
           </Link>
-        </Link>
         <div className="h-0 mx-4 my-2 border border-solid border-blueGray-100" />
         <span
           className={
@@ -120,25 +102,19 @@ const IndexDropdown = () => {
         >
           No Layout
         </span>
-        <Link href="/landing">
-          <Link
-            href="#pablo"
+        <Link href="/landing"
             className={
               "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
             }
           >
             Landing
-          </Link>
         </Link>
-        <Link href="/profile">
-          <Link
-            href="#pablo"
+        <Link href="/profile"
             className={
               "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
             }
           >
             Profile
-          </Link>
         </Link>
       </div>
     </>

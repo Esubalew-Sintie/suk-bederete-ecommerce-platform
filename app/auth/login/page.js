@@ -6,7 +6,7 @@ import Link from "next/link";
 
 import Auth from "../../layouts/Auth";
 import {Prompt} from "@/app/components/Prompt/Prompt";
-import { useLoginMutation } from "@/lib/features/webBuilder/webBuilder";
+import { useLoginMutation } from "@/lib/features/auth/authMerchant"; 
 import { useRouter } from "next/navigation";
 export default function Login() {
 	const [login, { isLoading, isError, error }] = useLoginMutation();
