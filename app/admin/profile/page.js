@@ -1,12 +1,23 @@
 "use client"
 import React from "react";
-import Navbar from "../components/Navbars/AuthNavbar.js";
-import Footer from "../components/Footers/Footer.js";
 import Link from "next/link";
-import {Admin} from "../layouts/Admin.js";
-export default function Profile() {
+
+// components
+
+import Footer from "../../components/Footers/Footer";
+import AdminNavbar from "@/app/components/Navbars/AdminNavbar"
+import Sidebar from "@/app/components/Sidebar/Sidebar.js";
+import HeaderStats from "@/app/components/Headers/HeaderStats.js";
+import FooterAdmin from "@/app/components/Footers/FooterAdmin.js";
+
+export default function Admin({ children }) {
   return (
     <>
+      <Sidebar />
+      <div className="relative md:ml-64 bg-blueGray-100">
+       
+        <div className="px-4 md:px-10 mx-auto w-full -m-24">
+        <>
       {/* <Navbar transparent /> */}
       <main className="profile-page">
         <section className="relative block h-500-px">
@@ -139,7 +150,8 @@ export default function Profile() {
       </main>
       <Footer />
     </>
+        </div>
+      </div>
+    </>
   );
 }
-
-
