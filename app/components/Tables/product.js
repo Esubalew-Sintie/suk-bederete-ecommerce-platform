@@ -1,5 +1,3 @@
-
-
 "use client";
 import * as React from "react";
 import PropTypes from "prop-types";
@@ -26,12 +24,12 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import TextField from "@mui/material/TextField"; // Import TextField
 import Button from "@mui/material/Button";
 import {PopoverDemo} from "@/util/alert";
-import { visuallyHidden } from "@mui/utils";
+import {visuallyHidden} from "@mui/utils";
 import {AiOutlineEdit, AiFillDelete} from "react-icons/ai";
-import { LuView } from "react-icons/lu";
+import {LuView} from "react-icons/lu";
 
-import { AddProduct } from "../Prompt/AddProduct";
-import { DialogDemo } from "../Prompt/OrderDetial";
+import {AddProduct} from "../Prompt/AddProduct";
+import {DialogDemo} from "../Prompt/OrderDetial";
 
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
@@ -157,11 +155,14 @@ function EnhancedTableToolbar(props) {
 					id="tableTitle"
 					component="div"
 				>
-                        
-                        <TableCell align="left" sx={{ color: "text-blueGray-500" }}>
-									{title}	
-										</TableCell>
-                       
+					<div className=" flex gap-32">
+						<p>{title}</p>
+						{/* <TableCell align="left" sx={{ color: "text-blueGray-500" }}> */}
+						<div onClick={(event) => event.stopPropagation()}>
+							<AddProduct />
+						</div>
+						{/* </TableCell> */}
+					</div>
 				</Typography>
 			)}
 
@@ -192,9 +193,9 @@ export default function EnhancedTable({rows, headCells, title}) {
 	const [selected, setSelected] = React.useState([]);
 	const [page, setPage] = React.useState(0);
 	const [dense, setDense] = React.useState(false);
-	const [rowsPerPage, setRowsPerPage] = React.useState(10);
+	const [rowsPerPage, setRowsPerPage] = React.useState(5);
 	const [searchQuery, setSearchQuery] = React.useState("");
-    console.log(rows);
+
 	const handleRequestSort = (event, property) => {
 		const isAsc = orderBy === property && order === "asc";
 		setOrder(isAsc ? "desc" : "asc");
@@ -267,7 +268,11 @@ export default function EnhancedTable({rows, headCells, title}) {
 	return (
 		<Box sx={{width: "100%"}}>
 			<Paper sx={{width: "100%", mb: 2}}>
-				<EnhancedTableToolbar headCells title={title} numSelected={selected.length} />
+				<EnhancedTableToolbar
+					headCells
+					title={title}
+					numSelected={selected.length}
+				/>
 				<Box
 					sx={{
 						display: "flex",
@@ -277,11 +282,12 @@ export default function EnhancedTable({rows, headCells, title}) {
 					}}
 				>
 					<TextField
-						label="Search"
+						label="Search Product"
 						variant="outlined"
 						value={searchQuery}
 						onChange={(e) => setSearchQuery(e.target.value)}
 						halfWidth
+						className=" flex items-center justify-center rounded-lg"
 					/>
 				</Box>
 				<TableContainer
@@ -315,7 +321,7 @@ export default function EnhancedTable({rows, headCells, title}) {
 										role="checkbox"
 										aria-checked={isItemSelected}
 										tabIndex={-1}
-										key={`${row.product}-${index}`}
+										key={row.id}
 										selected={isItemSelected}
 										sx={{cursor: "pointer"}}
 									>
@@ -329,31 +335,53 @@ export default function EnhancedTable({rows, headCells, title}) {
 											/>
 										</TableCell>
 
-										
-										<TableCell align="left" sx={{color: "text-blueGray-500"}}>
-											{row.product}
+										<TableCell align="left">
+											{row?.productName?.length > 15
+												? `${row?.productName?.substring(0, 15)}...`
+												: row?.productName}
 										</TableCell>
-										<TableCell align="left" sx={{color: "text-blueGray-500"}}>
-											{row.status}
+										<TableCell align="left">
+											{row?.productDescription?.length > 15
+												? `${row?.productDescription?.substring(
+														0,
+														15
+												  )}...`
+												: row?.productDescription}
 										</TableCell>
-										<TableCell align="left" sx={{color: "text-blueGray-500"}}>
-											{row.paymentStatus}
+										<TableCell align="left">
+											{row?.productVariant?.map((variant, index) => (
+												<p key={index}>{variant}</p>
+											))}
 										</TableCell>
-										<TableCell align="left" sx={{color: "text-blueGray-500"}}>
-											{row.payment}
+										<TableCell align="left">
+											{row?.productCatagory?.length > 15
+												? `${row?.productCatagory?.substring(
+														0,
+														15
+												  )}...`
+												: row?.productCatagory}{" "}
 										</TableCell>
-										<TableCell align="left" sx={{color: "text-blueGray-500"}}>
-											{row.shippingMethod}
+										<TableCell align="left">{row?.price}</TableCell>
+										<TableCell align="left">{row?.inventoryStatus}</TableCell>
+										<TableCell align="left">
+											{row?.images?.map((image, index) => (
+												<img
+													src={image}
+													alt={`Image ${index}`}
+													style={{width: 50, height: 50}}
+												/>
+											))}
 										</TableCell>
-										<TableCell align="left" sx={{color: "text-blueGray-500"}}>
-											{row.amount}
+										<TableCell align="left">
+											{row?.tagsKeywords?.join(", ")}
 										</TableCell>
+
 										<TableCell align="left" sx={{color: "text-blueGray-500"}}>
-											{row.date}
-										</TableCell>
-										<TableCell align="left" sx={{color: "text-blueGray-500"}}>
-											<div className=" flex gap-2" onClick={(event) => event.stopPropagation()}>
-											<DialogDemo action={<LuView />} />
+											<div
+												className=" flex gap-2 "
+												onClick={(event) => event.stopPropagation()}
+											>
+												<DialogDemo action={<LuView />} />
 												<DialogDemo action={<AiOutlineEdit />} />
 												<DialogDemo action={<AiFillDelete />} />
 											</div>
