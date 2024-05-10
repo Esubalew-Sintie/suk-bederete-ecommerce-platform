@@ -3,26 +3,37 @@ import React, {useState} from "react";
 import { useRouter } from "next/navigation";
 // layout for page
 
-
 import Auth from "../../layouts/Auth"
-import { useRegisterMutation } from "@/lib/features/webBuilder/webBuilder";
+import { setMerchant } from "@/lib/features/auth/merchantSlice";
+
+import { useRegisterMutation } from "@/lib/features/auth/authMerchant";
 export default function Register() {
   const [register, { isLoading, isError, error }] = useRegisterMutation();
  const [email, setEmail] = useState("");
  const [password, setPassword] = useState("");
  const router = useRouter()
- const handleRegister = async (e) => {
-    e.preventDefault();
-    try {
-      await register({ email, password }).unwrap();
-      // Handle successful registration, e.g., redirect to login page
-      console.log("Registration successful");
-    router.push("/prompt/");
-    } catch (error) {
-      // Handle registration error
-      console.error("Registration failed:", error.message);
-    }
- };
+ 
+      const handleRegister = async (e) => {
+        e.preventDefault();
+        try {
+          const response = await register({ email, password }).unwrap();
+          // Handle successful registration, e.g., redirect to login page
+          console.log("Registration successful");
+          console.log("Response:", response.tokens);
+          console.log(response.message);
+			//store the merchant the response it returned to the slice	           
+          dispatch(setMerchant(response.merchant));
+          console.log(response.merchant);
+          localStorage.setItem('unique_id',response.merchant.unique_id)
+          console.log(response.merchant.unique_id);
+          router.push("/prompt/prompt");
+        } catch (error) {
+          // Handle registration error
+          console.error("Registration failed:", error.message);
+          console.log("Response:", error.response);
+        }
+      };
+     
   return (
     <Auth>
       <div className="container mx-auto px-4 h-full">

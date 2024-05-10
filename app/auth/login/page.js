@@ -6,24 +6,34 @@ import Link from "next/link";
 
 import Auth from "../../layouts/Auth";
 import {Prompt} from "@/app/components/Prompt/Prompt";
-import { useLoginMutation } from "@/lib/features/webBuilder/webBuilder";
+import { useLoginMutation } from "@/lib/features/auth/authMerchant";
 import { useRouter } from "next/navigation";
+import { setMerchant } from "@/lib/features/auth/merchantSlice";
+import { useDispatch } from "react-redux";
 export default function Login() {
 	const [login, { isLoading, isError, error }] = useLoginMutation();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [responseMesseage, setresponseMesseage] = useState("")
 	const router = useRouter();
+	const dispatch = useDispatch();
 	const handleLogin = async (e) => {
 		e.preventDefault();
 		try {
-			await login({ email, password }).unwrap();
+			const response = await login({ email, password }).unwrap();
 			// Handle successful registration, e.g., redirect to login page
-	
-			console.log("Login successful");
-			router.push("/prompt/");
+	          
+			console.log(response.message);
+			//store the merchant the response it returned to the slice	           
+            dispatch(setMerchant(response.merchant));
+			console.log(response.merchant);
+			localStorage.setItem('unique_id',response.merchant.unique_id)
+			console.log(response.merchant.unique_id);
+			router.push("/prompt/prompt");
 		} catch (error) {
 			// Handle registration error
 			console.error("Login failed:", error.message);
+			setresponseMesseage(error.message)
 		}
 	};
 	return (
@@ -48,6 +58,12 @@ export default function Login() {
 									</button>
 								</div>
 								<hr className="mt-6 border-b-1 border-blueGray-300" />
+								
+								{responseMesseage && (
+									<div className="text-center mt-4">
+										<p className="text-red-500">{responseMesseage}</p>
+									</div>
+								)}
 							</div>
 							<div className="flex-auto px-4 lg:px-10 py-10 pt-0">
 								<div className="text-blueGray-400 text-center mb-3 font-bold">
@@ -104,7 +120,7 @@ export default function Login() {
 											type="submit"
 										>
 											Sign In
-										</button>
+										</button> 
 									</div>
 								</form>
 							</div>

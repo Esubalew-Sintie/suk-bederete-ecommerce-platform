@@ -1,12 +1,12 @@
 "use client"
 import React,{useEffect} from 'react'
-import { useGetWebBuilderQuery,useGetPageQuery, useGetWebBuildersQuery } from '@/lib/features/webBuilder/webBuilder';
+import { useGetWebBuilderQuery,useGetCustomisedPageQuery, useGetWebBuildersQuery } from '@/lib/features/webBuilder/webBuilder';
 function PreviewPage({params}) {
 const templateId = params.templetId;
-
-const pageId = params.pageId;
-
-const { data, isLoading: templateLoading } = useGetPageQuery({ templateId, pageId });
+console.log(templateId)
+const pageName = params.pageName;
+console.log(pageName)
+const { data, isLoading: templateLoading } = useGetCustomisedPageQuery({ templateId, pageName });
 useEffect(()=>{
   const handleClick = (event) =>{
     if (event.target.matches('#shop_now')){
