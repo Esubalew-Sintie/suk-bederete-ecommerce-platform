@@ -4,50 +4,57 @@ import ShopItem from "./Shopitem";
 import Searchbox from "./Searchbox";
 import Banner from "./Banner";
 import ProductSlider from "./ProductSlider";
+import Footer from "../Footers/Footer";
 
 const ShopCategory = () => {
   return (
-    <div className="">
-      <Banner />
-      <div className="  max-w-[90vw] mx-auto mt-14">
-        <div className="w-full ">
-          <Searchbox />{" "}
+    <>
+      <div className="">
+        <Banner />
+
+        <div className="  max-w-[90vw] mx-auto mt-14">
+          <div className="w-full ">
+            <Searchbox />{" "}
+          </div>
         </div>
-      </div>
-      <div className="group flex md:text-3xl items-center justify-center my-10 text-[#9a8d69] sm:text-2xl font-light">
-        <span className="w-[30%] border-[#a2a877] border-t-[1px] ">
-          <hr />
-        </span>
-        <span className="border border-[#a2a877] py-3 px-4 rounded-full">
-          Top Rated Shops{" "}
-        </span>
-        <span className="w-[30%] border-[#a2a877] border-t-[1px]">
-          <hr />
-        </span>
-      </div>
-      <div className="mx-auto  w-[95vw]">
-        <ProductSlider />
-      </div>
-      <div className="  max-w-[90vw] mx-auto mt-14">
-        <div className="flex text-3xl items-center justify-center my-10 text-[#a2a877] sm:2xl font-light">
-          <span className="w-[30%] border-[#a2a877] border-t-[1px] ">
-            <hr />
+        <div className="group flex md:text-2xl items-center justify-center my-10 text-[#1E293B] sm:text-xl font-normal">
+          <span className="w-[30%] border-[#1E293B] border-t-[1px] ">
+            <hr className="border-none  " />
           </span>
-          <span className="border border-[#a2a877] py-3 px-4 rounded-full">
-            All shops{" "}
+          <span className="border border-[#1E293B] py-2 px-4 rounded-full">
+            Top Rated Shops{" "}
           </span>
-          <span className="w-[30%] border-[#a2a877] border-t-[1px]">
-            <hr />
+          <span className="w-[30%] border-[#1E293B] border-t-[1px]">
+            <hr className="border-none  " />
           </span>
         </div>
-        <div className="flex flex-wrap">
-          <ShopItem />
-          <ShopItem />
-          <ShopItem />
-          <ShopItem />
+        <div className="mx-auto  w-[95vw]">
+          <ProductSlider />
+        </div>
+        <div className="  max-w-[90vw] mx-auto my-14">
+          <div className="flex  items-center justify-center my-10 text-[#1E293B] md:text-2xl sm:xl font-normal">
+            <span className="w-[30%] border-[#1E293B] border-t-[1px] ">
+              <hr className="border-none" />
+            </span>
+            <span className="border border-[#1E293B] py-2 px-4 rounded-full">
+              All shops{" "}
+            </span>
+            <span className="w-[30%] border-[#1E293B] border-t-[1px]">
+              <hr />
+            </span>
+          </div>
+          <div className="flex flex-wrap ">
+            <ShopItem />
+            <ShopItem />
+            <ShopItem />
+            <ShopItem />
+            <ShopItem />
+            <ShopItem />
+          </div>
         </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 
