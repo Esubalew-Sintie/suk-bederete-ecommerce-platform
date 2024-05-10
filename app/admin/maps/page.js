@@ -7,7 +7,7 @@ import MapExample from "@/app/components/Maps/MapExample.js";
 // layout for page
 
 
-import Admin from "@/app/layouts/Admin";
+import {Admin} from "@/app/layouts/Admin";
 export default function Maps() {
   return (
     <>

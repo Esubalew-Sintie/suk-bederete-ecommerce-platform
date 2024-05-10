@@ -1,0 +1,463 @@
+[33mcommit 964b6156f4c0c74b0e7c5992ec14547172226fce[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Author: Berihun <taberihun07@gmail.com>
+Date:   Fri Apr 12 15:09:48 2024 +0300
+
+    some modifications
+
+[33mcommit 17afa0e4f2fb1fb838442467e8346a493d0d7bd0[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: a5bcfbf ecf3fbe
+Author: Berihun <105263776+Berihun101@users.noreply.github.com>
+Date:   Fri Apr 12 08:23:38 2024 +0300
+
+    Merge pull request #49 from Berihun101/berihun15
+    
+    backend integration
+
+[33mcommit ecf3fbec0c951d2bd40c8a64c891547857437f94[m[33m ([m[1;31morigin/berihun15[m[33m, [m[1;32mberihun15[m[33m)[m
+Author: Berihun <taberihun07@gmail.com>
+Date:   Fri Apr 12 08:19:01 2024 +0300
+
+    backend integration
+
+[33mcommit a5bcfbfb43c07e5d88ce85ff36567b2171b8e5ed[m
+Merge: 3213b8e 00f6fec
+Author: Ashe-bin <118310102+Ashe-bin@users.noreply.github.com>
+Date:   Fri Apr 12 07:41:08 2024 +0300
+
+    Merge pull request #48 from Berihun101/br
+    
+    added additional feature
+
+[33mcommit 00f6fec649ddad1e287436013f107b8ecbb58dcc[m[33m ([m[1;31morigin/br[m[33m)[m
+Author: Ashe-bin <118310102+Ashe-bin@users.noreply.github.com>
+Date:   Fri Apr 12 07:39:57 2024 +0300
+
+    add additionalfeature
+
+[33mcommit 3213b8e19fa4130d4e8c1f193e363bb8b1743390[m
+Merge: 22a1228 8b5947c
+Author: Esubalew Sintie <118625541+Esubalew-Sintie@users.noreply.github.com>
+Date:   Thu Apr 11 12:33:04 2024 +0300
+
+    Merge pull request #47 from Berihun101/promptEdited
+    
+    prompt edited
+
+[33mcommit 8b5947c5e6227e9a53a0df3f70a28c1d420f2b7e[m[33m ([m[1;31morigin/promptEdited[m[33m)[m
+Author: Esubalew sintie <esubalewsintie77@gmail.com>
+Date:   Thu Apr 11 12:31:16 2024 +0300
+
+    prompt edited
+
+[33mcommit a33f3229e4927c0c50b6434152cfac887c9c353e[m
+Author: Ashe-bin <118310102+Ashe-bin@users.noreply.github.com>
+Date:   Thu Apr 11 08:56:08 2024 +0300
+
+    some mod
+
+[33mcommit 22a1228f3b0d58f07d669c8b1de8d04c5483a363[m
+Merge: c38316d 6e2c7b5
+Author: Ashe-bin <118310102+Ashe-bin@users.noreply.github.com>
+Date:   Thu Apr 11 08:19:59 2024 +0300
+
+    Merge pull request #46 from Berihun101/br
+    
+    list of shops page
+
+[33mcommit 6e2c7b51adbd2a86b321bf833ed78755cb86b963[m
+Author: Ashe-bin <118310102+Ashe-bin@users.noreply.github.com>
+Date:   Thu Apr 11 08:18:59 2024 +0300
+
+    list of shops implementation
+
+[33mcommit c38316d1376fb07b77e9201ba2148e73f6c3b433[m
+Merge: 562689a 5775aa6
+Author: Esubalew Sintie <118625541+Esubalew-Sintie@users.noreply.github.com>
+Date:   Wed Apr 10 00:13:32 2024 +0300
+
+    Merge pull request #45 from Berihun101/prompt
+    
+    prompt
+
+[33mcommit 5775aa69e403227c31d3799e480432f33742a711[m[33m ([m[1;31morigin/prompt[m[33m)[m
+Author: Esubalew_Sintie <esubalewsintie28@gmail.com>
+Date:   Wed Apr 10 00:11:19 2024 +0300
+
+    prompt
+
+[33mcommit 562689a4e1ba403f5b57cd296873ec8bb2d82924[m
+Merge: 6cf24d2 2d09140
+Author: Berihun <105263776+Berihun101@users.noreply.github.com>
+Date:   Mon Apr 8 23:29:21 2024 +0300
+
+    Merge pull request #44 from Berihun101/berihun14
+    
+    Berihun14
+
+[33mcommit 2d0914005037fd3052702a9f9196ed487ff1e3e6[m[33m ([m[1;31morigin/berihun14[m[33m, [m[1;32mberihun14[m[33m)[m
+Merge: 2797e78 6cf24d2
+Author: Berihun <taberihun07@gmail.com>
+Date:   Mon Apr 8 23:23:24 2024 +0300
+
+    conflict resolved
+
+[33mcommit 2797e78330957448b610f286c2ccc78cc1febe62[m
+Author: Berihun <taberihun07@gmail.com>
+Date:   Mon Apr 8 22:50:23 2024 +0300
+
+    periview functionality works
+
+[33mcommit 6cf24d278738d15384c4b8a793f11e7e5c32e509[m
+Merge: 919655a 2d08942
+Author: Ashe-bin <118310102+Ashe-bin@users.noreply.github.com>
+Date:   Mon Apr 8 22:04:56 2024 +0300
+
+    Merge pull request #43 from Berihun101/br
+    
+    added on publish feature
+
+[33mcommit 2d08942745dc7c1f6deb25ce2927e9ed133ae8f6[m
+Author: Ashe-bin <118310102+Ashe-bin@users.noreply.github.com>
+Date:   Mon Apr 8 22:03:47 2024 +0300
+
+    added on publish feature
+
+[33mcommit 919655a580727003130ecd8e312d791cf579bbdc[m
+Merge: a15e3b7 dbdaabb
+Author: Ashe-bin <118310102+Ashe-bin@users.noreply.github.com>
+Date:   Mon Apr 8 13:15:15 2024 +0300
+
+    Merge pull request #42 from Berihun101/br
+    
+    saving button notification
+
+[33mcommit dbdaabb5020aaaee0f5405fc64b378bef9411c7a[m
+Author: Ashe-bin <118310102+Ashe-bin@users.noreply.github.com>
+Date:   Mon Apr 8 13:11:32 2024 +0300
+
+    saving button notification
+
+[33mcommit a15e3b7325f964e9d5de10c6332f9a711a55211b[m
+Author: Berihun <taberihun07@gmail.com>
+Date:   Sat Apr 6 12:00:32 2024 +0300
+
+    little modification
+
+[33mcommit d212ad4a03492c150d142a08241275b1aed4804c[m
+Merge: 46134b9 06fad3c
+Author: Berihun <105263776+Berihun101@users.noreply.github.com>
+Date:   Sat Apr 6 11:54:12 2024 +0300
+
+    Merge pull request #41 from Berihun101/berihun13
+    
+    model modification result of front end modification
+
+[33mcommit 06fad3c80f6b5f248d1bdbc29b88380f1721be87[m[33m ([m[1;31morigin/berihun13[m[33m, [m[1;32mberihun13[m[33m)[m
+Author: Berihun <taberihun07@gmail.com>
+Date:   Sat Apr 6 11:34:12 2024 +0300
+
+    model modification result of front end modification
+
+[33mcommit 46134b920b24d13c818a45aaffb8189330220a30[m
+Merge: 630487b 2227abe
+Author: Esubalew Sintie <118625541+Esubalew-Sintie@users.noreply.github.com>
+Date:   Thu Apr 4 19:41:33 2024 +0300
+
+    Merge pull request #40 from Berihun101/addPageHo
+    
+    Add providetags
+
+[33mcommit 2227abef73beeea763f614916b61ad7cd332cea2[m[33m ([m[1;31morigin/addPageHo[m[33m)[m
+Author: Esubalew_Sintie <esubalewsintie28@gmail.com>
+Date:   Thu Apr 4 19:40:59 2024 +0300
+
+    Add providetags
+
+[33mcommit 630487b06dbdb5aef24361d526894d8f1f14f185[m
+Merge: 41a84bd 3fc324b
+Author: Esubalew Sintie <118625541+Esubalew-Sintie@users.noreply.github.com>
+Date:   Thu Apr 4 19:38:14 2024 +0300
+
+    Merge pull request #39 from Berihun101/addPageHoo
+    
+    Add e
+
+[33mcommit 3fc324bcdac9431771d98d9489c77a480ef1487e[m[33m ([m[1;31morigin/addPageHoo[m[33m)[m
+Author: Esubalew_Sintie <esubalewsintie28@gmail.com>
+Date:   Thu Apr 4 19:37:36 2024 +0300
+
+    Add e
+
+[33mcommit 41a84bde115d65d944c55c9aa3379db0c28e50da[m
+Merge: 4b4c96a dfe409c
+Author: Esubalew Sintie <118625541+Esubalew-Sintie@users.noreply.github.com>
+Date:   Thu Apr 4 19:35:40 2024 +0300
+
+    Merge pull request #38 from Berihun101/addPageHook
+    
+    Add page
+
+[33mcommit dfe409c98dfab1a657d7192dfe4d23c280d6f8b3[m[33m ([m[1;31morigin/addPageHook[m[33m)[m
+Author: Esubalew_Sintie <esubalewsintie28@gmail.com>
+Date:   Thu Apr 4 19:34:29 2024 +0300
+
+    Add page
+
+[33mcommit 4b4c96a61b57756a3776a1f17eaafd94ce0ad4fb[m
+Merge: be6708d 9e85798
+Author: Berihun <105263776+Berihun101@users.noreply.github.com>
+Date:   Thu Apr 4 10:27:50 2024 +0300
+
+    Merge pull request #37 from Berihun101/berihun12
+    
+    save and preiview button functionality
+
+[33mcommit 9e85798a0e66bf709a8e0d8797e7f88caf7e2ec8[m[33m ([m[1;31morigin/berihun12[m[33m, [m[1;32mberihun12[m[33m)[m
+Author: Berihun <taberihun07@gmail.com>
+Date:   Thu Apr 4 10:25:31 2024 +0300
+
+    save and periview button functionality
+
+[33mcommit be6708d9b0d131327447e10fc59fbd508ea71da9[m
+Merge: 52a688a 8f32bd8
+Author: Ashe-bin <118310102+Ashe-bin@users.noreply.github.com>
+Date:   Thu Mar 28 01:51:48 2024 +0300
+
+    Merge pull request #36 from Berihun101/b
+    
+    custom block preview
+
+[33mcommit 8f32bd8c3b1cff0ab77e267b7dcbe75796ab79d0[m[33m ([m[1;31morigin/b[m[33m)[m
+Author: Ashe-bin <118310102+Ashe-bin@users.noreply.github.com>
+Date:   Thu Mar 28 01:50:14 2024 +0300
+
+    some changes
+
+[33mcommit 52a688acdc36bd46330f341364d9a06c5f80af2f[m
+Merge: 7b3c4ae b11dabc
+Author: Esubalew Sintie <118625541+Esubalew-Sintie@users.noreply.github.com>
+Date:   Wed Mar 27 14:10:12 2024 +0300
+
+    Merge pull request #35 from Berihun101/updateTemplate
+    
+    update tamplate hook
+
+[33mcommit b11dabc9585c76267a038e8b94cb25badc663d0e[m[33m ([m[1;31morigin/updateTemplate[m[33m)[m
+Merge: 3845308 7b3c4ae
+Author: Esubalew_Sintie <esubalewsintie28@gmail.com>
+Date:   Wed Mar 27 14:08:20 2024 +0300
+
+    update tamplate hook
+
+[33mcommit 3845308e0f84f22c674a898e839022b6cec97e5f[m
+Author: Esubalew_Sintie <esubalewsintie28@gmail.com>
+Date:   Wed Mar 27 12:29:17 2024 +0300
+
+    update tamplate hook
+
+[33mcommit 7b3c4ae41e4d61c27483da49d151b97c6d45139d[m
+Merge: 9732e26 c2c9992
+Author: Ashe-bin <118310102+Ashe-bin@users.noreply.github.com>
+Date:   Tue Mar 26 23:12:19 2024 +0300
+
+    Merge pull request #34 from Berihun101/ply
+    
+    custom block commit
+
+[33mcommit c2c9992580d619e883f51593041d8fff99b9bf3d[m[33m ([m[1;31morigin/ply[m[33m)[m
+Merge: 30ec733 9732e26
+Author: Ashe-bin <118310102+Ashe-bin@users.noreply.github.com>
+Date:   Tue Mar 26 23:10:37 2024 +0300
+
+    resolve changes
+
+[33mcommit 30ec7336d6ac32911fbeaacae9fcb1801c509e9d[m
+Author: Ashe-bin <118310102+Ashe-bin@users.noreply.github.com>
+Date:   Tue Mar 26 22:21:31 2024 +0300
+
+    blocks
+
+[33mcommit 9732e26afadaea0026cf56ac947c2d895e15fa4b[m
+Merge: 67e195c aba3163
+Author: Berihun <105263776+Berihun101@users.noreply.github.com>
+Date:   Tue Mar 26 02:35:44 2024 +0300
+
+    Merge pull request #33 from Berihun101/berihun11
+    
+    my commit
+
+[33mcommit aba316313006367418f89e91bc96152b9a6b0d9c[m[33m ([m[1;31morigin/berihun11[m[33m, [m[1;32mberihun11[m[33m)[m
+Author: Berihun <taberihun07@gmail.com>
+Date:   Tue Mar 26 02:34:12 2024 +0300
+
+    my commit
+
+[33mcommit 67e195c7149e8a9e502c2a3e12334a9636c76e06[m
+Merge: 380fa22 e4e60c9
+Author: Esubalew Sintie <118625541+Esubalew-Sintie@users.noreply.github.com>
+Date:   Mon Mar 25 23:17:01 2024 +0300
+
+    Merge pull request #32 from Berihun101/FetchTemplateCompleted
+    
+    fetch template completed
+
+[33mcommit e4e60c9f936c5d65940e7f07a6940f7903b1c104[m[33m ([m[1;31morigin/FetchTemplateCompleted[m[33m)[m
+Merge: 86d7432 380fa22
+Author: Esubalew_Sintie <esubalewsintie28@gmail.com>
+Date:   Mon Mar 25 23:13:22 2024 +0300
+
+    esube commit
+
+[33mcommit 86d7432ccb96d9123e8d1a5c51a3ea35a7d74048[m
+Author: Esubalew_Sintie <esubalewsintie28@gmail.com>
+Date:   Mon Mar 25 23:03:49 2024 +0300
+
+    fetch template completed
+
+[33mcommit 380fa22381e02e7a80e734afac536749a009bf52[m
+Merge: f77ee7a e15bb85
+Author: Esubalew Sintie <118625541+Esubalew-Sintie@users.noreply.github.com>
+Date:   Mon Mar 25 21:55:44 2024 +0300
+
+    Merge pull request #31 from Berihun101/FetchTemplate
+    
+    fetch template
+
+[33mcommit e15bb8524768769590dea271bbed4d1f79d2fa85[m[33m ([m[1;31morigin/FetchTemplate[m[33m)[m
+Author: Esubalew_Sintie <esubalewsintie28@gmail.com>
+Date:   Mon Mar 25 21:40:08 2024 +0300
+
+    fetch template
+
+[33mcommit f77ee7aaf84711cffe454d3d668c2d6780dc5cb5[m
+Merge: cb4c038 619caaa
+Author: Berihun <105263776+Berihun101@users.noreply.github.com>
+Date:   Mon Mar 25 21:37:04 2024 +0300
+
+    Merge pull request #30 from Berihun101/berihun10
+    
+    daynamic content of theme
+
+[33mcommit 619caaa59048070c99a3444bb908560692d026d2[m[33m ([m[1;31morigin/berihun10[m[33m, [m[1;32mberihun10[m[33m)[m
+Author: Berihun <taberihun07@gmail.com>
+Date:   Mon Mar 25 21:35:58 2024 +0300
+
+    daynamic content of theme
+
+[33mcommit cb4c0382a5380fee9dc78eb86b6b8b3d1c2abea7[m
+Merge: 6a4f6aa 2d81709
+Author: Berihun <105263776+Berihun101@users.noreply.github.com>
+Date:   Wed Mar 20 20:34:48 2024 +0300
+
+    Merge pull request #29 from Berihun101/berihun9
+    
+    Berihun9
+
+[33mcommit 2d81709953fb2681bac17d83165e1d3ece598d21[m[33m ([m[1;31morigin/berihun9[m[33m, [m[1;32mberihun9[m[33m)[m
+Merge: 534171a 6a4f6aa
+Author: Berihun <taberihun07@gmail.com>
+Date:   Wed Mar 20 20:33:59 2024 +0300
+
+    some modifications
+
+[33mcommit 534171a03e27399793b6256e3b11825eef0286c4[m
+Author: Berihun <taberihun07@gmail.com>
+Date:   Wed Mar 20 18:56:15 2024 +0300
+
+    site_builder modification
+
+[33mcommit 6a4f6aaf0a625f466a1beabe75614cc8db1aa2a0[m
+Merge: 1ead147 cf0d243
+Author: Esubalew Sintie <118625541+Esubalew-Sintie@users.noreply.github.com>
+Date:   Sat Mar 16 20:27:44 2024 +0300
+
+    Merge pull request #28 from Berihun101/setupListeners
+    
+    Setup listeners
+
+[33mcommit cf0d24333bafaa626df89006db45fac9b19563fc[m[33m ([m[1;31morigin/setupListeners[m[33m, [m[1;31morigin/setup-redux[m[33m)[m
+Author: Esubalew_Sintie <esubalewsintie28@gmail.com>
+Date:   Sat Mar 16 20:24:29 2024 +0300
+
+    editing setup listnerx
+
+[33mcommit ae494e2aed09316b7a5a2c4a6abbde7a489310aa[m
+Author: Esubalew_Sintie <esubalewsintie28@gmail.com>
+Date:   Sat Mar 16 20:08:31 2024 +0300
+
+    edit
+
+[33mcommit 1ead147f11aba62235840f4530b757e602d238c4[m
+Merge: 48239aa d1d2313
+Author: Esubalew Sintie <118625541+Esubalew-Sintie@users.noreply.github.com>
+Date:   Sat Mar 16 20:03:11 2024 +0300
+
+    Merge pull request #27 from Berihun101/setup-redux
+    
+    SB-8 setup-redux
+
+[33mcommit d1d23130a1d00d2d2b47ba3556fa0a86acaf941b[m
+Author: Esubalew_Sintie <esubalewsintie28@gmail.com>
+Date:   Sat Mar 16 20:00:57 2024 +0300
+
+    SB-8 setup-redux
+
+[33mcommit 48239aa29f41b292304577f1e1c2d54cdc282513[m
+Merge: 4a3f244 f69e6a0
+Author: Ashe-bin <118310102+Ashe-bin@users.noreply.github.com>
+Date:   Fri Mar 15 21:16:15 2024 +0300
+
+    Merge pull request #26 from Berihun101/grp
+    
+    grapejs builder trial
+
+[33mcommit f69e6a0c15577d86b63fb97551393b03db2194ae[m[33m ([m[1;31morigin/grp[m[33m)[m
+Author: Ashe-bin <118310102+Ashe-bin@users.noreply.github.com>
+Date:   Fri Mar 15 21:15:20 2024 +0300
+
+    grapejs builder trial
+
+[33mcommit 4a3f24455e66d9715e778a47692a1cec5564ca93[m
+Merge: 50ecc05 e29ff60
+Author: Berihun <105263776+Berihun101@users.noreply.github.com>
+Date:   Tue Mar 12 20:51:44 2024 +0300
+
+    Merge pull request #25 from Berihun101/berihun8
+    
+    new plugin add
+
+[33mcommit e29ff608c81d3fa9703cf4fa88131b9b077b15b5[m[33m ([m[1;31morigin/berihun8[m[33m, [m[1;32mberihun8[m[33m)[m
+Author: Berihun <taberihun07@gmail.com>
+Date:   Tue Mar 12 20:50:18 2024 +0300
+
+    new plugin add
+
+[33mcommit 50ecc0543de6b6fc25e8b3a7a6cceda8c0877d88[m
+Merge: 9e6e225 786f5b1
+Author: Berihun <105263776+Berihun101@users.noreply.github.com>
+Date:   Tue Mar 12 14:02:29 2024 +0300
+
+    Merge pull request #24 from Berihun101/berihun6
+    
+    site builder creation
+
+[33mcommit 786f5b1cd262ab39eb13cb63dc11054d3fb175f0[m[33m ([m[1;31morigin/berihun6[m[33m, [m[1;32mberihun6[m[33m)[m
+Author: Berihun <taberihun07@gmail.com>
+Date:   Tue Mar 12 13:58:15 2024 +0300
+
+    site builder creation
+
+[33mcommit 9e6e225f7e4921b23d5083cd51124c563d17fd17[m
+Merge: a16fede 9c6a5fb
+Author: Berihun <105263776+Berihun101@users.noreply.github.com>
+Date:   Sat Mar 9 21:50:00 2024 +0300
+
+    Merge pull request #23 from Berihun101/berihun7
+    
+    some changes
+
+[33mcommit 9c6a5fb6be870ef9b5eb583b40d2301062b105df[m[33m ([m[1;31morigin/berihun7[m[33m, [m[1;32mberihun7[m[33m)[m
+Author: Berihun <taberihun07@gmail.com>
+Date:   Sat Mar 9 21:48:54 2024 +0300
+
+    some changes
