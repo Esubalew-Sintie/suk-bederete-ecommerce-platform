@@ -11,17 +11,16 @@ import {
 import {Input} from "@/components/ui/input";
 import {Label} from "@/components/ui/label";
 import {LiaSitemapSolid} from "react-icons/lia";
-import {AddItemForm} from "./AddItemForm";
-import Order from "../../Tables/orderDetial";
+import Order from "../Tables/orderDetial";
 
-export function DialogDemo() {
+export function DialogDemo({action}) {
 	return (
 		<Dialog className="overflow-y-auto">
 			<DialogTrigger asChild>
-				<Button variant="outline" className="flex gap-10">
+				<button  className="flex bg-gray-200 p-2 rounded-lg ">
 					{" "}
-					Detial
-				</Button>
+				{action}
+				</button>
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-[900px] h-screen  overflow-y-auto overflow-x-auto">
 				<DialogHeader>

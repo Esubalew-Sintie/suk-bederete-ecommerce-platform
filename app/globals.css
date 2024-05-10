@@ -4372,3 +4372,8 @@ select {
 
 @media (min-width: 1536px) {
 }
+.left{
+    color:'orange';
+    background-color: brown;
+    height: 100%;
+}

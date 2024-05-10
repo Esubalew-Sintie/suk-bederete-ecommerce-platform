@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React from "react";
 import Link from "next/link";
 import { createPopper } from "@popperjs/core";
@@ -14,7 +14,6 @@ const PagesDropdown = () => {
     });
     console.log(dropdownPopoverShow);
     setDropdownPopoverShow(true);
-    
   };
   const closeDropdownPopover = () => {
     console.log(dropdownPopoverShow);
@@ -24,7 +23,6 @@ const PagesDropdown = () => {
     <>
       <button
         className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
-     
         ref={btnDropdownRef}
         onClick={(e) => {
           e.preventDefault();
@@ -47,45 +45,33 @@ const PagesDropdown = () => {
         >
           Admin Layout
         </span>
-        <Link href="/admin/dashboard">
-          <Link
-            href="#pablo"
+        <Link href="/admin/dashboard"
             className={
               "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
             }
           >
             Dashboard
-          </Link>
         </Link>
-        <Link href="/admin/settings">
-          <Link
-            href="#pablo"
+        <Link href="/admin/settings"
             className={
               "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
             }
           >
             Settings
-          </Link>
         </Link>
-        <Link href="/admin/tables">
-          <Link
-            href="#pablo"
+        <Link href="/admin/tables"
             className={
               "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
             }
           >
             Tables
-          </Link>
         </Link>
-        <Link href="/admin/maps">
-          <Link
-            href="#pablo"
+        <Link href="/admin/maps"
             className={
               "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
             }
           >
             Maps
-          </Link>
         </Link>
         <div className="h-0 mx-4 my-2 border border-solid border-blueGray-100" />
         <span
@@ -95,24 +81,20 @@ const PagesDropdown = () => {
         >
           Auth Layout
         </span>
-        <Link href="/auth/login">
-          <Link
-            href="#pablo"
+        <Link href="/auth/login"
             className={
               "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
             }
           >
             Login
-          </Link>
         </Link>
-        <Link href="/auth/register"  className={
-              "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-            }>
-          
-           
-          
-            Register
-          
+        <Link
+          href="/auth/register"
+          className={
+            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+          }
+        >
+          Register
         </Link>
         <div className="h-0 mx-4 my-2 border border-solid border-blueGray-100" />
         <span
@@ -122,15 +104,12 @@ const PagesDropdown = () => {
         >
           No Layout
         </span>
-        <Link href="/landing">
-          <Link
-            href="#pablo"
+        <Link href="/landing"
             className={
               "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
             }
           >
             Landing
-          </Link>
         </Link>
         <Link href="/profile">
           <Link

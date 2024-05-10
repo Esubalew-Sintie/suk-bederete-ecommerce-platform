@@ -11,7 +11,7 @@ import CardSocialTraffic from "@/app/components/Cards/CardSocialTraffic.js";
 
 import {Admin} from "@/app/layouts/Admin";
 
-export default function Dashboard() {
+export default function AnalyticPage() {
   return (
     <Admin>
       <div className="flex flex-wrap">

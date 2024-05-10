@@ -5,6 +5,7 @@ import Link from "next/link";
 // layout for page
 
 import Auth from "../../layouts/Auth";
+
 import {Prompt} from "@/app/components/Prompt/Prompt";
 import { useLoginMutation } from "@/lib/features/auth/authMerchant";
 import { useRouter } from "next/navigation";
@@ -146,4 +147,5 @@ export default function Login() {
 			</div>
 		</Auth>
 	);
+
 }
