@@ -13,7 +13,9 @@ import Link from "next/link";
 import {
   useGetWebBuilderQuery,
   useUpdatePageContentMutation,
-  useCustomisedTemplateMutation
+  useCustomisedTemplateMutation,
+  useGetCustomizedTemplateQuery,
+  useUpdatecustomizedTemplateMutation
 } from "@/lib/features/webBuilder/webBuilder";
 import {
   useCreateShopMutation,
@@ -22,6 +24,7 @@ import {
 import { toast } from "react-hot-toast";
 import CustomToaster from "@/app/components/sitebuilder/Toaster/Toaster";
 import { AlertDialogDemo } from "./AlertDialoge";
+import {useSelector} from "react-redux";
 
 const filterAssets = (assets, group) => {
   const images = assets
@@ -41,8 +44,18 @@ const filterAssets = (assets, group) => {
 
 const WithGrapesjs = ({ data, page, templateId }) => {
   const [pageContent, setpageContent] = useState({});
-  const [createShop, { isLoading, isError, error }] = useCreateShopMutation();
-  //   console.log(templateId);
+  const [createShop, { isLoading:iscreateshopLoading, isError, error:createShopError }] = useCreateShopMutation();
+  const [merchantId, setMerchantId] = useState(null);
+ const [customizedTemplateData, setCustomizedTemplateData] = useState(null);
+ const [isLoading, setIsLoading] = useState(false);
+ const [originalTemplate, setOriginalTemplate] = useState(null);
+ const [error, setError] = useState(null);
+ 
+ const [triggerRequest, setTriggerRequest] = useState(false);
+ const { data: customizedTemplateDataHook, isLoading: isLoadingQuery, error: queryError } = useGetCustomizedTemplateQuery(merchantId);
+ const {data: template, isLoading: templateLoading} = useGetWebBuilderQuery(templateId);
+ const modifier_merchant = useSelector(state => state.merchant);
+ 
   const handlePageChange = (e) => {
     const selectedPageName = e.target.value;
     const selectedPage = page.find((pa) => pa.name === selectedPageName);
@@ -104,7 +117,7 @@ const WithGrapesjs = ({ data, page, templateId }) => {
     if (data) {
       const homePage = data.find((page) => page.name === "home");
       const pageToRender = homePage || data[0]; // If home page not found, render the first page
-      console.log(pageToRender.content.html);
+      
       setInitialComponents({
         html: pageToRender?.content.html,
         css: pageToRender?.content.css,
@@ -166,7 +179,7 @@ const WithGrapesjs = ({ data, page, templateId }) => {
 
     // Set initial HTML in builder using the updated data
     editor.setComponents(pageToRender?.content.html);
-    console.log(pageToRender);
+    
 
     // Setting CSS
     editor.setStyle(pageToRender?.content.css);
@@ -342,65 +355,100 @@ const WithGrapesjs = ({ data, page, templateId }) => {
     window.open(data.live_url, "_blank");
   };
 
-  const [customisedTemplate, { isLoading: isUpdating }] =
-  useCustomisedTemplateMutation();
-
-  const updatePageHandler = async () => {
-    toast.dismiss();
-    const loadingToast = toast.loading("Saving...", { duration: 500 });
-    try {
-      const modifiedPagesData = {};
-
-      page.forEach(pa => {
-        modifiedPagesData[pa.name] = {
-          html: editor.getHtml(),
-          css: editor.getCss(),
-          js: pa.js,
-        };
-      });
-
-      // const templateContent = {
-      //   html: editor.getHtml(),
-      //   css: editor.getCss(),
-      // };
-
-      await customisedTemplate({CustomtemplateId: templateId, modifiedPages: modifiedPagesData }).unwrap();
-
-      // Handle the successful response
-      
-      setTimeout(() => {
-        toast.success("Saved successfully");
-      }, 500);
-    } catch (error) {
-      // Handle any errors
-      console.error("Error updating template:", error);
-      setTimeout(() => {
-        toast.error("Saving failed");
-      }, 1000);
-    }
-  };
-  const publishHandlerOnSave = async () => {
-    try {
-      await updatePageHandler(); // This updates the page content
+  const [customisedTemplate, { isLoading: isCreating }] = useCustomisedTemplateMutation();
+  const [updateCustomizedTemplate, { isLoading:isUpdating }] = useUpdatecustomizedTemplateMutation();
   
-      // Assuming you have the shop name and template ID ready
+   useEffect(()=>{
+    const storedmerchantId = localStorage.getItem('unique_id');
+    setMerchantId(storedmerchantId)
+   }, [])
+
+   useEffect(() => {
+    if (triggerRequest) {
+      updatePageHandler().then(() => {
+        setTriggerRequest(false); // Reset trigger after handling request
+      }).catch(err => {
+        console.error("Error updating template:", err);
+        toast.error("Saving failed");
+        setTriggerRequest(false); // Reset trigger on error
+      });
+    }
+  }, [triggerRequest]);
+
+ const updatePageHandler = async (isPublish = false) => {
+  toast.dismiss();
+  const loadingToast = toast.loading("Saving...", { duration: 500 });
+  try {
+    const modifiedPagesData = {};
+
+    page.forEach(pa => {
+      modifiedPagesData[pa.name] = {
+        html: editor.getHtml(),
+        css: editor.getCss(),
+        js: pa.js,
+      };
+    });
+
+    // Use the state variables instead of directly calling the hook
+     if (queryError && queryError.status === 404) {
+      console.log("Customized template does not exist for the given merchant ID");
+      // Create a new customized template since the existing one does not exist
+       const storedmerchantId = localStorage.getItem('unique_id');
+      await customisedTemplate({ originalTemplateId: templateId, modifiedMerhant:storedmerchantId ,modifiedPages: modifiedPagesData }).unwrap();
+    } else if (customizedTemplateDataHook) {
+      console.log("Exists");
+      const customizedTemplateId = customizedTemplateDataHook.id;
+      
+      // Update the existing customized template
+      await updateCustomizedTemplate({ CustomtemplateId: customizedTemplateId, modifiedPages: modifiedPagesData }).unwrap();
+    }
+
+    if (isPublish) {
+      // Publish the shop
       const shopName = "My New Shop"; // This should be dynamically set based on your form or state
       const shopTemplateId = templateId; // This should be dynamically set based on your form or state
-      const shopHtml = editor.getHtml(); // Corrected variable name and removed extra comma
-      const shopCss = editor.getCss(); // Corrected variable name and removed extra comma
-      
-      // Assuming createShop now expects html, css, and js as part of the payload
+      const shopHtml = editor.getHtml();
+      const shopCss = editor.getCss();
+
       await createShop({ name: shopName, templateId: shopTemplateId, html: shopHtml, css: shopCss });
-  
       toast.success("Shop published successfully");
       setTimeout(() => {
-          router.push("/admin/dashboard");
+        router.push("/admin/dashboard");
       }, 3000);
+    } else {
+      // Just save the template
+      toast.success("Saved successfully");
+    }
   } catch (error) {
-      console.error("Error publishing shop:", error);
-      toast.error("Failed to publish shop");
+    console.error("Error updating template:", error);
+    setTimeout(() => {
+      toast.error("Saving failed");
+    }, 1000);
   }
-   };
+};
+  
+  // const publishHandlerOnSave = async () => {
+  //   try {
+  //     await updatePageHandler(); // This updates the page content
+  
+  //     // Assuming you have the shop name and template ID ready
+  //     const shopName = "My New Shop"; // This should be dynamically set based on your form or state
+  //     const shopTemplateId = templateId; // This should be dynamically set based on your form or state
+  //     const shopHtml = editor.getHtml(); // Corrected variable name and removed extra comma
+  //     const shopCss = editor.getCss(); // Corrected variable name and removed extra comma
+      
+  //     // Assuming createShop now expects html, css, and js as part of the payload
+  //     await createShop({ name: shopName, templateId: shopTemplateId, html: shopHtml, css: shopCss });
+  
+  //     toast.success("Shop published successfully");
+  //     setTimeout(() => {
+  //         router.push("/admin/dashboard");
+  //     }, 3000);
+  // } catch (error) {
+  //     console.error("Error publishing shop:", error);
+  //     toast.error("Failed to publish shop");
+  // }
+  //  };
   const publishHandlerNoSave = () => {
     router.push("/admin/dashboard");
   };
@@ -471,7 +519,7 @@ const WithGrapesjs = ({ data, page, templateId }) => {
         <div className="panel-action">
           <button
             className="btn btn-primary"
-            onClick={() => updatePageHandler()}
+            onClick={() => setTriggerRequest(true)}
           >
             Save
           </button>
@@ -486,13 +534,13 @@ const WithGrapesjs = ({ data, page, templateId }) => {
           </button> */}
           <AlertDialogDemo
             button="publish"
-            publishSaveClick={publishHandlerOnSave}
+            publishSaveClick={() => updatePageHandler(true)}
             publishCancelClick={publishHandlerNoSave}
           />
           {/* </Link> */}
           {pageContent.id && (
             <Link
-              href={`/preview/${templateId}/${pageContent.id}`}
+              href={`/preview/${customizedTemplateDataHook.id}/${pageContent.name}`}
               target="_blank"
               rel="noopener noreferrer"
             >
