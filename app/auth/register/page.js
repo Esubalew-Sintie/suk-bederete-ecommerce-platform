@@ -1,3 +1,11 @@
+<<<<<<< HEAD
+"use client";
+import React from "react";
+
+// layout for page
+
+import Auth from "../../layouts/Auth";
+=======
 'use client'
 import React, {useState} from "react";
 import { useRouter } from "next/navigation";
@@ -6,6 +14,7 @@ import { useRouter } from "next/navigation";
 
 import Auth from "../../layouts/Auth"
 import { useRegisterMutation } from "@/lib/features/auth/authMerchant"; 
+>>>>>>> main
 export default function Register() {
   const [register, { isLoading, isError, error }] = useRegisterMutation();
  const [email, setEmail] = useState("");
@@ -124,5 +133,3 @@ export default function Register() {
     </Auth>
   );
 }
-
-

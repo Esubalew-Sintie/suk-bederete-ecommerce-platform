@@ -26,17 +26,16 @@ export default function Index() {
           <div className="container relative mx-auto">
             <div className="items-center flex flex-wrap">
               <Link
-                href='selecttheme'
+                href="selecttheme"
                 className="bg-blueGray-800 text-white hover:bg-blue-200 active:bg-blueGray-600  active:bg-opacity-100 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none  focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                
               >
-               Add Store
+                Create Shop
               </Link>
               <button
                 className="bg-blueGray-800 text-white hover:bg-blue-200 active:bg-blueGray-600  active:bg-opacity-100 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none  focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 type="button"
               >
-                go to store
+                Shops List
               </button>
               <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
                 <div className="pr-12">
@@ -44,9 +43,7 @@ export default function Index() {
                     Your online store start with us.
                   </h1>
                   <p className="mt-4 text-lg text-blueGray-200">
-                    This is a simple example of a Landing Page you can build
-                    using Notus NextJS. It features multiple CSS components
-                    based on the Tailwind CSS design system.
+                    Empower Your Online Business Journey with us
                   </p>
                 </div>
               </div>
@@ -82,10 +79,12 @@ export default function Index() {
                     <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-red-400">
                       <i className="fas fa-award"></i>
                     </div>
-                    <h6 className="text-xl font-semibold">Awarded Agency</h6>
+                    <h6 className="text-xl font-semibold">
+                      Empowering Business Diversity{" "}
+                    </h6>
                     <p className="mt-2 mb-4 text-blueGray-500">
-                      Divide details about your product or agency work into
-                      parts. A paragraph describing a feature will be enough.
+                      Discover a vibrant marketplace where diverse businesses
+                      flourish together, offering a rich array of products.
                     </p>
                   </div>
                 </div>
@@ -97,10 +96,12 @@ export default function Index() {
                     <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-lightBlue-400">
                       <i className="fas fa-retweet"></i>
                     </div>
-                    <h6 className="text-xl font-semibold">Free Revisions</h6>
+                    <h6 className="text-xl font-semibold">
+                      Empowering Entrepreneurs.
+                    </h6>
                     <p className="mt-2 mb-4 text-blueGray-500">
-                      Keep you user engaged by providing meaningful information.
-                      Remember that by this time, the user is curious.
+                      Empowering entrepreneurs to showcase their products and
+                      services effortlessly.
                     </p>
                   </div>
                 </div>
@@ -112,10 +113,9 @@ export default function Index() {
                     <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-emerald-400">
                       <i className="fas fa-fingerprint"></i>
                     </div>
-                    <h6 className="text-xl font-semibold">Verified Company</h6>
+                    <h6 className="text-xl font-semibold">Seamless Shopping</h6>
                     <p className="mt-2 mb-4 text-blueGray-500">
-                      Write a few lines about each one. A paragraph describing a
-                      feature will be enough. Keep you user engaged!
+                      Seamless user experience from shopping to shop management.
                     </p>
                   </div>
                 </div>
@@ -131,15 +131,15 @@ export default function Index() {
                   Working with us is a pleasure
                 </h3>
                 <p className="text-lg font-light leading-relaxed mt-4 mb-4 text-blueGray-600">
-                  Don&apos;t let your uses guess by attaching tooltips and popoves to
-                  any element. Just make sure you enable them first via
-                  JavaScript.
+                  Don&apos;t let your uses guess by attaching tooltips and
+                  popoves to any element. Just make sure you enable them first
+                  via JavaScript.
                 </p>
                 <p className="text-lg font-light leading-relaxed mt-0 mb-4 text-blueGray-600">
                   The kit comes with three pre-built pages to help you get
-                  started faster. You can change the text and images and you&apos;re
-                  good to go. Just make sure you enable them first via
-                  JavaScript.
+                  started faster. You can change the text and images and
+                  you&apos;re good to go. Just make sure you enable them first
+                  via JavaScript.
                 </p>
                 <Link href="/" className="font-bold text-blueGray-700 mt-8">
                   Check Notus NextJS!

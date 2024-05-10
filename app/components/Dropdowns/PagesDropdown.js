@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React from "react";
 import Link from "next/link";
 import { createPopper } from "@popperjs/core";
@@ -14,7 +14,6 @@ const PagesDropdown = () => {
     });
     console.log(dropdownPopoverShow);
     setDropdownPopoverShow(true);
-    
   };
   const closeDropdownPopover = () => {
     console.log(dropdownPopoverShow);
@@ -24,7 +23,6 @@ const PagesDropdown = () => {
     <>
       <button
         className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
-     
         ref={btnDropdownRef}
         onClick={(e) => {
           e.preventDefault();
@@ -90,14 +88,13 @@ const PagesDropdown = () => {
           >
             Login
         </Link>
-        <Link href="/auth/register"  className={
-              "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-            }>
-          
-           
-          
-            Register
-          
+        <Link
+          href="/auth/register"
+          className={
+            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+          }
+        >
+          Register
         </Link>
         <div className="h-0 mx-4 my-2 border border-solid border-blueGray-100" />
         <span
