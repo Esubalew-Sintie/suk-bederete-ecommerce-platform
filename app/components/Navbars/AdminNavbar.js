@@ -31,6 +31,7 @@ export default function Navbar() {
               />
             </div>
           </form>
+          // NotificationDropdown
           {/* User */}
           <ul className="flex-col md:flex-row list-none items-center hidden md:flex">
             <UserDropdown />

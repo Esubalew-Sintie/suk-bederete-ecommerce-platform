@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, {useEffect, useState} from "react";
 
 // components
 
@@ -11,113 +13,100 @@ import CardSocialTraffic from "@/app/components/Cards/CardSocialTraffic.js";
 
 import {AdminWithOutNav} from "@/app/layouts/Admin";
 import EnhancedTable from "@/app/components/Tables/orderList";
-const orders = [
-    {
-      product: "cake1",
-      status: "pending",
-      paymentStatus: "paid",
-      payment: "chapa",
-      shippingMethod: "bdu",
-      amount: "100 ETB",
-      date: "1/5/2024",
-      placedBy: "abebe",
-      action: "edit and delete",
-    },
-    // Additional orders
-    {
-      product: "cake2",
-      status: "shipped",
-      paymentStatus: "unpaid",
-      payment: "mobile money",
-      shippingMethod: "express",
-      amount: "200 ETB",
-      date: "2/5/2024",
-      placedBy: "tadesse",
-      action: "edit and delete",
-    },
-    {
-      product: "donut1",
-      status: "delivered",
-      paymentStatus: "paid",
-      payment: "bank transfer",
-      shippingMethod: "standard",
-      amount: "150 ETB",
-      date: "3/5/2024",
-      placedBy: "selam",
-      action: "edit and delete",
-    },
-    {
-      product: "cookie1",
-      status: "cancelled",
-      paymentStatus: "refunded",
-      payment: "credit card",
-      shippingMethod: "priority",
-      amount: "300 ETB",
-      date: "4/5/2024",
-      placedBy: "yohannes",
-      action: "edit and delete",
-    },
-    {
-      product: "pie1",
-      status: "processing",
-      paymentStatus: "pending",
-      payment: "cash on delivery",
-      shippingMethod: "economy",
-      amount: "250 ETB",
-      date: "5/5/2024",
-      placedBy: "michael",
-      action: "edit and delete",
-    },
-    // Three more orders
-    {
-      product: "brownie1",
-      status: "ready to ship",
-      paymentStatus: "unpaid",
-      payment: "online banking",
-      shippingMethod: "overnight",
-      amount: "75 ETB",
-      date: "6/5/2024",
-      placedBy: "daniel",
-      action: "edit and delete",
-    },
-    {
-      product: "muffin1",
-      status: "preparing",
-      paymentStatus: "paid",
-      payment: "wallet",
-      shippingMethod: "express",
-      amount: "85 ETB",
-      date: "7/5/2024",
-      placedBy: "emma",
-      action: "edit and delete",
-    },
-    {
-      product: "cupcake1",
-      status: "completed",
-      paymentStatus: "refunded",
-      payment: "credit card",
-      shippingMethod: "standard",
-      amount: "120 ETB",
-      date: "8/5/2024",
-      placedBy: "lucas",
-      action: "edit and delete",
-    },
-  ];
-  
-export default function Dashboard() {
-  return (
-    <AdminWithOutNav>
-      <div className="flex flex-wrap">
-        <div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
-          <CardLineChart />
-        </div>
-        <div className="w-full xl:w-4/12 px-4">
-          <CardBarChart />
-        </div>
-      </div>
-      <div className="flex flex-wrap mt-4">
-        <EnhancedTable rows={orders} />
-      </div>
-    </AdminWithOutNav>
-  );
+import Order from "@/app/components/Tables/orderDetial";
+import {orderHeadCells} from "@/util/headCells";
+import Loader from "@/app/components/Prompt/Loader";
+import {toast} from "react-hot-toast";
+
+export default function OrdersPage() {
+	const [orders, setOrders] = useState([]);
+	const [sseConnection, setSseConnection] = useState(null);
+
+	function showOrderNotification() {
+		toast.success("New Order", {
+			description: "A new order has been placed.",
+			duration: 5000, // Duration of the notification in ms
+		});
+	}
+
+	// Fetch initial data
+	useEffect(() => {
+		fetch("http://localhost:8000/order/orders/")
+			.then((response) => response.json())
+			.then((data) => {
+				console.log("Initial orders:", data); // Debugging
+				setOrders(data);
+			})
+			.catch((error) => console.error("Error fetching initial orders:", error));
+	}, []);
+
+	// Establish SSE connection
+	useEffect(() => {
+		const url = "http://localhost:8000/order/stream/";
+		const eventSource = new EventSource(url);
+		setSseConnection(eventSource);
+
+		eventSource.onmessage = (event) => {
+			const newData = JSON.parse(event.data);
+			console.log("New data:", newData); // Debugging
+			// Check if newData is an array and append it to orders
+			if (Array.isArray(newData)) {
+				setOrders((prevOrders) => [...newData]);
+			} else {
+				// If newData is not an array, assume it's a single order and append it
+				setOrders((prevOrders) => [...prevOrders, newData]);
+			}
+			showOrderNotification();
+		};
+
+		eventSource.onerror = (error) => {
+			console.error("EventSource failed:", error);
+			eventSource.close();
+			// Attempt to reconnect or notify the user here
+		};
+
+		return () => {
+			eventSource.close();
+		};
+	}, []);
+
+	return (
+		<AdminWithOutNav>
+			<div className="flex flex-wrap">
+				<div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
+					<CardLineChart />
+				</div>
+				<div className="w-full xl:w-4/12 px-4">
+					<CardBarChart />
+				</div>
+			</div>
+			<div className="flex flex-wrap mt-4">
+				{orders?.length > 0 ? (
+					<EnhancedTable
+						key={orders.length} // Change this key to force a re-render
+						rows={orders}
+						title={"Pending Order"}
+						headCells={orderHeadCells}
+						onButtonClick={(event, row) => console.log("Button clicked", row)} // Placeholder for button click handler
+					/>
+				) : (
+					<Loader />
+				)}
+			</div>
+			<div className="flex flex-wrap mt-4">
+				{orders?.length > 0 ? (
+					<EnhancedTable
+						key={orders.length + 1}
+						rows={orders}
+						title={" delivered Order"}
+						headCells={orderHeadCells}
+						onButtonClick={(event, row) => console.log("Button clicked", row)} // Placeholder for button click handler
+					/>
+				) : (
+					<Loader />
+				)}
+			</div>
+			{/* <Order /> */}
+		</AdminWithOutNav>
+	);
 }
