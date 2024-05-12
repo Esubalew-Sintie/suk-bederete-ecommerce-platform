@@ -392,9 +392,7 @@ const WithGrapesjs = ({ data, page, templateId }) => {
     // Use the state variables instead of directly calling the hook
      if (queryError && queryError.status === 404) {
       console.log("Customized template does not exist for the given merchant ID");
-      // Create a new customized template since the existing one does not exist
-       const storedmerchantId = localStorage.getItem('unique_id');
-      await customisedTemplate({ originalTemplateId: templateId, modifiedMerhant:storedmerchantId ,modifiedPages: modifiedPagesData }).unwrap();
+      await customisedTemplate({ originalTemplateId: templateId, modifiedMerhant:merchantId ,modifiedPages: modifiedPagesData }).unwrap();
     } else if (customizedTemplateDataHook) {
       console.log("Exists");
       const customizedTemplateId = customizedTemplateDataHook.id;
@@ -427,28 +425,7 @@ const WithGrapesjs = ({ data, page, templateId }) => {
   }
 };
   
-  // const publishHandlerOnSave = async () => {
-  //   try {
-  //     await updatePageHandler(); // This updates the page content
   
-  //     // Assuming you have the shop name and template ID ready
-  //     const shopName = "My New Shop"; // This should be dynamically set based on your form or state
-  //     const shopTemplateId = templateId; // This should be dynamically set based on your form or state
-  //     const shopHtml = editor.getHtml(); // Corrected variable name and removed extra comma
-  //     const shopCss = editor.getCss(); // Corrected variable name and removed extra comma
-      
-  //     // Assuming createShop now expects html, css, and js as part of the payload
-  //     await createShop({ name: shopName, templateId: shopTemplateId, html: shopHtml, css: shopCss });
-  
-  //     toast.success("Shop published successfully");
-  //     setTimeout(() => {
-  //         router.push("/admin/dashboard");
-  //     }, 3000);
-  // } catch (error) {
-  //     console.error("Error publishing shop:", error);
-  //     toast.error("Failed to publish shop");
-  // }
-  //  };
   const publishHandlerNoSave = () => {
     router.push("/admin/dashboard");
   };
@@ -540,7 +517,7 @@ const WithGrapesjs = ({ data, page, templateId }) => {
           {/* </Link> */}
           {pageContent.id && (
             <Link
-              href={`/preview/${customizedTemplateDataHook.id}/${pageContent.name}`}
+              href={`/preview/${customizedTemplateDataHook?.id}/${pageContent.name}`}
               target="_blank"
               rel="noopener noreferrer"
             >
