@@ -52,7 +52,7 @@ const WithGrapesjs = ({ data, page, templateId }) => {
  const [error, setError] = useState(null);
  
  const [triggerRequest, setTriggerRequest] = useState(false);
- const { data: customizedTemplateDataHook, isLoading: isLoadingQuery, error: queryError } = useGetCustomizedTemplateQuery(merchantId);
+ const { data: customizedTemplateDataHook, refetch, isLoading: isLoadingQuery, error: queryError } = useGetCustomizedTemplateQuery(merchantId);
  const {data: template, isLoading: templateLoading} = useGetWebBuilderQuery(templateId);
  const modifier_merchant = useSelector(state => state.merchant);
  
@@ -376,6 +376,7 @@ const WithGrapesjs = ({ data, page, templateId }) => {
   }, [triggerRequest]);
 
  const updatePageHandler = async (isPublish = false) => {
+  await refetch()
   toast.dismiss();
   const loadingToast = toast.loading("Saving...", { duration: 500 });
   try {
