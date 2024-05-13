@@ -57,6 +57,7 @@ const WithGrapesjs = ({ data, page, templateId }) => {
   const [triggerRequest, setTriggerRequest] = useState(false);
   const {
     data: customizedTemplateDataHook,
+    refetch,
     isLoading: isLoadingQuery,
     error: queryError,
   } = useGetCustomizedTemplateQuery(merchantId);
@@ -387,6 +388,7 @@ const WithGrapesjs = ({ data, page, templateId }) => {
   }, [triggerRequest]);
 
   const updatePageHandler = async (isPublish = false) => {
+    await refetch();
     toast.dismiss();
     const loadingToast = toast.loading("Saving...", { duration: 500 });
     try {
@@ -405,11 +407,9 @@ const WithGrapesjs = ({ data, page, templateId }) => {
         console.log(
           "Customized template does not exist for the given merchant ID"
         );
-        // Create a new customized template since the existing one does not exist
-        const storedmerchantId = localStorage.getItem("unique_id");
         await customisedTemplate({
           originalTemplateId: templateId,
-          modifiedMerhant: storedmerchantId,
+          modifiedMerhant: merchantId,
           modifiedPages: modifiedPagesData,
         }).unwrap();
       } else if (customizedTemplateDataHook) {
@@ -452,28 +452,6 @@ const WithGrapesjs = ({ data, page, templateId }) => {
     }
   };
 
-  // const publishHandlerOnSave = async () => {
-  //   try {
-  //     await updatePageHandler(); // This updates the page content
-
-  //     // Assuming you have the shop name and template ID ready
-  //     const shopName = "My New Shop"; // This should be dynamically set based on your form or state
-  //     const shopTemplateId = templateId; // This should be dynamically set based on your form or state
-  //     const shopHtml = editor.getHtml(); // Corrected variable name and removed extra comma
-  //     const shopCss = editor.getCss(); // Corrected variable name and removed extra comma
-
-  //     // Assuming createShop now expects html, css, and js as part of the payload
-  //     await createShop({ name: shopName, templateId: shopTemplateId, html: shopHtml, css: shopCss });
-
-  //     toast.success("Shop published successfully");
-  //     setTimeout(() => {
-  //         router.push("/admin/dashboard");
-  //     }, 3000);
-  // } catch (error) {
-  //     console.error("Error publishing shop:", error);
-  //     toast.error("Failed to publish shop");
-  // }
-  //  };
   const publishHandlerNoSave = () => {
     router.push("/admin/dashboard");
   };

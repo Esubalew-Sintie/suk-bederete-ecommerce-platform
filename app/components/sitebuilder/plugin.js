@@ -287,7 +287,7 @@ const loadComponents = (editor, options) => {
       attributes: { class: "block5-preview" },
 
       content: `<div class="flex flex-wrap justify-around w-full px-4">
-  <div class="bg-slate-200 rounded-2xl overflow-hidden shadow-lg min-w-[200px] flex-1 mx-2 my-4" >
+  <div class="bg-slate-200 rounded-2xl overflow-hidden shadow-lg min-w-[200px] flex-1 mx-2 my-4 sm:w-full md:[50%]" >
     <div class="relative px-3 py-3">
         <img style={{height:'10px'}} class="inline-block w-full max-h-72 rounded-lg object-cover mx-auto" src="https://images.pexels.com/photos/4227490/pexels-photo-4227490.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Product Image">
         <div class="absolute top-0 right-0 bg-red-500 text-white px-2 py-1 m-2 rounded-md text-sm font-medium">SALE
