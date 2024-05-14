@@ -20,7 +20,10 @@ import {toast} from "react-hot-toast";
 
 export default function OrdersPage() {
 	const [orders, setOrders] = useState([]);
+	const [notification, setNotification] = useState([]);
+
 	const [sseConnection, setSseConnection] = useState(null);
+	const storedmerchantId = localStorage.getItem("unique_id");
 
 	function showOrderNotification() {
 		toast.success("New Order", {
@@ -31,7 +34,7 @@ export default function OrdersPage() {
 
 	// Fetch initial data
 	useEffect(() => {
-		fetch("http://localhost:8000/order/orders/")
+		fetch(`http://localhost:8000/order/orders/${storedmerchantId}/`)
 			.then((response) => response.json())
 			.then((data) => {
 				console.log("Initial orders:", data); // Debugging
@@ -42,21 +45,51 @@ export default function OrdersPage() {
 
 	// Establish SSE connection
 	useEffect(() => {
-		const url = "http://localhost:8000/order/stream/";
+		console.log("New merchant Id:", storedmerchantId); // Debugging
+
+		const url = `http://localhost:8000/order/stream/${storedmerchantId}/`;
 		const eventSource = new EventSource(url);
 		setSseConnection(eventSource);
 
 		eventSource.onmessage = (event) => {
 			const newData = JSON.parse(event.data);
 			console.log("New data:", newData); // Debugging
-			// Check if newData is an array and append it to orders
-			if (Array.isArray(newData)) {
-				setOrders((prevOrders) => [...newData]);
-			} else {
-				// If newData is not an array, assume it's a single order and append it
-				setOrders((prevOrders) => [...prevOrders, newData]);
+			//     // Determine if the data is new or an update
+
+			if (newData) {
+				const existing = orders?.findIndex(
+					(order) => order.id === newData[0].id
+				);
+				console.log("existingIndex:", existing); // Debugging
+
+				if (existing !== -1) {
+					setNotification((prev) => [...prev, {type: "Update", ...newData[0]}]);
+				} else {
+					setNotification((prev) => [...prev, {type: "New", ...newData[0]}]);
+				}
 			}
-			showOrderNotification();
+
+			console.log("New Notification:", notification); // Debugging
+			// showOrderNotification();
+
+			setOrders((prevOrders) => {
+				// Check if the order exists in the current state
+				const existingIndex = prevOrders.findIndex(
+					(order) => order?.id === newData[0]?.id
+				);
+				if (existingIndex !== -1) {
+					console.log("New data:", newData[0]); // Debugging
+					// Update the existing order
+					console.log("existingIndex:", existingIndex); // Debugging
+
+					const updatedOrders = [...prevOrders];
+					updatedOrders[existingIndex] = {...newData[0]};
+					return updatedOrders;
+				} else {
+					// Add the new order
+					return [...prevOrders, {...newData[0]}];
+				}
+			});
 		};
 
 		eventSource.onerror = (error) => {
@@ -69,9 +102,15 @@ export default function OrdersPage() {
 			eventSource.close();
 		};
 	}, []);
+	useEffect(() => {
+		console.log("New Notification:", notification); // Debugging
+	}, [notification]);
 
 	return (
-		<AdminWithOutNav>
+		<AdminWithOutNav
+			notification={notification}
+			setNotification={setNotification}
+		>
 			<div className="flex flex-wrap">
 				<div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
 					<CardLineChart />
@@ -83,7 +122,7 @@ export default function OrdersPage() {
 			<div className="flex flex-wrap mt-4">
 				{orders?.length > 0 ? (
 					<EnhancedTable
-						key={orders.length} // Change this key to force a re-render
+						key={orders.length + 2}
 						rows={orders}
 						title={"Pending Order"}
 						headCells={orderHeadCells}

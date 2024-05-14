@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Grapesjs from "grapesjs";
+import html2canvas from "html2canvas";
+
 // import 'grapesjs/dist/css/grapes.min.css';
 import dynamicConfig from "./WithGrapesjs";
 import "../../../styles/app.css";
@@ -439,7 +441,9 @@ const WithGrapesjs = ({ data, page, templateId }) => {
         });
         toast.success("Shop published successfully");
         setTimeout(() => {
-          router.push("/admin/dashboard");
+          router.push(
+            `/preview/${customizedTemplateDataHook?.id}/${pageContent.name}`
+          );
         }, 3000);
       } else {
         // Just save the template
@@ -452,12 +456,9 @@ const WithGrapesjs = ({ data, page, templateId }) => {
       }, 1000);
     }
   };
-  const handleAddProduct = () => {
-    setShowForm(true);
-  };
 
   const publishHandlerNoSave = () => {
-    router.push("/admin/dashboard");
+    // router.push("/admin/dashboard");
   };
   return (
     <div>

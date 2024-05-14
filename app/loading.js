@@ -1,13 +1,25 @@
-import { Skeleton } from "@/components/ui/skeleton"
+"use client"
+import "./globals.css";
+
+import { RotatingLines } from "react-loader-spinner";
+
+ function Loader() {
+  return (
+    <RotatingLines
+      strokeColor="grey"
+      strokeWidth="5"
+      animationDuration="0.75"
+      width="96"
+      visible={true}
+    />
+  )
+}
+
 
 export default function Loading() {
   return (
-    <div className="flex flex-col items-center justify-center space-y-3 w-screen h-screen">
-      <Skeleton className="h-[125px] w-[250px] rounded-xl" />
-      <div className="space-y-2">
-        <Skeleton className="h-4 w-[250px]" />
-        <Skeleton className="h-4 w-[200px]" />
-      </div>
+    <div className="loader-container">
+    <Loader />
     </div>
   )
 }
