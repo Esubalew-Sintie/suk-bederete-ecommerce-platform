@@ -1,5 +1,3 @@
-
-
 "use client";
 import * as React from "react";
 import PropTypes from "prop-types";
@@ -26,12 +24,12 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import TextField from "@mui/material/TextField"; // Import TextField
 import Button from "@mui/material/Button";
 import {PopoverDemo} from "@/util/alert";
-import { visuallyHidden } from "@mui/utils";
+import {visuallyHidden} from "@mui/utils";
 import {AiOutlineEdit, AiFillDelete} from "react-icons/ai";
-import { LuView } from "react-icons/lu";
+import {LuView} from "react-icons/lu";
 
-import { AddProduct } from "../Prompt/AddProduct";
-import { DialogDemo } from "../Prompt/OrderDetial";
+import {AddProduct} from "../Prompt/AddProduct";
+import {DialogDemo} from "../Prompt/OrderDetial";
 
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
@@ -157,11 +155,9 @@ function EnhancedTableToolbar(props) {
 					id="tableTitle"
 					component="div"
 				>
-                        
-                        <TableCell align="left" sx={{ color: "text-blueGray-500" }}>
-									{title}	
-										</TableCell>
-                       
+					<TableCell align="left" sx={{color: "text-blueGray-500"}}>
+						{title}
+					</TableCell>
 				</Typography>
 			)}
 
@@ -194,7 +190,7 @@ export default function EnhancedTable({rows, headCells, title}) {
 	const [dense, setDense] = React.useState(false);
 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
 	const [searchQuery, setSearchQuery] = React.useState("");
-    console.log(rows);
+	console.log(rows);
 	const handleRequestSort = (event, property) => {
 		const isAsc = orderBy === property && order === "asc";
 		setOrder(isAsc ? "desc" : "asc");
@@ -267,7 +263,11 @@ export default function EnhancedTable({rows, headCells, title}) {
 	return (
 		<Box sx={{width: "100%"}}>
 			<Paper sx={{width: "100%", mb: 2}}>
-				<EnhancedTableToolbar headCells title={title} numSelected={selected.length} />
+				<EnhancedTableToolbar
+					headCells
+					title={title}
+					numSelected={selected.length}
+				/>
 				<Box
 					sx={{
 						display: "flex",
@@ -315,7 +315,8 @@ export default function EnhancedTable({rows, headCells, title}) {
 										role="checkbox"
 										aria-checked={isItemSelected}
 										tabIndex={-1}
-										key={`${row.product}-${index}`}
+										id="order"
+										key={`${row?.id}-${index}`}
 										selected={isItemSelected}
 										sx={{cursor: "pointer"}}
 									>
@@ -329,31 +330,33 @@ export default function EnhancedTable({rows, headCells, title}) {
 											/>
 										</TableCell>
 
-										
 										<TableCell align="left" sx={{color: "text-blueGray-500"}}>
-											{row.product}
+											{row?.customer?.user}
 										</TableCell>
 										<TableCell align="left" sx={{color: "text-blueGray-500"}}>
-											{row.status}
+											{row?.order_status}
 										</TableCell>
 										<TableCell align="left" sx={{color: "text-blueGray-500"}}>
-											{row.paymentStatus}
+											{row?.payment_status}
 										</TableCell>
 										<TableCell align="left" sx={{color: "text-blueGray-500"}}>
-											{row.payment}
+											{row?.payment_method}
 										</TableCell>
 										<TableCell align="left" sx={{color: "text-blueGray-500"}}>
-											{row.shippingMethod}
+											{row?.shipping_option?.name}
 										</TableCell>
 										<TableCell align="left" sx={{color: "text-blueGray-500"}}>
-											{row.amount}
+											{row?.total_amount}
 										</TableCell>
 										<TableCell align="left" sx={{color: "text-blueGray-500"}}>
-											{row.date}
+											{row?.order_date}
 										</TableCell>
 										<TableCell align="left" sx={{color: "text-blueGray-500"}}>
-											<div className=" flex gap-2" onClick={(event) => event.stopPropagation()}>
-											<DialogDemo action={<LuView />} />
+											<div
+												className=" flex gap-2"
+												onClick={(event) => event.stopPropagation()}
+											>
+												<DialogDemo action={<LuView />} />
 												<DialogDemo action={<AiOutlineEdit />} />
 												<DialogDemo action={<AiFillDelete />} />
 											</div>

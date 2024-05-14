@@ -4377,3 +4377,10 @@ select {
     background-color: brown;
     height: 100%;
 }
+/* styles.css */
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}

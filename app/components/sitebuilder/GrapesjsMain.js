@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Grapesjs from "grapesjs";
+import html2canvas from "html2canvas";
+
 // import 'grapesjs/dist/css/grapes.min.css';
 import dynamicConfig from "./WithGrapesjs";
 import "../../../styles/app.css";
@@ -54,8 +56,9 @@ const WithGrapesjs = ({ data, page, templateId }) => {
  const [triggerRequest, setTriggerRequest] = useState(false);
  const { data: customizedTemplateDataHook, refetch, isLoading: isLoadingQuery, error: queryError } = useGetCustomizedTemplateQuery(merchantId);
  const {data: template, isLoading: templateLoading} = useGetWebBuilderQuery(templateId);
- const modifier_merchant = useSelector(state => state.merchant);
- 
+  const modifier_merchant = useSelector(state => state.merchant);
+
+  
   const handlePageChange = (e) => {
     const selectedPageName = e.target.value;
     const selectedPage = page.find((pa) => pa.name === selectedPageName);
@@ -409,10 +412,11 @@ const WithGrapesjs = ({ data, page, templateId }) => {
       const shopHtml = editor.getHtml();
       const shopCss = editor.getCss();
 
+      
       await createShop({ name: shopName, templateId: shopTemplateId, html: shopHtml, css: shopCss });
       toast.success("Shop published successfully");
       setTimeout(() => {
-        router.push("/admin/dashboard");
+        router.push(`/preview/${customizedTemplateDataHook?.id}/${pageContent.name}`);
       }, 3000);
     } else {
       // Just save the template
@@ -428,7 +432,7 @@ const WithGrapesjs = ({ data, page, templateId }) => {
   
   
   const publishHandlerNoSave = () => {
-    router.push("/admin/dashboard");
+    // router.push("/admin/dashboard");
   };
   return (
     <div>

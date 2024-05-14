@@ -84,13 +84,13 @@ import FooterAdmin from "@/app/components/Footers/FooterAdmin.js";
 }
 
 
-function AdminWithOutNav({ children }) {
+function AdminWithOutNav({ children,notification,setNotification }) {
   return (
     <>
       <Sidebar />
 
       <div className="relative md:ml-64 bg-blueGray-100">
-      <AdminNavbar />
+        <AdminNavbar notification={notification} setNotification={ setNotification} />
         {/* Header */}
         <HeaderStats />
         <div className="px-4 md:px-10 mx-auto w-full -m-24">

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import WithGrapesjs from "./GrapesjsMain";
 import grapesJSMJML from "grapesjs-mjml";
+import Loader from "../Prompt/Loader"
 import {
   useGetWebBuilderQuery,
   useGetWebBuildersQuery,
@@ -73,7 +74,9 @@ const Card = (props) => {
           setData={setData}
         />
       ) : (
-        <p>Loading...</p>
+          <div className="loader-container">
+            <Loader />
+        </div>
       )}
     </div>
   );
