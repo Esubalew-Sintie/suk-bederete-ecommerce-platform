@@ -286,9 +286,10 @@ const loadComponents = (editor, options) => {
       category: categories?.category5,
       attributes: { class: "block5-preview" },
 
-      content: `<div class="bg-white rounded-lg overflow-hidden shadow-lg ring-4 ring-red-500 ring-opacity-40 max-w-sm ">
-    <div class="relative">
-        <img class="w-full" src="./placeholder-images.webp" alt="Product Image">
+      content: `<div class="flex flex-wrap justify-around w-full px-4">
+  <div class="bg-slate-200 rounded-2xl overflow-hidden shadow-lg min-w-[200px] flex-1 mx-2 my-4 sm:w-full md:[50%]" >
+    <div class="relative px-3 py-3">
+        <img style={{height:'10px'}} class="inline-block w-full max-h-72 rounded-lg object-cover mx-auto" src="https://images.pexels.com/photos/4227490/pexels-photo-4227490.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Product Image">
         <div class="absolute top-0 right-0 bg-red-500 text-white px-2 py-1 m-2 rounded-md text-sm font-medium">SALE
         </div>
     </div>
@@ -303,7 +304,63 @@ const loadComponents = (editor, options) => {
             </button>
         </div>
     </div>
-</div>`,
+</div>
+<div class="bg-slate-200 rounded-2xl overflow-hidden shadow-lg flex-1 min-w-[200px] mx-2 my-4">
+    <div class="relative px-3 py-3">
+        <img style={{height:'10px'}} class="inline-block w-full max-h-72 rounded-lg object-cover mx-auto" src="https://images.pexels.com/photos/4227490/pexels-photo-4227490.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Product Image">
+        <div class="absolute top-0 right-0 bg-red-500 text-white px-2 py-1 m-2 rounded-md text-sm font-medium">SALE
+        </div>
+    </div>
+    <div class="p-4">
+        <h3 class="text-lg font-medium mb-2">Product Title</h3>
+        <p class="text-gray-600 text-sm mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae ante
+            vel eros fermentum faucibus sit amet euismod lorem.</p>
+        <div class="flex items-center justify-between">
+            <span class="font-bold text-lg">$19.99</span>
+            <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                Buy Now
+            </button>
+        </div>
+    </div>
+</div>
+<div class="bg-slate-200 rounded-2xl overflow-hidden shadow-lg flex-1 min-w-[200px] mx-2 my-4">
+    <div class="relative px-3 py-3">
+        <img style={{height:'10px'}} class="inline-block w-full max-h-72 rounded-lg object-cover mx-auto" src="https://images.pexels.com/photos/4227490/pexels-photo-4227490.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Product Image">
+        <div class="absolute top-0 right-0 bg-red-500 text-white px-2 py-1 m-2 rounded-md text-sm font-medium">SALE
+        </div>
+    </div>
+    <div class="p-4">
+        <h3 class="text-lg font-medium mb-2">Product Title</h3>
+        <p class="text-gray-600 text-sm mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae ante
+            vel eros fermentum faucibus sit amet euismod lorem.</p>
+        <div class="flex items-center justify-between">
+            <span class="font-bold text-lg">$19.99</span>
+            <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                Buy Now
+            </button>
+        </div>
+    </div>
+</div>
+<div class="bg-slate-200 rounded-2xl overflow-hidden shadow-lg flex-1 min-w-[200px] mx-2 my-4">
+    <div class="relative px-3 py-3">
+        <img style={{height:'10px'}} class="inline-block w-full max-h-72 rounded-lg object-cover mx-auto" src="https://images.pexels.com/photos/4227490/pexels-photo-4227490.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Product Image">
+        <div class="absolute top-0 right-0 bg-red-500 text-white px-2 py-1 m-2 rounded-md text-sm font-medium">SALE
+        </div>
+    </div>
+    <div class="p-4">
+        <h3 class="text-lg font-medium mb-2">Product Title</h3>
+        <p class="text-gray-600 text-sm mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae ante
+            vel eros fermentum faucibus sit amet euismod lorem.</p>
+        <div class="flex items-center justify-between">
+            <span class="font-bold text-lg">$19.99</span>
+            <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                Buy Now
+            </button>
+        </div>
+    </div>
+</div>
+</div>
+`,
     });
   }
   if (labels?.block6) {

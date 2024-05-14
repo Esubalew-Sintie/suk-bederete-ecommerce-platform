@@ -17,16 +17,17 @@ import {
   useUpdatePageContentMutation,
   useCustomisedTemplateMutation,
   useGetCustomizedTemplateQuery,
-  useUpdatecustomizedTemplateMutation
+  useUpdatecustomizedTemplateMutation,
 } from "@/lib/features/webBuilder/webBuilder";
 import {
   useCreateShopMutation,
-  useUpdateShopMutation
+  useUpdateShopMutation,
 } from "@/lib/features/shop/shop";
 import { toast } from "react-hot-toast";
 import CustomToaster from "@/app/components/sitebuilder/Toaster/Toaster";
 import { AlertDialogDemo } from "./AlertDialoge";
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
+import { AddProduct } from "./ProductForm/FormDialogue";
 
 const filterAssets = (assets, group) => {
   const images = assets
@@ -46,19 +47,27 @@ const filterAssets = (assets, group) => {
 
 const WithGrapesjs = ({ data, page, templateId }) => {
   const [pageContent, setpageContent] = useState({});
-  const [createShop, { isLoading:iscreateshopLoading, isError, error:createShopError }] = useCreateShopMutation();
+  const [
+    createShop,
+    { isLoading: iscreateshopLoading, isError, error: createShopError },
+  ] = useCreateShopMutation();
   const [merchantId, setMerchantId] = useState(null);
- const [customizedTemplateData, setCustomizedTemplateData] = useState(null);
- const [isLoading, setIsLoading] = useState(false);
- const [originalTemplate, setOriginalTemplate] = useState(null);
- const [error, setError] = useState(null);
- 
- const [triggerRequest, setTriggerRequest] = useState(false);
- const { data: customizedTemplateDataHook, refetch, isLoading: isLoadingQuery, error: queryError } = useGetCustomizedTemplateQuery(merchantId);
- const {data: template, isLoading: templateLoading} = useGetWebBuilderQuery(templateId);
-  const modifier_merchant = useSelector(state => state.merchant);
+  const [customizedTemplateData, setCustomizedTemplateData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [originalTemplate, setOriginalTemplate] = useState(null);
+  const [error, setError] = useState(null);
 
-  
+  const [triggerRequest, setTriggerRequest] = useState(false);
+  const {
+    data: customizedTemplateDataHook,
+    refetch,
+    isLoading: isLoadingQuery,
+    error: queryError,
+  } = useGetCustomizedTemplateQuery(merchantId);
+  const { data: template, isLoading: templateLoading } =
+    useGetWebBuilderQuery(templateId);
+  const modifier_merchant = useSelector((state) => state.merchant);
+
   const handlePageChange = (e) => {
     const selectedPageName = e.target.value;
     const selectedPage = page.find((pa) => pa.name === selectedPageName);
@@ -120,7 +129,7 @@ const WithGrapesjs = ({ data, page, templateId }) => {
     if (data) {
       const homePage = data.find((page) => page.name === "home");
       const pageToRender = homePage || data[0]; // If home page not found, render the first page
-      
+
       setInitialComponents({
         html: pageToRender?.content.html,
         css: pageToRender?.content.css,
@@ -182,7 +191,6 @@ const WithGrapesjs = ({ data, page, templateId }) => {
 
     // Set initial HTML in builder using the updated data
     editor.setComponents(pageToRender?.content.html);
-    
 
     // Setting CSS
     editor.setStyle(pageToRender?.content.css);
@@ -358,86 +366,109 @@ const WithGrapesjs = ({ data, page, templateId }) => {
     window.open(data.live_url, "_blank");
   };
 
-  const [customisedTemplate, { isLoading: isCreating }] = useCustomisedTemplateMutation();
-  const [updateCustomizedTemplate, { isLoading:isUpdating }] = useUpdatecustomizedTemplateMutation();
-  
-   useEffect(()=>{
-    const storedmerchantId = localStorage.getItem('unique_id');
-    setMerchantId(storedmerchantId)
-   }, [])
+  const [customisedTemplate, { isLoading: isCreating }] =
+    useCustomisedTemplateMutation();
+  const [updateCustomizedTemplate, { isLoading: isUpdating }] =
+    useUpdatecustomizedTemplateMutation();
 
-   useEffect(() => {
+  useEffect(() => {
+    const storedmerchantId = localStorage.getItem("unique_id");
+    setMerchantId(storedmerchantId);
+  }, []);
+
+  useEffect(() => {
     if (triggerRequest) {
-      updatePageHandler().then(() => {
-        setTriggerRequest(false); // Reset trigger after handling request
-      }).catch(err => {
-        console.error("Error updating template:", err);
-        toast.error("Saving failed");
-        setTriggerRequest(false); // Reset trigger on error
-      });
+      updatePageHandler()
+        .then(() => {
+          setTriggerRequest(false); // Reset trigger after handling request
+        })
+        .catch((err) => {
+          console.error("Error updating template:", err);
+          toast.error("Saving failed");
+          setTriggerRequest(false); // Reset trigger on error
+        });
     }
   }, [triggerRequest]);
 
- const updatePageHandler = async (isPublish = false) => {
-  await refetch()
-  toast.dismiss();
-  const loadingToast = toast.loading("Saving...", { duration: 500 });
-  try {
-    const modifiedPagesData = {};
+  const updatePageHandler = async (isPublish = false) => {
+    await refetch();
+    toast.dismiss();
+    const loadingToast = toast.loading("Saving...", { duration: 500 });
+    try {
+      const modifiedPagesData = {};
 
-    page.forEach(pa => {
-      modifiedPagesData[pa.name] = {
-        html: editor.getHtml(),
-        css: editor.getCss(),
-        js: pa.js,
-      };
-    });
+      page.forEach((pa) => {
+        modifiedPagesData[pa.name] = {
+          html: editor.getHtml(),
+          css: editor.getCss(),
+          js: pa.js,
+        };
+      });
 
-    // Use the state variables instead of directly calling the hook
-     if (queryError && queryError.status === 404) {
-      console.log("Customized template does not exist for the given merchant ID");
-      await customisedTemplate({ originalTemplateId: templateId, modifiedMerhant:merchantId ,modifiedPages: modifiedPagesData }).unwrap();
-    } else if (customizedTemplateDataHook) {
-      console.log("Exists");
-      const customizedTemplateId = customizedTemplateDataHook.id;
-      
-      // Update the existing customized template
-      await updateCustomizedTemplate({ CustomtemplateId: customizedTemplateId, modifiedPages: modifiedPagesData }).unwrap();
-    }
+      // Use the state variables instead of directly calling the hook
+      if (queryError && queryError.status === 404) {
+        console.log(
+          "Customized template does not exist for the given merchant ID"
+        );
+        await customisedTemplate({
+          originalTemplateId: templateId,
+          modifiedMerhant: merchantId,
+          modifiedPages: modifiedPagesData,
+        }).unwrap();
+      } else if (customizedTemplateDataHook) {
+        console.log("Exists");
+        const customizedTemplateId = customizedTemplateDataHook.id;
 
-    if (isPublish) {
-      // Publish the shop
-      const shopName = "My New Shop"; // This should be dynamically set based on your form or state
-      const shopTemplateId = templateId; // This should be dynamically set based on your form or state
-      const shopHtml = editor.getHtml();
-      const shopCss = editor.getCss();
+        // Update the existing customized template
+        await updateCustomizedTemplate({
+          CustomtemplateId: customizedTemplateId,
+          modifiedPages: modifiedPagesData,
+        }).unwrap();
+      }
 
-      
-      await createShop({ name: shopName, templateId: shopTemplateId, html: shopHtml, css: shopCss });
-      toast.success("Shop published successfully");
+      if (isPublish) {
+        // Publish the shop
+        const shopName = "My New Shop"; // This should be dynamically set based on your form or state
+        const shopTemplateId = templateId; // This should be dynamically set based on your form or state
+        const shopHtml = editor.getHtml();
+        const shopCss = editor.getCss();
+
+        await createShop({
+          name: shopName,
+          templateId: shopTemplateId,
+          html: shopHtml,
+          css: shopCss,
+        });
+        toast.success("Shop published successfully");
+        setTimeout(() => {
+          router.push(
+            `/preview/${customizedTemplateDataHook?.id}/${pageContent.name}`
+          );
+        }, 3000);
+      } else {
+        // Just save the template
+        toast.success("Saved successfully");
+      }
+    } catch (error) {
+      console.error("Error updating template:", error);
       setTimeout(() => {
-        router.push(`/preview/${customizedTemplateDataHook?.id}/${pageContent.name}`);
-      }, 3000);
-    } else {
-      // Just save the template
-      toast.success("Saved successfully");
+        toast.error("Saving failed");
+      }, 1000);
     }
-  } catch (error) {
-    console.error("Error updating template:", error);
-    setTimeout(() => {
-      toast.error("Saving failed");
-    }, 1000);
-  }
-};
-  
-  
+  };
+
   const publishHandlerNoSave = () => {
     // router.push("/admin/dashboard");
   };
   return (
     <div>
-      <Drawer anchor={"right"} open={settingOpen.open} onClose={toggleDrawer}>
-        <div style={{ padding: "1rem" }}>
+      <Drawer
+        anchor={"right"}
+        open={settingOpen.open}
+        onClose={toggleDrawer}
+        PaperProps={{ className: "z-30" }}
+      >
+        <div style={{ padding: "1rem" }} className="">
           <form onSubmit={handleUpdatePage}>
             <div id="Page-name" className="field-wrapper input">
               <label htmlFor="page-name">Page Name</label>
@@ -484,6 +515,9 @@ const WithGrapesjs = ({ data, page, templateId }) => {
               Save
             </button>
           </form>
+          <div>
+            <AddProduct />
+          </div>
         </div>
       </Drawer>
       <div className="panel__top">
