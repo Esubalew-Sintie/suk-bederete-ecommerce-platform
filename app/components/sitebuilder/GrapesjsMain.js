@@ -25,6 +25,7 @@ import { toast } from "react-hot-toast";
 import CustomToaster from "@/app/components/sitebuilder/Toaster/Toaster";
 import { AlertDialogDemo } from "./AlertDialoge";
 import { useSelector } from "react-redux";
+import { AddProduct } from "./ProductForm/FormDialogue";
 
 const filterAssets = (assets, group) => {
   const images = assets
@@ -451,14 +452,22 @@ const WithGrapesjs = ({ data, page, templateId }) => {
       }, 1000);
     }
   };
+  const handleAddProduct = () => {
+    setShowForm(true);
+  };
 
   const publishHandlerNoSave = () => {
     router.push("/admin/dashboard");
   };
   return (
     <div>
-      <Drawer anchor={"right"} open={settingOpen.open} onClose={toggleDrawer}>
-        <div style={{ padding: "1rem" }}>
+      <Drawer
+        anchor={"right"}
+        open={settingOpen.open}
+        onClose={toggleDrawer}
+        PaperProps={{ className: "z-30" }}
+      >
+        <div style={{ padding: "1rem" }} className="">
           <form onSubmit={handleUpdatePage}>
             <div id="Page-name" className="field-wrapper input">
               <label htmlFor="page-name">Page Name</label>
@@ -505,6 +514,9 @@ const WithGrapesjs = ({ data, page, templateId }) => {
               Save
             </button>
           </form>
+          <div>
+            <AddProduct />
+          </div>
         </div>
       </Drawer>
       <div className="panel__top">
