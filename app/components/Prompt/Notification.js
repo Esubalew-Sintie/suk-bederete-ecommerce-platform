@@ -19,14 +19,14 @@ export default function NotificationPop({notification,setNotification}) {
 				<Button variant="outline" onClick={handleClick} className='mr-5 ml-2 relative'>
 					{" "}
                     <IoMdNotifications size={25} />
-					{notification.length>0 && <p className=' rounded-full bg-red-300 w-5 h-5 absolute top-0 right-1'>{ notification.length}</p>}
+					{notification?.length>0 && <p className=' rounded-full bg-red-300 w-5 h-5 absolute top-0 right-1'>{ notification?.length}</p>}
 				</Button>
 			</PopoverTrigger>
-			{notification.length > 0 && (
+			{notification?.length > 0 && (
 
 				<PopoverContent className="w-80">
 					<div className="grid gap-4">
-						{notification.map((notification, index) => (
+						{notification?.map((notification, index) => (
 							<Link href='#order' key={index} className="space-y-2 flex gap-5 items-center  hover:bg-blue-200">
 								<h4 className="font-medium ">{notification.type} order with ID </h4>
 								<p className="text-xl font-bold flex items-end">
