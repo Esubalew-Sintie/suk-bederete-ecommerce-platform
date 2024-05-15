@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Grapesjs from "grapesjs";
+import html2canvas from "html2canvas";
+
 // import 'grapesjs/dist/css/grapes.min.css';
 import dynamicConfig from "./WithGrapesjs";
 import "../../../styles/app.css";
@@ -15,16 +17,17 @@ import {
   useUpdatePageContentMutation,
   useCustomisedTemplateMutation,
   useGetCustomizedTemplateQuery,
-  useUpdatecustomizedTemplateMutation
+  useUpdatecustomizedTemplateMutation,
 } from "@/lib/features/webBuilder/webBuilder";
 import {
   useCreateShopMutation,
-  useUpdateShopMutation
+  useUpdateShopMutation,
 } from "@/lib/features/shop/shop";
 import { toast } from "react-hot-toast";
 import CustomToaster from "@/app/components/sitebuilder/Toaster/Toaster";
 import { AlertDialogDemo } from "./AlertDialoge";
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
+import { AddProduct } from "./ProductForm/FormDialogue";
 
 const filterAssets = (assets, group) => {
   const images = assets
@@ -44,18 +47,27 @@ const filterAssets = (assets, group) => {
 
 const WithGrapesjs = ({ data, page, templateId }) => {
   const [pageContent, setpageContent] = useState({});
-  const [createShop, { isLoading:iscreateshopLoading, isError, error:createShopError }] = useCreateShopMutation();
+  const [
+    createShop,
+    { isLoading: iscreateshopLoading, isError, error: createShopError },
+  ] = useCreateShopMutation();
   const [merchantId, setMerchantId] = useState(null);
- const [customizedTemplateData, setCustomizedTemplateData] = useState(null);
- const [isLoading, setIsLoading] = useState(false);
- const [originalTemplate, setOriginalTemplate] = useState(null);
- const [error, setError] = useState(null);
- 
- const [triggerRequest, setTriggerRequest] = useState(false);
- const { data: customizedTemplateDataHook, refetch, isLoading: isLoadingQuery, error: queryError } = useGetCustomizedTemplateQuery(merchantId);
- const {data: template, isLoading: templateLoading} = useGetWebBuilderQuery(templateId);
- const modifier_merchant = useSelector(state => state.merchant);
- 
+  const [customizedTemplateData, setCustomizedTemplateData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [originalTemplate, setOriginalTemplate] = useState(null);
+  const [error, setError] = useState(null);
+
+  const [triggerRequest, setTriggerRequest] = useState(false);
+  const {
+    data: customizedTemplateDataHook,
+    refetch,
+    isLoading: isLoadingQuery,
+    error: queryError,
+  } = useGetCustomizedTemplateQuery(merchantId);
+  const { data: template, isLoading: templateLoading } =
+    useGetWebBuilderQuery(templateId);
+  const modifier_merchant = useSelector((state) => state.merchant);
+
   const handlePageChange = (e) => {
     const selectedPageName = e.target.value;
     const selectedPage = page.find((pa) => pa.name === selectedPageName);
@@ -117,7 +129,7 @@ const WithGrapesjs = ({ data, page, templateId }) => {
     if (data) {
       const homePage = data.find((page) => page.name === "home");
       const pageToRender = homePage || data[0]; // If home page not found, render the first page
-      
+
       setInitialComponents({
         html: pageToRender?.content.html,
         css: pageToRender?.content.css,
@@ -179,7 +191,6 @@ const WithGrapesjs = ({ data, page, templateId }) => {
 
     // Set initial HTML in builder using the updated data
     editor.setComponents(pageToRender?.content.html);
-    
 
     // Setting CSS
     editor.setStyle(pageToRender?.content.css);
@@ -355,23 +366,27 @@ const WithGrapesjs = ({ data, page, templateId }) => {
     window.open(data.live_url, "_blank");
   };
 
-  const [customisedTemplate, { isLoading: isCreating }] = useCustomisedTemplateMutation();
-  const [updateCustomizedTemplate, { isLoading:isUpdating }] = useUpdatecustomizedTemplateMutation();
-  
-   useEffect(()=>{
-    const storedmerchantId = localStorage.getItem('unique_id');
-    setMerchantId(storedmerchantId)
-   }, [])
+  const [customisedTemplate, { isLoading: isCreating }] =
+    useCustomisedTemplateMutation();
+  const [updateCustomizedTemplate, { isLoading: isUpdating }] =
+    useUpdatecustomizedTemplateMutation();
 
-   useEffect(() => {
+  useEffect(() => {
+    const storedmerchantId = localStorage.getItem("unique_id");
+    setMerchantId(storedmerchantId);
+  }, []);
+
+  useEffect(() => {
     if (triggerRequest) {
-      updatePageHandler().then(() => {
-        setTriggerRequest(false); // Reset trigger after handling request
-      }).catch(err => {
-        console.error("Error updating template:", err);
-        toast.error("Saving failed");
-        setTriggerRequest(false); // Reset trigger on error
-      });
+      updatePageHandler()
+        .then(() => {
+          setTriggerRequest(false); // Reset trigger after handling request
+        })
+        .catch((err) => {
+          console.error("Error updating template:", err);
+          toast.error("Saving failed");
+          setTriggerRequest(false); // Reset trigger on error
+        });
     }
   }, [triggerRequest]);
 
@@ -450,12 +465,17 @@ const WithGrapesjs = ({ data, page, templateId }) => {
 };
   
   const publishHandlerNoSave = () => {
-    router.push("/admin/dashboard");
+    // router.push("/admin/dashboard");
   };
   return (
     <div>
-      <Drawer anchor={"right"} open={settingOpen.open} onClose={toggleDrawer}>
-        <div style={{ padding: "1rem" }}>
+      <Drawer
+        anchor={"right"}
+        open={settingOpen.open}
+        onClose={toggleDrawer}
+        PaperProps={{ className: "z-30" }}
+      >
+        <div style={{ padding: "1rem" }} className="">
           <form onSubmit={handleUpdatePage}>
             <div id="Page-name" className="field-wrapper input">
               <label htmlFor="page-name">Page Name</label>
@@ -502,6 +522,9 @@ const WithGrapesjs = ({ data, page, templateId }) => {
               Save
             </button>
           </form>
+          <div>
+            <AddProduct />
+          </div>
         </div>
       </Drawer>
       <div className="panel__top">
