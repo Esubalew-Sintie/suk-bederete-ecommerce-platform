@@ -5,8 +5,12 @@ import Searchbox from "./Searchbox";
 import Banner from "./Banner";
 import ProductSlider from "./ProductSlider";
 import Footer from "../Footers/Footer";
+import { useGetShopsQuery } from "@/lib/features/shop/shop";
+
 
 const ShopCategory = () => {
+  const { data, error, isLoading } = useGetShopsQuery();
+  console.log(data);
   return (
     <>
       <div className="">
@@ -44,12 +48,10 @@ const ShopCategory = () => {
             </span>
           </div>
           <div className="flex flex-wrap ">
-            <ShopItem />
-            <ShopItem />
-            <ShopItem />
-            <ShopItem />
-            <ShopItem />
-            <ShopItem />
+            {data?.map((shop) => (
+              <ShopItem key={shop.id} shop={shop} fullWidth={false}  />
+            ))
+              }
           </div>
         </div>
       </div>
