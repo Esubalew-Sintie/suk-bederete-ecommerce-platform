@@ -391,72 +391,79 @@ const WithGrapesjs = ({ data, page, templateId }) => {
   }, [triggerRequest]);
 
   const updatePageHandler = async (isPublish = false) => {
-    await refetch();
     toast.dismiss();
     const loadingToast = toast.loading("Saving...", { duration: 500 });
     try {
-      const modifiedPagesData = {};
-
-      page.forEach((pa) => {
-        modifiedPagesData[pa.name] = {
-          html: editor.getHtml(),
-          css: editor.getCss(),
-          js: pa.js,
-        };
-      });
-
-      // Use the state variables instead of directly calling the hook
-      if (queryError && queryError.status === 404) {
-        console.log(
-          "Customized template does not exist for the given merchant ID"
-        );
-        await customisedTemplate({
-          originalTemplateId: templateId,
-          modifiedMerhant: merchantId,
-          modifiedPages: modifiedPagesData,
-        }).unwrap();
-      } else if (customizedTemplateDataHook) {
-        console.log("Exists");
-        const customizedTemplateId = customizedTemplateDataHook.id;
-
-        // Update the existing customized template
-        await updateCustomizedTemplate({
-          CustomtemplateId: customizedTemplateId,
-          modifiedPages: modifiedPagesData,
-        }).unwrap();
-      }
-
-      if (isPublish) {
-        // Publish the shop
-        const shopName = "My New Shop"; // This should be dynamically set based on your form or state
-        const shopTemplateId = templateId; // This should be dynamically set based on your form or state
-        const shopHtml = editor.getHtml();
-        const shopCss = editor.getCss();
-
-        await createShop({
-          name: shopName,
-          templateId: shopTemplateId,
-          html: shopHtml,
-          css: shopCss,
-        });
-        toast.success("Shop published successfully");
-        setTimeout(() => {
-          router.push(
-            `/preview/${customizedTemplateDataHook?.id}/${pageContent.name}`
-          );
-        }, 3000);
-      } else {
-        // Just save the template
-        toast.success("Saved successfully");
-      }
+        const modifiedPagesData = {};
+  
+        // Iterate over each page
+        for (let i = 0; i < page.length; i++) {
+            const pa = page[i];
+            const pageName = pa.name;
+    
+            // Initialize pageContent and pageCss variables
+            let pageContent, pageCss;
+    
+            // If the current page matches the selected page, get the HTML and CSS from the editor
+            if (pageName === settingOpen.name) {
+                pageContent = editor.getHtml();
+                pageCss = editor.getCss();
+            } else {
+                // Otherwise, keep the original content from the pa object
+                pageContent = pa.html;
+                pageCss = pa.css;
+            }
+    
+            // Compare the content with the original page data
+            const pageJs = pa.js; // Assuming you have a way to get the JS for each page
+        
+            // If there are differences, include the modified content
+            modifiedPagesData[pageName] = {
+                html: pageContent,
+                css: pageCss,
+                js: pageJs,
+            };
+        }
+  
+        // Use the state variables instead of directly calling the hook
+        if (queryError && queryError.status === 404) {
+            console.log("Customized template does not exist for the given merchant ID");
+            await customisedTemplate({ originalTemplateId: templateId, modifiedMerhant: merchantId, modifiedPages: modifiedPagesData }).unwrap();
+            refetch();
+        } else if (customizedTemplateDataHook) {
+            console.log("Exists");
+            const customizedTemplateId = customizedTemplateDataHook.id;
+        
+            // Update the existing customized template
+            // sending the  modifiedPagesData
+            
+            await customisedTemplate({ originalTemplateId: templateId, modifiedMerhant: merchantId, modifiedPages: modifiedPagesData }).unwrap();
+        }
+  
+        if (isPublish) {
+            // Publish the shop
+            const shopName = "My New Shop"; // This should be dynamically set based on your form or state
+            const shopTemplateId = templateId; // This should be dynamically set based on your form or state
+            const shopHtml = editor.getHtml();
+            const shopCss = editor.getCss();
+  
+            await createShop({ name: shopName, templateId: shopTemplateId, html: shopHtml, css: shopCss });
+            toast.success("Shop published successfully");
+            setTimeout(() => {
+                router.push("/admin/dashboard");
+            }, 3000);
+        } else {
+            // Just save the template
+            toast.success("Saved successfully");
+        }
     } catch (error) {
-      console.error("Error updating template:", error);
-      setTimeout(() => {
-        toast.error("Saving failed");
-      }, 1000);
+        console.error("Error updating template:", error);
+        setTimeout(() => {
+            toast.error("Saving failed");
+        }, 1000);
     }
-  };
-
+};
+  
   const publishHandlerNoSave = () => {
     // router.push("/admin/dashboard");
   };
