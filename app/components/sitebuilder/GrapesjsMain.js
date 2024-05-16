@@ -47,10 +47,7 @@ const filterAssets = (assets, group) => {
 
 const WithGrapesjs = ({ data, page, templateId }) => {
   const [pageContent, setpageContent] = useState({});
-  const [
-    createShop,
-    { isLoading: iscreateshopLoading, isError, error: createShopError },
-  ] = useCreateShopMutation();
+  const [createShop,{ isLoading: iscreateshopLoading, isError, error: createShopError },] = useCreateShopMutation();
   const [merchantId, setMerchantId] = useState(null);
   const [customizedTemplateData, setCustomizedTemplateData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
