@@ -18,20 +18,19 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState, useRef } from "react";
 
 const formSchema = z.object({
-  productName: z.string().min(2, {
+  name: z.string().min(2, {
     message: "Product name must be at least 2 characters.",
   }),
-  productCategory: z.string().min(2, {
+  category: z.string().min(2, {
     message: "Product category must be at least 2 characters.",
   }),
-  productPrice: z.string().min(0, {
+  price: z.string().min(0, {
     message: "Product price must be a positive number.",
   }),
-  productAmount: z.string().min(0, {
+  stock: z.string().min(0, {
     message: "Product amount must be a positive number.",
   }),
-  productImage: z.string().optional(),
-  productDescription: z.string().optional(),
+  description: z.string().optional(),
 });
 
 export function ProductForm() {
@@ -39,36 +38,31 @@ export function ProductForm() {
   const [selectedProductIndex, setSelectedProductIndex] = useState(null);
   const [mode, setMode] = useState("add");
 
+  const defaultValues = {
+    name: "",
+    category: "",
+    price: "",
+    stock: "",
+    image: "",
+    description: "",
+  };
+
   const form = useForm({
     resolver: zodResolver(formSchema),
+    defaultValues,
   });
 
-  const productNameRef = useRef(null);
-  const productCategoryRef = useRef(null);
-  const productPriceRef = useRef(null);
-  const productAmountRef = useRef(null);
-  const productImageRef = useRef(null);
-  const productDescriptionRef = useRef(null);
-
   const onSubmit = (data) => {
-    if (mode === "edit") {
-      // Update existing product
+    if (mode === "edit" && selectedProductIndex !== null) {
       const updatedProducts = [...products];
       updatedProducts[selectedProductIndex] = data;
       setProducts(updatedProducts);
-      setSelectedProductIndex(null); // Reset selected product index
+      form.reset({ ...data });
     } else {
       // Add new product
       setProducts([...products, data]);
+      form.reset(defaultValues);
     }
-    form.reset(); // Reset form
-
-    productNameRef.current.value = "";
-    productCategoryRef.current.value = "";
-    productPriceRef.current.value = "";
-    productAmountRef.current.value = "";
-    productImageRef.current.value = "";
-    productDescriptionRef.current.value = "";
   };
 
   const handleEdit = (index) => {
@@ -81,7 +75,9 @@ export function ProductForm() {
   };
 
   const handleAddNewProduct = () => {
+    setSelectedProductIndex(null);
     setMode("add");
+    form.reset(defaultValues);
   };
   const handleDeleteProduct = (index, e) => {
     e.stopPropagation();
@@ -95,10 +91,10 @@ export function ProductForm() {
           {products.map((product, index) => (
             <div
               key={index}
-              className="relative cursor-pointer text-white bg-[#272e3f] px-3 py-3 rounded-lg my-1 mx-2 group"
+              className="relative cursor-pointer text-white bg-[#272e3f] px-3 py-2 rounded-lg my-1 mx-2 group"
               onClick={() => handleEdit(index)}
             >
-              {product.productName}
+              {product.name}
 
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -123,17 +119,16 @@ export function ProductForm() {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
             control={form.control}
-            name="productName"
+            name="name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Product Name</FormLabel>
                 <FormControl>
                   <Input
-                    name="productName"
+                    name="name"
                     className="w-[50%]"
                     placeholder="Product Name"
                     {...field}
-                    ref={productNameRef}
                   />
                 </FormControl>
                 <FormDescription>
@@ -145,17 +140,16 @@ export function ProductForm() {
           />
           <FormField
             control={form.control}
-            name="productCategory"
+            name="category"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Product Category</FormLabel>
                 <FormControl>
                   <Input
-                    name="productCategory"
+                    name="category"
                     className="w-[50%]"
                     placeholder="Product Category"
                     {...field}
-                    ref={productCategoryRef}
                   />
                 </FormControl>
                 <FormDescription>
@@ -167,18 +161,17 @@ export function ProductForm() {
           />
           <FormField
             control={form.control}
-            name="productPrice"
+            name="price"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Product Price</FormLabel>
                 <FormControl>
                   <Input
-                    name="productPrice"
+                    name="price"
                     type="number"
                     className="w-[50%]"
                     placeholder="Product Price"
                     {...field}
-                    ref={productPriceRef}
                   />
                 </FormControl>
                 <FormDescription>
@@ -190,18 +183,17 @@ export function ProductForm() {
           />
           <FormField
             control={form.control}
-            name="productAmount"
+            name="stock"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Product Amount</FormLabel>
                 <FormControl>
                   <Input
-                    name="productAmount"
+                    name="stock"
                     type="number"
                     className="w-[50%]"
                     placeholder="Product Amount"
                     {...field}
-                    ref={productAmountRef}
                   />
                 </FormControl>
                 <FormDescription>
@@ -213,18 +205,17 @@ export function ProductForm() {
           />
           <FormField
             control={form.control}
-            name="productImage"
+            name="image"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Product Image</FormLabel>
                 <FormControl>
                   <Input
-                    name="productImage"
+                    name="image"
                     type="file"
                     className="w-[30%]"
                     placeholder="Product Category"
                     {...field}
-                    ref={productImageRef}
                   />
                 </FormControl>
                 <FormDescription>
@@ -236,17 +227,16 @@ export function ProductForm() {
           />
           <FormField
             control={form.control}
-            name="productDescription"
+            name="description"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Product Description</FormLabel>
                 <FormControl>
                   <Textarea
-                    name="productDescription"
+                    name="description"
                     className="w-[50%]"
                     placeholder="Product Description"
                     {...field}
-                    ref={productDescriptionRef}
                   />
                 </FormControl>
                 <FormDescription>
@@ -261,7 +251,12 @@ export function ProductForm() {
       </Form>
       <div className="flex">
         {mode === "edit" && (
-          <Button onClick={handleAddNewProduct}>Add New Product</Button>
+          <div>
+            <Button onClick={handleAddNewProduct}>Add New Product</Button>
+            <p className="text-sm text-[#272e3f]">
+              To continue adding new product
+            </p>
+          </div>
         )}
       </div>
     </>
