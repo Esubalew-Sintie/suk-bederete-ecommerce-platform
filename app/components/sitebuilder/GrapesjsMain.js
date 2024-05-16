@@ -517,7 +517,7 @@ const WithGrapesjs = ({ data, page, templateId }) => {
             </div>
             <button
               onClick={() => handleUpdatePage()}
-              className="btn btn-primary"
+              className="btn btn-primary rounded-lg"
             >
               Save
             </button>
@@ -527,7 +527,7 @@ const WithGrapesjs = ({ data, page, templateId }) => {
           </div>
         </div>
       </Drawer>
-      <div className="panel__top">
+      <div className="panel__top flex flex-wrap">
         {/* <div>
         </div> */}
         <div className="panel__switcher">
@@ -539,9 +539,9 @@ const WithGrapesjs = ({ data, page, templateId }) => {
 
         <div className="views-actions" style={{ position: "static" }}></div>
 
-        <div className="panel-action">
+        <div className="panel-action ">
           <button
-            className="btn btn-primary"
+            className="py-1 px-3 btn-primary rounded-lg"
             onClick={() => setTriggerRequest(true)}
           >
             Save
@@ -556,7 +556,7 @@ const WithGrapesjs = ({ data, page, templateId }) => {
             Publish
           </button> */}
           <AlertDialogDemo
-            button="publish"
+            button="Publish"
             publishSaveClick={() => updatePageHandler(true)}
             publishCancelClick={publishHandlerNoSave}
           />
@@ -568,7 +568,7 @@ const WithGrapesjs = ({ data, page, templateId }) => {
               rel="noopener noreferrer"
             >
               <button
-                className="btn btn-primary"
+                className="py-1 px-3 btn-primary rounded-lg"
                 style={{ marginLeft: "1rem" }}
               >
                 Preview
