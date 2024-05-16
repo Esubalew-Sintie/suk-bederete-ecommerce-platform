@@ -171,14 +171,37 @@ const WithGrapesjsConfig = () => {
       },
     },
     assetManager: {
-      storageType: "",
+      storageType: "local", // Or "server" if you're storing assets on the server
       storeOnChange: true,
       storeAfterUpload: true,
       assets: [],
       uploadFile: function (e) {
         var files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
-        // ...send somewhere
-        console.log(files);
+        // Prepare the FormData object to hold the files
+        var formData = new FormData();
+        Array.from(files).forEach((file) => {
+          formData.append("files[]", file);
+        });
+        // Send the files to the Django backend
+        fetch("http://localhost:8000/shop/upload/", {
+          // Adjust the URL to match your Django endpoint
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            // Assuming the response contains an array of URLs or paths to the uploaded files
+            console.log(data);
+            const images = data?.urls?.map((item) => ({
+              type: "image",
+              src: item.url, // Adjust this based on the actual structure of your response
+            }));
+            // Add the images to the AssetManager
+            editor.AssetManager.add(images);
+          })
+          .catch((error) => {
+            console.error("Error uploading files:", error);
+          });
       },
     },
     plugins: [plugin1, block, pluginForms],
@@ -804,7 +827,7 @@ const WithGrapesjsConfig = () => {
         "https://my-assets-bucket.s3.amazonaws.com/assets/framework1.css",
         "https://fonts.googleapis.com/css2?family=Manrope:wght@200,300,400,500,600,700&display=swap",
         "https://fonts.googleapis.com/css2?family=Nunito:wght@200,300,400,500,600,700&display=swap",
-        "https://kit.fontawesome.com/0e53af926d.js" 
+        "https://kit.fontawesome.com/0e53af926d.js",
       ],
       scripts: [
         "https://cdn.tailwindcss.com",
