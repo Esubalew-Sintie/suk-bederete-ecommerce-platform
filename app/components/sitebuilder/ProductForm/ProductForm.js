@@ -77,7 +77,7 @@ export function ProductForm() {
         return product;
       });
       setProducts(updatedProducts);
-      setSelectedProductIndex(null); // Reset selected product index
+      form.reset({ ...data });
     } else {
       // Define productObject here
       let productObject = {

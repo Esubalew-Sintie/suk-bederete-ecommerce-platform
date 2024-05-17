@@ -46,24 +46,23 @@ const filterAssets = (assets, group) => {
 	return imageData;
 };
 
+const WithGrapesjs = ({ data, page, templateId }) => {
+  
 
-const WithGrapesjs = ({data, page, templateId}) => {
 	const [pageContent, setpageContent] = useState({});
+  const [createShop,{ isLoading: iscreateshopLoading, isError, error: createShopError },] = useCreateShopMutation();
+  const [merchantId, setMerchantId] = useState(null);
+  const [customizedTemplateData, setCustomizedTemplateData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [originalTemplate, setOriginalTemplate] = useState(null);
+  const [error, setError] = useState(null);
 	const dispatch = useDispatch();
 	const status = useSelector((state) => state.status.status);
 	const pageName = useSelector((state) => state.status.pageName);
 	const [editor, setEditor] = useState({});
   console.log(pageName, status);
   const [uploadImage, setUploadedImage]=useState([])
-	const [
-		createShop,
-		{isLoading: iscreateshopLoading, isError, error: createShopError},
-	] = useCreateShopMutation();
-	const [merchantId, setMerchantId] = useState(null);
-	const [customizedTemplateData, setCustomizedTemplateData] = useState(null);
-	const [isLoading, setIsLoading] = useState(false);
-	const [originalTemplate, setOriginalTemplate] = useState(null);
-	const [error, setError] = useState(null);
+	
 
 	const [triggerRequest, setTriggerRequest] = useState(false);
 	const {
@@ -471,168 +470,145 @@ const imageUploader = (editor) => {
 		});
 	};
 
-	const previewPage = () => {
-		window.open(data.live_url, "_blank");
-	};
+  const updatePageHandler = async (isPublish = false) => {
+    toast.dismiss();
+    const loadingToast = toast.loading("Saving...", { duration: 500 });
+    try {
+        const modifiedPagesData = {};
+  
+        // Iterate over each page
+        for (let i = 0; i < page.length; i++) {
+            const pa = page[i];
+            const pageName = pa.name;
+    
+            // Initialize pageContent and pageCss variables
+            let pageContent, pageCss;
+    
+            // If the current page matches the selected page, get the HTML and CSS from the editor
+            if (pageName === settingOpen.name) {
+                pageContent = editor.getHtml();
+                pageCss = editor.getCss();
+            } else {
+                // Otherwise, keep the original content from the pa object
+                pageContent = pa.html;
+                pageCss = pa.css;
+            }
+    
+            // Compare the content with the original page data
+            const pageJs = pa.js; // Assuming you have a way to get the JS for each page
+        
+            // If there are differences, include the modified content
+            modifiedPagesData[pageName] = {
+                html: pageContent,
+                css: pageCss,
+                js: pageJs,
+            };
+        }
+  
+        // Use the state variables instead of directly calling the hook
+        if (queryError && queryError.status === 404) {
+            console.log("Customized template does not exist for the given merchant ID");
+            await customisedTemplate({ originalTemplateId: templateId, modifiedMerhant: merchantId, modifiedPages: modifiedPagesData }).unwrap();
+            refetch();
+        } else if (customizedTemplateDataHook) {
+            console.log("Exists");
+            const customizedTemplateId = customizedTemplateDataHook.id;
+        
+            // Update the existing customized template
+            // sending the  modifiedPagesData
+            
+            await customisedTemplate({ originalTemplateId: templateId, modifiedMerhant: merchantId, modifiedPages: modifiedPagesData }).unwrap();
+        }
+  
+        if (isPublish) {
+            // Publish the shop
+            const shopName = "My New Shop"; // This should be dynamically set based on your form or state
+            const shopTemplateId = templateId; // This should be dynamically set based on your form or state
+            const shopHtml = editor.getHtml();
+            const shopCss = editor.getCss();
+  
+            await createShop({ name: shopName, templateId: shopTemplateId, html: shopHtml, css: shopCss });
+            toast.success("Shop published successfully");
+            setTimeout(() => {
+                router.push("/admin/dashboard");
+            }, 3000);
+        } else {
+            // Just save the template
+            toast.success("Saved successfully");
+        }
+    } catch (error) {
+        console.error("Error updating template:", error);
+        setTimeout(() => {
+            toast.error("Saving failed");
+        }, 1000);
+    }
+};
+  
+  const publishHandlerNoSave = () => {
+    // router.push("/admin/dashboard");
+  };
+  return (
+    <div>
+      <Drawer
+        anchor={"right"}
+        open={settingOpen.open}
+        onClose={toggleDrawer}
+        PaperProps={{ className: "z-30" }}
+      >
+        <div style={{ padding: "1rem" }} className="">
+          <form onSubmit={handleUpdatePage}>
+            <div id="Page-name" className="field-wrapper input">
+              <label htmlFor="page-name">Page Name</label>
 
-	const [customisedTemplate, {isLoading: isCreating}] =
-		useCustomisedTemplateMutation();
-	const [updateCustomizedTemplate, {isLoading: isUpdating}] =
-		useUpdatecustomizedTemplateMutation();
-
-	useEffect(() => {
-		const storedmerchantId = localStorage.getItem("unique_id");
-		setMerchantId(storedmerchantId);
-	}, []);
-
-	useEffect(() => {
-		if (triggerRequest) {
-			updatePageHandler()
-				.then(() => {
-					setTriggerRequest(false); // Reset trigger after handling request
-				})
-				.catch((err) => {
-					console.error("Error updating template:", err);
-					toast.error("Saving failed");
-					setTriggerRequest(false); // Reset trigger on error
-				});
-		}
-	}, [triggerRequest]);
-
-	const updatePageHandler = async (isPublish = false) => {
-		await refetch();
-		toast.dismiss();
-		const loadingToast = toast.loading("Saving...", {duration: 500});
-		try {
-			const modifiedPagesData = {};
-
-			page.forEach((pa) => {
-				modifiedPagesData[pa.name] = {
-					html: editor.getHtml(),
-					css: editor.getCss(),
-					js: pa.js,
-				};
-			});
-
-			// Use the state variables instead of directly calling the hook
-			if (queryError && queryError.status === 404) {
-				console.log(
-					"Customized template does not exist for the given merchant ID"
-				);
-				await customisedTemplate({
-					originalTemplateId: templateId,
-					modifiedMerhant: merchantId,
-					modifiedPages: modifiedPagesData,
-				}).unwrap();
-			} else if (customizedTemplateDataHook) {
-				console.log("Exists");
-				const customizedTemplateId = customizedTemplateDataHook.id;
-
-				// Update the existing customized template
-				await updateCustomizedTemplate({
-					CustomtemplateId: customizedTemplateId,
-					modifiedPages: modifiedPagesData,
-				}).unwrap();
-			}
-
-			if (isPublish) {
-				// Publish the shop
-				const shopName = "My New Shop"; // This should be dynamically set based on your form or state
-				const shopTemplateId = templateId; // This should be dynamically set based on your form or state
-				const shopHtml = editor.getHtml();
-				const shopCss = editor.getCss();
-
-				await createShop({
-					name: shopName,
-					templateId: shopTemplateId,
-					html: shopHtml,
-					css: shopCss,
-				});
-				toast.success("Shop published successfully");
-				dispatch(setStatus("publish"));
-
-				setTimeout(() => {
-					router.push(
-						`/preview/${customizedTemplateDataHook?.id}/${pageContent.name}`
-					);
-				}, 3000);
-			} else {
-				// Just save the template
-				toast.success("Saved successfully");
-			}
-		} catch (error) {
-			console.error("Error updating template:", error);
-			setTimeout(() => {
-				toast.error("Saving failed");
-			}, 1000);
-		}
-	};
-
-	const publishHandlerNoSave = () => {
-		// router.push("/admin/dashboard");
-	};
-	return (
-		<div>
-			<Drawer
-				anchor={"right"}
-				open={settingOpen.open}
-				onClose={toggleDrawer}
-				PaperProps={{className: "z-30"}}
-			>
-				<div style={{padding: "1rem"}} className="">
-					<form onSubmit={handleUpdatePage}>
-						<div id="Page-name" className="field-wrapper input">
-							<label htmlFor="page-name">Page Name</label>
-
-							<select
-								id="name"
-								name="page-name"
-								className="form-control"
-								value={settingOpen.name}
-								onChange={handlePageChange}
-							>
-								{data.map((page, index) => (
-									<option key={index} value={page.name}>
-										{page.name}
-									</option>
-								))}
-							</select>
-						</div>
-						<div
-							id="Domain-name"
-							className="field-wrapper input"
-							style={{marginBottom: "1rem", marginTop: "1rem"}}
-						>
-							<label htmlFor="domain-name">Domain Name</label>
-							<input
-								id="domain"
-								name="domain-name"
-								type="text"
-								className="form-control"
-								placeholder="Type your domain name"
-								value={settingOpen.domain}
-								onChange={(e) => {
-									setsettingOpen({
-										...settingOpen,
-										domain: e.target.value,
-									});
-								}}
-							/>
-						</div>
-						<button
-							onClick={() => handleUpdatePage()}
-							className="btn btn-primary"
-						>
-							Save
-						</button>
-					</form>
-					<div>
-						<AddProduct />
-					</div>
-				</div>
-			</Drawer>
-			<div className="panel__top">
-				{/* <div>
+              <select
+                id="name"
+                name="page-name"
+                className="form-control"
+                value={settingOpen.name}
+                onChange={handlePageChange}
+              >
+                {data.map((page, index) => (
+                  <option key={index} value={page.name}>
+                    {page.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div
+              id="Domain-name"
+              className="field-wrapper input"
+              style={{ marginBottom: "1rem", marginTop: "1rem" }}
+            >
+              <label htmlFor="domain-name">Domain Name</label>
+              <input
+                id="domain"
+                name="domain-name"
+                type="text"
+                className="form-control"
+                placeholder="Type your domain name"
+                value={settingOpen.domain}
+                onChange={(e) => {
+                  setsettingOpen({
+                    ...settingOpen,
+                    domain: e.target.value,
+                  });
+                }}
+              />
+            </div>
+            <button
+              onClick={() => handleUpdatePage()}
+              className="btn btn-primary rounded-lg"
+            >
+              Save
+            </button>
+          </form>
+          <div>
+            <AddProduct />
+          </div>
+        </div>
+      </Drawer>
+      <div className="panel__top flex flex-wrap">
+        {/* <div>
         </div> */}
 				<div className="panel__switcher">
 					<KeyboardBackspaceOutlined
@@ -643,51 +619,54 @@ const imageUploader = (editor) => {
 
 				<div className="views-actions" style={{position: "static"}}></div>
 
-				<div className="panel-action">
-					<button
-						className="btn btn-primary"
-						onClick={() => setTriggerRequest(true)}
-					>
-						Save
-					</button>
-					<CustomToaster />
-					{/* <Link href=""> */}
-					{/* <button
+        <div className="panel-action ">
+          <button
+            className="py-1 px-3 btn-primary rounded-lg"
+            onClick={() => setTriggerRequest(true)}
+          >
+            Save
+          </button>
+          <CustomToaster />
+          {/* <Link href=""> */}
+          {/* <button
             onClick={() => publishHandler()}
             className="btn btn-primary"
             style={{ marginLeft: "1rem" }}
           >
             Publish
           </button> */}
-					<AlertDialogDemo
-						button="publish"
-						publishSaveClick={() => updatePageHandler(true)}
-						publishCancelClick={publishHandlerNoSave}
-					/>
-					{/* </Link> */}
-					{pageContent.id && (
-						<Link
-							href={`/preview/${customizedTemplateDataHook?.id}/${pageContent.name}`}
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							<button className="btn btn-primary" style={{marginLeft: "1rem"}}>
-								Preview
-							</button>
-						</Link>
-					)}
-					<TuneOutlined
-						style={{marginLeft: "1rem", cursor: "pointer"}}
-						fontSize="medium"
-						onClick={toggleDrawer}
-					/>
-				</div>
-			</div>
-			<div className="editor-row ml-4">
-				<div id="blocks" />
-				<div className="editor-canvas">
-					<div id="gjs">
-						{/* {template?.html}
+          <AlertDialogDemo
+            button="Publish"
+            publishSaveClick={() => updatePageHandler(true)}
+            publishCancelClick={publishHandlerNoSave}
+          />
+          {/* </Link> */}
+          {pageContent.id && (
+            <Link
+              href={`/preview/${customizedTemplateDataHook?.id}/${pageContent.name}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <button
+                className="py-1 px-3 btn-primary rounded-lg"
+                style={{ marginLeft: "1rem" }}
+              >
+                Preview
+              </button>
+            </Link>
+          )}
+          <TuneOutlined
+            style={{ marginLeft: "1rem", cursor: "pointer" }}
+            fontSize="medium"
+            onClick={toggleDrawer}
+          />
+        </div>
+      </div>
+      <div className="editor-row ml-4">
+        <div id="blocks" />
+        <div className="editor-canvas">
+          <div id="gjs">
+            {/* {template?.html}
             <h1>Hello world</h1> */}
 					</div>
 				</div>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import html2canvas from "html2canvas";
 import {
   AlertDialog,
+  AlertDialogOverlay,
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
@@ -28,16 +29,16 @@ export function AlertDialogDemo({
   const pageName = useSelector((state) => state.status.pageName);
   console.log(pageName,status)
   const captureAndUploadScreenshot = async () => {
-    const container = document.querySelector('#features');
+    const container = document.querySelector("#features");
 
     // Check if the container is not null
     if (!container) {
-      console.error('Container not found');
+      console.error("Container not found");
       return;
     }
     try {
       const canvas = await html2canvas(container);
-      const imgData = canvas.toDataURL('image/png');
+      const imgData = canvas.toDataURL("image/png");
       const binaryData = atob(imgData.split(",")[1]);
       const dataArray = new Uint8Array(binaryData.length);
       for (let i = 0; i < binaryData.length; i++) {
@@ -75,16 +76,18 @@ export function AlertDialogDemo({
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button
-          className="btn btn-primary"
+          className="py-1  px-3 btn-primary rounded-lg"
           style={{
-            backgroundColor: "#367bee",
+            backgroundColor: "#367bde",
             marginLeft: "1rem",
           }}
         >
           {button}
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogOverlay className="fixed inset-0 bg-black z-[1000] opacity-30 " />
+
+      <AlertDialogContent className="z-[1010]">
         <AlertDialogHeader>
           <AlertDialogTitle>Save?</AlertDialogTitle>
           <AlertDialogDescription>

@@ -1,7 +1,8 @@
 "use client";
 import React from "react";
 
-const ShopItem = ({ fullWidth }) => {
+const ShopItem = ({ shop, fullWidth }) => {
+  console.log(shop);
   return (
     <div
       className={`group transition-transform duration-500  rounded-lg  hover:transform hover:scale-105 hover:rounded-xl hover:cursor-pointer hover:shadow-blue-200 transform  ${
@@ -21,7 +22,7 @@ const ShopItem = ({ fullWidth }) => {
             className="transition-all duration-1000 inline-block px-4 py-3 leading-none bg-[#1E293B]   text-white rounded-xl font-bold uppercase tracking-wide text-xl group-hover:bg-slate-200 border group-hover:border-[#1E293B]  group-hover:text-[#1E293B] my-3"
             style={{ transitionDuration: "1s" }}
           >
-            <p>Name of the Shop</p>
+            <p>{shop?.name}</p>
           </span>
 
           <button
