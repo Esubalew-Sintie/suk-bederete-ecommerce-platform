@@ -38,9 +38,7 @@ export function AddProduct() {
           </DialogDescription>
         </DialogHeader>
         <ProductForm />
-        <DialogFooter>
-          <Button type="submit">Save changes</Button>
-        </DialogFooter>
+       
       </DialogContent>
     </Dialog>
   );

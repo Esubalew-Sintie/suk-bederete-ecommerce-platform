@@ -30,8 +30,8 @@ export function DialogDemo() {
 						Make changes to your profile here. Click save when you're done.
 					</DialogDescription> */}
 				</DialogHeader>
-				{/* <AddItemForm /> */}
-                 <Order />
+				<AddItemForm />
+                 {/* <Order /> */}
 				{/* <DialogFooter>
 					<Button type="submit">Save changes</Button>
 				</DialogFooter> */}

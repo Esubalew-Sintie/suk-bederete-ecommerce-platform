@@ -24,10 +24,13 @@ const getOptions = (plugin) => {
   return Object.fromEntries(optMap);
 };
 
-const WithGrapesjsConfig = () => {
+const WithGrapesjsConfig = (CustomtemplateId) => {
   // const pluginName = dynamicConfiguration.plugin.map((value) => value.name);
   // const pluginOpts = getOptions(dynamicConfiguration.plugin);
   // loadDependency(dynamicConfiguration.plugin);
+  console.log(CustomtemplateId)
+  const projectID = 1;
+const projectEndpoint = `http://localhost:8000/shop/updatecustomized_template/1/`;
   const config = {
     // Indicate where to init the editor. You can also pass an HTMLElement
     container: "#gjs",
@@ -38,7 +41,7 @@ const WithGrapesjsConfig = () => {
     height: "90vh",
     width: "auto",
     // Disable the storage manager for the moment
-    storageManager: false,
+    storageManager: true,
     //height: '680px',
     allowScripts: true,
     showDevices: false,
@@ -170,17 +173,43 @@ const WithGrapesjsConfig = () => {
         ],
       },
     },
-    assetManager: {
-      storageType: "",
-      storeOnChange: true,
-      storeAfterUpload: true,
-      assets: [],
-      uploadFile: function (e) {
-        var files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
-        // ...send somewhere
-        console.log(files);
-      },
-    },
+    // assetManager: {
+    //   storageType: "server", // Or "server" if you're storing assets on the server
+    //   storeOnChange: true,
+    //   storeAfterUpload: true,
+    //   assets: [],
+    //   uploadFile: function (e) {
+    //     var files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
+    //     // Prepare the FormData object to hold the files
+    //     console.log(files)
+    //     var formData = new FormData();
+    //     Array.from(files).forEach((file) => {
+    //       formData.append("files", file);
+    //     });
+
+    //     // Send the files to the Django backend
+    //     fetch("http://localhost:8000/shop/upload/", {
+    //       // Adjust the URL to match your Django endpoint
+    //       method: "POST",
+    //       body: formData,
+    //     })
+    //       .then((response) => response.json())
+    //       .then((data) => {
+    //         // Assuming the response contains an array of URLs or paths to the uploaded files
+    //         console.log(data);
+    //         const images = data?.urls?.map((item) => ({
+    //           type: "image",
+    //           src: item.url, // Adjust this based on the actual structure of your response
+    //         }));
+    //         // Add the images to the AssetManager
+    //         // editor?.AssetManager.add(images);
+    //         // setUploadedImage(images)
+    //       })
+    //       .catch((error) => {
+    //         console.error("Error uploading files:", error);
+    //       });
+    //   },
+    // },
     plugins: [plugin1, block, pluginForms],
     // plugins: [...pluginName,CodeEditor,exportCode],
     // pluginsOpts: { ...pluginOpts,CodeEditor:{},exportCode:{} },
@@ -789,11 +818,24 @@ const WithGrapesjsConfig = () => {
       ],
     },
     storageManager: {
-      id: "gjs-", // Prefix identifier that will be used on parameters
-      type: "local", // Type of the storage
+      type: 'remote',
       autosave: true, // Store data automatically
-      autoload: false, // Autoload stored data on init
-      stepsBeforeSave: 1, // If autosave enabled, indicates how many changes are necessary before store method is triggered
+      autoload: true,
+      stepsBeforeSave: 3,
+      options: {
+        remote: {
+          urlLoad: projectEndpoint,
+          urlStore: projectEndpoint,
+          // The `remote` storage uses the POST method when stores data but
+          // the json-server API requires PATCH.
+          fetchOptions: opts => (opts.method === 'POST' ?  { method: 'PATCH' } : {}),
+          // As the API stores projects in this format `{id: 1, data: projectData }`,
+          // we have to properly update the body before the store and extract the
+          // project data from the response result.
+          onStore: data => ({ id: projectID, data }),
+          onLoad: result => result.data,
+        }
+      }
     },
     canvas: {
       //autoscrollLimit: 50,
