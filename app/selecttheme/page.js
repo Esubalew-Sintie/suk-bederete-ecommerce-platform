@@ -21,7 +21,7 @@ function SelectTheme() {
 				</div>
 				<div className=" flex w-full h-full gap-6 flex-wrap justify-center ">
 					{data?.map((theme) => (
-						<Theme key={theme.themeName} theme={theme} />
+						<Theme key={theme.id} theme={theme} />
 					))}
 				</div>
 			</div>
