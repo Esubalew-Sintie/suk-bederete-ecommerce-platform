@@ -18,7 +18,10 @@ export default function Register() {
  const handleRegister = async (e) => {
   e.preventDefault();
   try {
-    const response = await register({ email, password }).unwrap();
+    const formData = new FormData()
+    formData.append("email", email)
+    formData.append("password", password)
+    const response = await register(formData).unwrap();
     // Handle successful registration, e.g., redirect to login page
     console.log("Registration successful");
     console.log("Response:", response.tokens);
