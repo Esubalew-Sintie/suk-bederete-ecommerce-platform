@@ -469,6 +469,34 @@ const imageUploader = (editor) => {
 			},
 		});
 	};
+  
+  const previewPage = () => {
+    window.open(data.live_url, "_blank");
+  };
+
+  const [customisedTemplate, { isLoading: isCreating }] =
+    useCustomisedTemplateMutation();
+  const [updateCustomizedTemplate, { isLoading: isUpdating }] =
+    useUpdatecustomizedTemplateMutation();
+
+  useEffect(() => {
+    const storedmerchantId = localStorage.getItem("unique_id");
+    setMerchantId(storedmerchantId);
+  }, []);
+
+  useEffect(() => {
+    if (triggerRequest) {
+      updatePageHandler()
+        .then(() => {
+          setTriggerRequest(false); // Reset trigger after handling request
+        })
+        .catch((err) => {
+          console.error("Error updating template:", err);
+          toast.error("Saving failed");
+          setTriggerRequest(false); // Reset trigger on error
+        });
+    }
+  }, [triggerRequest]);
 
   const updatePageHandler = async (isPublish = false) => {
     toast.dismiss();
