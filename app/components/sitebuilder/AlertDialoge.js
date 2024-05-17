@@ -14,6 +14,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import "../../../styles/app.css";
+import { useDispatch, useSelector } from 'react-redux';
+import { setStatus ,setPageName} from "@/lib/features/uiBuilder/status";
 
 export function AlertDialogDemo({
   button,
@@ -22,7 +24,10 @@ export function AlertDialogDemo({
 }) {
   // Move useState to the top level of the component
   const [message, setMessage] = useState("");
-
+  const dispatch = useDispatch();
+  const status = useSelector((state) => state.status.status);
+  const pageName = useSelector((state) => state.status.pageName);
+  console.log(pageName,status)
   const captureAndUploadScreenshot = async () => {
     const container = document.querySelector("#features");
 
@@ -61,6 +66,9 @@ export function AlertDialogDemo({
 
   const handleCLick = () => {
     // captureAndUploadScreenshot();
+    localStorage.setItem("status", "publish");
+    dispatch(setStatus('publish'));
+
     publishSaveClick();
   };
 
