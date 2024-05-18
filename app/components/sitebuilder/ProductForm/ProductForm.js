@@ -16,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useState, useRef } from "react";
+import { Value } from "@radix-ui/react-select";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -24,12 +25,19 @@ const formSchema = z.object({
   category: z.string().min(2, {
     message: "Product category must be at least 2 characters.",
   }),
-  price: z.string().min(0, {
-    message: "Product price must be a positive number.",
-  }),
-  stock: z.string().min(0, {
-    message: "Product amount must be a positive number.",
-  }),
+  price: z.preprocess(
+    (value) => parseFloat(value),
+    z.number().nonnegative({
+      message: "Product price must be a positive number.",
+    })
+  ),
+  stock: z.preprocess(
+    (value) => parseInt(value),
+    z.number().nonnegative({
+      message: "Product amount must be a positive number.",
+    })
+  ),
+
   description: z.string().optional(),
 });
 
@@ -53,6 +61,10 @@ export function ProductForm() {
   });
 
   const onSubmit = (data) => {
+    const formData = new FormData();
+    for (const key in data) {
+      formData.append(key, data[key]);
+    }
     if (mode === "edit" && selectedProductIndex !== null) {
       const updatedProducts = [...products];
       updatedProducts[selectedProductIndex] = data;
@@ -70,8 +82,8 @@ export function ProductForm() {
     setMode("edit");
     const product = products[index];
     const editedProduct = { ...product };
-    delete editedProduct.productImage;
-    form.reset(editedProduct);
+    delete editedProduct.image;
+    form.reset({ ...editedProduct });
   };
 
   const handleAddNewProduct = () => {
@@ -95,7 +107,6 @@ export function ProductForm() {
               onClick={() => handleEdit(index)}
             >
               {product.name}
-
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -219,7 +230,11 @@ export function ProductForm() {
                   />
                 </FormControl>
                 <FormDescription>
-                  Provide a standard commercial image of the product.
+                  {mode === "edit" && !field.value ? (
+                    <span>Please re-upload the product image</span>
+                  ) : (
+                    "Provide a standard commercial image of the product"
+                  )}
                 </FormDescription>
                 <FormMessage />
               </FormItem>
