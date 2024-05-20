@@ -7,7 +7,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import Link from "next/link";
-import { IoMdNotifications } from "react-icons/io";
+import {IoMdNotifications} from "react-icons/io";
 
 export default function NotificationPop({ notification, setNotification }) {
   const handleClick = () => {

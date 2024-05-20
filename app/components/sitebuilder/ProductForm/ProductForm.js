@@ -1,5 +1,4 @@
 "use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -13,10 +12,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { DialogFooter } from "@/components/ui/dialog";
+
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useState, useRef } from "react";
 import { Value } from "@radix-ui/react-select";
+import { useCreateProductMutation } from "@/lib/features/products/products";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -45,6 +47,7 @@ export function ProductForm() {
   const [products, setProducts] = useState([]);
   const [selectedProductIndex, setSelectedProductIndex] = useState(null);
   const [mode, setMode] = useState("add");
+  const [createProduct, { isLoading, isError }] = useCreateProductMutation();
 
   const defaultValues = {
     name: "",
@@ -54,6 +57,7 @@ export function ProductForm() {
     image: "",
     description: "",
   };
+  const merchantId = localStorage.getItem("unique_id");
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -95,6 +99,9 @@ export function ProductForm() {
     e.stopPropagation();
     const updatedProducts = products.filter((product, i) => i !== index);
     setProducts(updatedProducts);
+  };
+  const saveChange = () => {
+    createProduct({ products, merchantId });
   };
   return (
     <>
@@ -274,6 +281,9 @@ export function ProductForm() {
           </div>
         )}
       </div>
+      <DialogFooter>
+        <Button onClick={saveChange}> Save Changes</Button>
+      </DialogFooter>{" "}
     </>
   );
 }

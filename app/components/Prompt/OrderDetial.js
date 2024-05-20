@@ -13,7 +13,7 @@ import {Label} from "@/components/ui/label";
 import {LiaSitemapSolid} from "react-icons/lia";
 import Order from "../Tables/orderDetial";
 
-export function DialogDemo({action}) {
+export function OrderDialog({action}) {
 	return (
 		<Dialog className="overflow-y-auto">
 			<DialogTrigger asChild>

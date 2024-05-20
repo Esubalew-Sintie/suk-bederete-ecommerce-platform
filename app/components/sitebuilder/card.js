@@ -1,30 +1,15 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import WithGrapesjs from "./GrapesjsMain";
-import grapesJSMJML from "grapesjs-mjml";
-import Loader from "../Prompt/Loader"
+import Loader from "../Prompt/Loader";
 import {
-  useGetWebBuilderQuery,
-  useGetWebBuildersQuery,
   useGetPageContentQuery,
+  useGetCustomisedPagesQuery,
 } from "@/lib/features/webBuilder/webBuilder";
 
 const dynamicConfiguration = {
   plugin: [
-    // {
-    //   name: 'grapesjs-blocks-bootstrap4-1',
-    //   //alert will not render
-    //   blocks: { alert: false },
-    //   // layout category will not render
-    //   blockCategories: { },
-    // },
-    // {
-    //   name: 'plugin1',
-    //   //alert will not render
-    //   blocks: { },
-    //   // layout category will not render
-    //   blockCategories: { },
-    // },
+    // Define your plugins here
   ],
 };
 
@@ -32,7 +17,8 @@ const Card = (props) => {
   const templateId = props.templetId;
   const { data: page, isLoading: pageLoading } =
     useGetPageContentQuery(templateId);
-  console.log(page);
+
+  const [merchantId, setMerchantId] = useState(null);
   const [initAppData, setData] = useState(null);
   const [loading, setLoading] = useState({
     get: false,
@@ -40,9 +26,35 @@ const Card = (props) => {
   });
   const [displayPage, setDisplayPage] = useState(false);
 
+  // Set merchantId from localStorage
   useEffect(() => {
-    if (page && !pageLoading) {
-      // Map over each page in the list and create an array of page configurations
+    const storedmerchantId = localStorage.getItem("unique_id");
+    setMerchantId(storedmerchantId);
+  }, []);
+
+  // Fetch customized pages only when merchantId is set
+  const { data: customized_pages, isLoading: customized_pagesLoading } =
+    useGetCustomisedPagesQuery(merchantId, {
+      skip: !merchantId, // Skip the query if merchantId is null
+    });
+
+  useEffect(() => {
+    if (customized_pages && !customized_pagesLoading) {
+      const pageConfigs = customized_pages.map((pageItem) => ({
+        name: pageItem?.name,
+        brand_url: "",
+        canonical: null,
+        slug: "",
+        configuration: dynamicConfiguration,
+        content: {
+          html: pageItem?.html,
+          css: pageItem?.css,
+        },
+      }));
+
+      setData(pageConfigs);
+      setDisplayPage(true);
+    } else if (page && !pageLoading) {
       const pageConfigs = page.map((pageItem) => ({
         name: pageItem?.name,
         brand_url: "",
@@ -55,13 +67,10 @@ const Card = (props) => {
         },
       }));
 
-      // Set the page configurations array as the data
       setData(pageConfigs);
-
-      // Set displayPage to true to render the component
       setDisplayPage(true);
     }
-  }, [page, pageLoading]);
+  }, [page, pageLoading, customized_pages, customized_pagesLoading]);
 
   return (
     <div>
@@ -74,12 +83,11 @@ const Card = (props) => {
           setData={setData}
         />
       ) : (
-          <div className="loader-container">
-            <Loader />
+        <div className="loader-container">
+          <Loader />
         </div>
       )}
     </div>
   );
 };
-
 export default Card;

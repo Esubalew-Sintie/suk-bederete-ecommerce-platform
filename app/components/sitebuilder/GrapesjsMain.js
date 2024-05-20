@@ -26,8 +26,9 @@ import {
 import { toast } from "react-hot-toast";
 import CustomToaster from "@/app/components/sitebuilder/Toaster/Toaster";
 import { AlertDialogDemo } from "./AlertDialoge";
-import { useSelector } from "react-redux";
 import { AddProduct } from "./ProductForm/FormDialogue";
+import { setStatus, setPageName } from "@/lib/features/uiBuilder/status";
+import { useDispatch, useSelector } from "react-redux";
 
 const filterAssets = (assets, group) => {
   const images = assets
@@ -56,6 +57,12 @@ const WithGrapesjs = ({ data, page, templateId }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [originalTemplate, setOriginalTemplate] = useState(null);
   const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const status = useSelector((state) => state.status.status);
+  const pageName = useSelector((state) => state.status.pageName);
+  const [editor, setEditor] = useState({});
+  console.log(pageName, status);
+  const [uploadImage, setUploadedImage] = useState([]);
 
   const [triggerRequest, setTriggerRequest] = useState(false);
   const {
@@ -85,6 +92,62 @@ const WithGrapesjs = ({ data, page, templateId }) => {
     });
   };
 
+  const conf = {
+    storageType: "server", // Or "server" if you're storing assets on the server
+    storeOnChange: true,
+    storeAfterUpload: true,
+    credentials: "include",
+    multiUpload: true,
+
+    assets: [],
+    uploadFile: function (e) {
+      var files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
+      var formData = new FormData();
+      Array.from(files).forEach((file) => {
+        formData.append("files", file);
+      });
+
+      fetch("http://localhost:8000/shop/upload/", {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data); // Debugging: Log the raw response data
+          if (Array.isArray(data)) {
+            const images = data.map((item) => ({
+              type: "image",
+              src: item,
+            }));
+            setUploadedImage(images);
+            console.log(images[0].src + "imagese"); // Debugging: Log the processed images data
+            // if (editor && editor.AssetManager) {
+            // 	editor.AssetManager.add(images); // Ensure editor and AssetManager are defined
+            // } else {
+            // 	console.error('AssetManager is not available');
+            // }
+          } else {
+            console.error("Unexpected response format");
+          }
+        })
+        .catch((error) => {
+          console.error("Error uploading files:", error);
+        });
+    },
+  };
+
+  useEffect(() => {
+    if (editor && editor.AssetManager && uploadImage.length > 0) {
+      // Map the stored image URLs to the format expected by AssetManager
+
+      // Add the images to the AssetManager
+      editor.AssetManager.add(uploadImage);
+
+      // Optionally, clear the uploadImage state if you don't need it anymore
+      setUploadedImage([]);
+    }
+  }, [editor, uploadImage]); // Depend on both editor and uploadImage states
+
   const initialHtmlState = {
     html: "",
     css: "",
@@ -102,7 +165,6 @@ const WithGrapesjs = ({ data, page, templateId }) => {
   const isInitialMount = useRef(true);
 
   const [initialComponents, setInitialComponents] = useState(initialHtmlState);
-  const [editor, setEditor] = useState({});
   const [builder, setBuilder] = useState({
     panelRight: false,
   });
@@ -146,23 +208,12 @@ const WithGrapesjs = ({ data, page, templateId }) => {
 
   /** Grapes js Initialization */
   const loadGrapesJs = async () => {
-    const editor = await Grapesjs.init(dynamicConfig());
-    const makeNonEditable = () => {
-      const wrapper = editor.getWrapper();
-      const components = wrapper.find(".non-editable");
-
-      components.forEach((component) => {
-        component.set({
-          editable: false,
-        });
-      });
-    };
-
-    // Call the function after the editor is loaded
-    editor.on("load", () => {
-      makeNonEditable();
+    const editor = await Grapesjs.init({
+      ...dynamicConfig(customizedTemplateDataHook?.id),
+      assetManager: conf,
     });
-    const assetManager = editor.AssetManager;
+
+    // const assetManager = editor.AssetManager.conf;
     setEditor(editor);
     addCommands(editor);
     addDevices(editor);
@@ -300,45 +351,83 @@ const WithGrapesjs = ({ data, page, templateId }) => {
   };
 
   // image upload
+  // Inside your WithGrapesjs component
+
+  // Refine the imageUploader function
   const imageUploader = (editor) => {
+    // editor.AssetManager.storageType = "server";
+    // editor.AssetManager.storeOnChange = true;
+    // editor.AssetManager.storeAfterUpload = true;
+    // editor.AssetManager.upload = 'http://localhost:8000/shop/upload/';
+    // editor.AssetManager.assets = [];
+
+    // editor.AssetManager.uploadFile = function (e) {
+    //   var files = e.dataTransfer? e.dataTransfer.files : e.target.files;
+    //   var formData = new FormData();
+
+    //   Array.from(files).forEach(file => {
+    // 	formData.append("files[]", file);
+    //   });
+
+    //   return fetch(editor.AssetManager.upload, {
+    // 	method: "POST",
+    // 	body: formData,
+    //   })
+    //  .then(response => response.json())
+    //  .then(data => {
+    // 	if (Array.isArray(data.urls)) {
+    // 	  const images = data.urls.map(item => ({
+    // 		type: "image",
+    // 		src: item.url,
+    // 	  }));
+    // 	  return images;
+    // 	} else {
+    // 	  throw new Error('Unexpected response format');
+    // 	}
+    //   })
+    //  .catch(error => {
+    // 	console.error("Error uploading files:", error);
+    // 	throw error; // Rethrow the error for GrapesJS to handle
+    //   });
+    // };
+
     editor.on("asset:upload:start", () => {
-      console.log("start");
+      console.log("Start uploading...");
     });
+
     editor.on("asset:upload:error", (err) => {
-      console.log("errrr", err);
+      console.error("Error during upload:", err);
     });
-    editor.on("asset:add", () => {
-      console.log("add");
-    });
+
     editor.on("asset:upload:response", (response) => {
-      const images = [];
-      for (let i = 0; i < response.length; i++) {
-        images.push({ type: "image", src: response[i] });
+      console.log("Response from server:", response);
+      if (Array.isArray(response)) {
+        const images = response.map((item) => ({
+          type: "image",
+          src: item.url,
+        }));
+        editor.AssetManager.add(images);
+      } else {
+        console.error("Expected an array, got:", typeof response);
       }
-      editor.AssetManager.add(images);
     });
+
     editor.on("asset:upload:end", () => {
-      console.log("end");
-    });
-    editor.on("canvas:drop", function (e) {});
-    editor.on("canvas:dragenter", function () {
-      //console.log('dragenter');
-      editor.runCommand("sw-visibility");
-      editor.runCommand("core:component-outline");
-      console.log(document.getElementsByClassName("gjs-frame"));
-    });
-    editor.on("canvas:drop", function () {
-      console.log("drop");
-      editor.stopCommand("sw-visibility");
-      // document.getElementsByClassName('gjs-frame').classList.add('h-100');
+      console.log("Upload ended.");
     });
   };
-  /** Life cycle method for loading grapesjs */
 
+  //  Life cycle method for loading grapesjs */
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
       loadGrapesJs();
+      // .then(() => {
+      //     // After the editor is loaded, apply global configuration
+      //     editor.AssetManager.storageType = "server";
+      //     editor.AssetManager.storeOnChange = true;
+      //     editor.AssetManager.storeAfterUpload = true;
+      //   });
     }
     //else {
     //   loadCustomData();
@@ -412,13 +501,34 @@ const WithGrapesjs = ({ data, page, templateId }) => {
     try {
       const modifiedPagesData = {};
 
-      page.forEach((pa) => {
-        modifiedPagesData[pa.name] = {
-          html: editor.getHtml(),
-          css: editor.getCss(),
-          js: pa.js,
+      // Iterate over each page
+      for (let i = 0; i < page.length; i++) {
+        const pa = page[i];
+        const pageName = pa.name;
+
+        // Initialize pageContent and pageCss variables
+        let pageContent, pageCss;
+
+        // If the current page matches the selected page, get the HTML and CSS from the editor
+        if (pageName === settingOpen.name) {
+          pageContent = editor.getHtml();
+          pageCss = editor.getCss();
+        } else {
+          // Otherwise, keep the original content from the pa object
+          pageContent = pa.html;
+          pageCss = pa.css;
+        }
+
+        // Compare the content with the original page data
+        const pageJs = pa.js; // Assuming you have a way to get the JS for each page
+
+        // If there are differences, include the modified content
+        modifiedPagesData[pageName] = {
+          html: pageContent,
+          css: pageCss,
+          js: pageJs,
         };
-      });
+      }
 
       // Use the state variables instead of directly calling the hook
       if (queryError && queryError.status === 404) {
@@ -436,8 +546,11 @@ const WithGrapesjs = ({ data, page, templateId }) => {
         const customizedTemplateId = customizedTemplateDataHook.id;
 
         // Update the existing customized template
-        await updateCustomizedTemplate({
-          CustomtemplateId: customizedTemplateId,
+        // sending the  modifiedPagesData
+
+        await customisedTemplate({
+          originalTemplateId: templateId,
+          modifiedMerhant: merchantId,
           modifiedPages: modifiedPagesData,
         }).unwrap();
       }
@@ -457,9 +570,7 @@ const WithGrapesjs = ({ data, page, templateId }) => {
         });
         toast.success("Shop published successfully");
         setTimeout(() => {
-          router.push(
-            `/preview/${customizedTemplateDataHook?.id}/${pageContent.name}`
-          );
+          router.push("/admin/dashboard");
         }, 3000);
       } else {
         // Just save the template

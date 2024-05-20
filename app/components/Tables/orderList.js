@@ -29,7 +29,7 @@ import {AiOutlineEdit, AiFillDelete} from "react-icons/ai";
 import {LuView} from "react-icons/lu";
 
 import {AddProduct} from "../Prompt/AddProduct";
-import {DialogDemo} from "../Prompt/OrderDetial";
+import {OrderDialog} from "../Prompt/OrderDetial";
 
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
