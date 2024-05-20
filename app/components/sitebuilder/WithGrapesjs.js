@@ -173,43 +173,6 @@ const projectEndpoint = `http://localhost:8000/shop/updatecustomized_template/1/
         ],
       },
     },
-    // assetManager: {
-    //   storageType: "server", // Or "server" if you're storing assets on the server
-    //   storeOnChange: true,
-    //   storeAfterUpload: true,
-    //   assets: [],
-    //   uploadFile: function (e) {
-    //     var files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
-    //     // Prepare the FormData object to hold the files
-    //     console.log(files)
-    //     var formData = new FormData();
-    //     Array.from(files).forEach((file) => {
-    //       formData.append("files", file);
-    //     });
-
-    //     // Send the files to the Django backend
-    //     fetch("http://localhost:8000/shop/upload/", {
-    //       // Adjust the URL to match your Django endpoint
-    //       method: "POST",
-    //       body: formData,
-    //     })
-    //       .then((response) => response.json())
-    //       .then((data) => {
-    //         // Assuming the response contains an array of URLs or paths to the uploaded files
-    //         console.log(data);
-    //         const images = data?.urls?.map((item) => ({
-    //           type: "image",
-    //           src: item.url, // Adjust this based on the actual structure of your response
-    //         }));
-    //         // Add the images to the AssetManager
-    //         // editor?.AssetManager.add(images);
-    //         // setUploadedImage(images)
-    //       })
-    //       .catch((error) => {
-    //         console.error("Error uploading files:", error);
-    //       });
-    //   },
-    // },
     plugins: [plugin1, block, pluginForms],
     // plugins: [...pluginName,CodeEditor,exportCode],
     // pluginsOpts: { ...pluginOpts,CodeEditor:{},exportCode:{} },

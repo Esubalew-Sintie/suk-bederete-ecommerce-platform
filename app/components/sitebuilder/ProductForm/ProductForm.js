@@ -61,9 +61,9 @@ export function ProductForm() {
     }
   
     // Append the image file
-    // if (productImageRef.current.files.length > 0) {
-    //   formData.append('image', productImageRef.current.files[0]);
-    // }
+    if (productImageRef.current.files.length > 0) {
+      formData.append('image', productImageRef.current.files[0]);
+    }
   
     if (mode === "edit") {
       // Update existing product
@@ -86,7 +86,7 @@ export function ProductForm() {
         price: data.price,
         stock: data.stock,
         description: data.description,
-        // image: productImageRef.current.files[0],
+        image: productImageRef.current.files[0],
       };
   
       // Add new product
