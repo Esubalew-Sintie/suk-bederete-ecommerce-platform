@@ -15,8 +15,9 @@ const dynamicConfiguration = {
 
 const Card = (props) => {
   const templateId = props.templetId;
-  const { data: page, isLoading: pageLoading } = useGetPageContentQuery(templateId);
-  
+  const { data: page, isLoading: pageLoading } =
+    useGetPageContentQuery(templateId);
+
   const [merchantId, setMerchantId] = useState(null);
   const [initAppData, setData] = useState(null);
   const [loading, setLoading] = useState({
@@ -32,9 +33,10 @@ const Card = (props) => {
   }, []);
 
   // Fetch customized pages only when merchantId is set
-  const { data: customized_pages, isLoading: customized_pagesLoading } = useGetCustomisedPagesQuery(merchantId, {
-    skip: !merchantId, // Skip the query if merchantId is null
-  });
+  const { data: customized_pages, isLoading: customized_pagesLoading } =
+    useGetCustomisedPagesQuery(merchantId, {
+      skip: !merchantId, // Skip the query if merchantId is null
+    });
 
   useEffect(() => {
     if (customized_pages && !customized_pagesLoading) {
@@ -88,5 +90,4 @@ const Card = (props) => {
     </div>
   );
 };
-
 export default Card;

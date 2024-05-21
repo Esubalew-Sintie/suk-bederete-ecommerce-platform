@@ -38,7 +38,6 @@ export function AddProduct() {
           </DialogDescription>
         </DialogHeader>
         <ProductForm />
-       
       </DialogContent>
     </Dialog>
   );
