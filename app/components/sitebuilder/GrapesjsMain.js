@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Grapesjs from "grapesjs";
 import html2canvas from "html2canvas";
 
@@ -6,51 +6,52 @@ import html2canvas from "html2canvas";
 import dynamicConfig from "./WithGrapesjs";
 import "../../../styles/app.css";
 import Drawer from "@mui/material/Drawer";
-import {TuneOutlined} from "@mui/icons-material";
-import {style} from "./components/common";
-import {KeyboardBackspaceOutlined} from "@mui/icons-material";
-import {useRouter} from "next/navigation";
-import {data} from "autoprefixer";
+import { TuneOutlined } from "@mui/icons-material";
+import { style } from "./components/common";
+import { KeyboardBackspaceOutlined } from "@mui/icons-material";
+import { useRouter } from "next/navigation";
+import { data } from "autoprefixer";
 import Link from "next/link";
 import {
-	useGetWebBuilderQuery,
-	useUpdatePageContentMutation,
-	useCustomisedTemplateMutation,
-	useGetCustomizedTemplateQuery,
-	useUpdatecustomizedTemplateMutation,
+  useGetWebBuilderQuery,
+  useUpdatePageContentMutation,
+  useCustomisedTemplateMutation,
+  useGetCustomizedTemplateQuery,
+  useUpdatecustomizedTemplateMutation,
 } from "@/lib/features/webBuilder/webBuilder";
 import {
-	useCreateShopMutation,
-	useUpdateShopMutation,
+  useCreateShopMutation,
+  useUpdateShopMutation,
 } from "@/lib/features/shop/shop";
-import {toast} from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import CustomToaster from "@/app/components/sitebuilder/Toaster/Toaster";
-import {AlertDialogDemo} from "./AlertDialoge";
-import {AddProduct} from "./ProductForm/FormDialogue";
-import {setStatus, setPageName} from "@/lib/features/uiBuilder/status";
-import {useDispatch, useSelector} from "react-redux";
+import { AlertDialogDemo } from "./AlertDialoge";
+import { AddProduct } from "./ProductForm/FormDialogue";
+import { setStatus, setPageName } from "@/lib/features/uiBuilder/status";
+import { useDispatch, useSelector } from "react-redux";
 
 const filterAssets = (assets, group) => {
-	const images = assets
-		? assets.map((items) => {
-				if (items.group === group) {
-					return items.url;
-				}
-		  })
-		: [];
-	const imageData = images.filter((items) => {
-		if (!undefined) {
-			return items;
-		}
-	});
-	return imageData;
+  const images = assets
+    ? assets.map((items) => {
+        if (items.group === group) {
+          return items.url;
+        }
+      })
+    : [];
+  const imageData = images.filter((items) => {
+    if (!undefined) {
+      return items;
+    }
+  });
+  return imageData;
 };
 
 const WithGrapesjs = ({ data, page, templateId }) => {
-  
-
-	const [pageContent, setpageContent] = useState({});
-  const [createShop,{ isLoading: iscreateshopLoading, isError, error: createShopError },] = useCreateShopMutation();
+  const [pageContent, setpageContent] = useState({});
+  const [
+    createShop,
+    { isLoading: iscreateshopLoading, isError, error: createShopError },
+  ] = useCreateShopMutation();
   const [merchantId, setMerchantId] = useState(null);
   const [customizedTemplateData, setCustomizedTemplateData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -62,8 +63,7 @@ const WithGrapesjs = ({ data, page, templateId }) => {
 	const shopName = localStorage.getItem("shopName");
 	const [editor, setEditor] = useState({});
   console.log(pageName, status);
-  const [uploadImage, setUploadedImage]=useState([])
-	
+  const [uploadImage, setUploadedImage] = useState([]);
 
 	const [triggerRequest, setTriggerRequest] = useState(false);
 	const {data: customizedTemplateDataHook,refetch,isLoading: isLoadingQuery,error: queryError,} = useGetCustomizedTemplateQuery(merchantId);
@@ -71,401 +71,398 @@ const WithGrapesjs = ({ data, page, templateId }) => {
 		useGetWebBuilderQuery(templateId);
 	const modifier_merchant = useSelector((state) => state.merchant);
 
-	const handlePageChange = (e) => {
-		const selectedPageName = e.target.value;
-		const selectedPage = page.find((pa) => pa.name === selectedPageName);
-		setpageContent(selectedPage);
+  const handlePageChange = (e) => {
+    const selectedPageName = e.target.value;
+    const selectedPage = page.find((pa) => pa.name === selectedPageName);
+    setpageContent(selectedPage);
 
-		if (selectedPage && editor.getHtml() !== selectedPage.html) {
-			editor.setComponents(selectedPage.html);
-			editor.setStyle(selectedPage.css);
-		}
+    if (selectedPage && editor.getHtml() !== selectedPage.html) {
+      editor.setComponents(selectedPage.html);
+      editor.setStyle(selectedPage.css);
+    }
 
-		setsettingOpen({
-			...settingOpen,
-			name: selectedPageName,
-			pageId: selectedPage.id,
-		});
-	};
+    setsettingOpen({
+      ...settingOpen,
+      name: selectedPageName,
+      pageId: selectedPage.id,
+    });
+  };
 
-	const conf =  {
-		storageType: "server", // Or "server" if you're storing assets on the server
-		storeOnChange: true,
-	  storeAfterUpload: true,
-	  credentials: 'include',
-	  multiUpload: true,
-	
-		assets: [],
-		uploadFile: function (e) {
-			var files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
-			var formData = new FormData();
-			Array.from(files).forEach((file) => {
-				formData.append("files", file);
-			});
-			  
-			fetch("http://localhost:8000/shop/upload/", {
-				method: "POST",
-				body: formData,
-			})
-				.then((response) => response.json())
-				.then((data) => {
-					console.log(data); // Debugging: Log the raw response data
-					if (Array.isArray(data)) {
-						const images = data.map((item) => ({
-							type: "image",
-							src: item,
-						}));
-						setUploadedImage(images)
-						console.log(images[0].src+"imagese"); // Debugging: Log the processed images data
-						// if (editor && editor.AssetManager) {
-						// 	editor.AssetManager.add(images); // Ensure editor and AssetManager are defined
-						// } else {
-						// 	console.error('AssetManager is not available');
-						// }
-					} else {
-						console.error('Unexpected response format');
-					}
-				})
-				.catch((error) => {
-					console.error("Error uploading files:", error);
-				});
-			
-		}
-	}
-	
-	useEffect(() => {
-		if (editor && editor.AssetManager && uploadImage.length > 0) {
-		  // Map the stored image URLs to the format expected by AssetManager
-		
-	  
-		  // Add the images to the AssetManager
-		  editor.AssetManager.add(uploadImage);
-	  
-		  // Optionally, clear the uploadImage state if you don't need it anymore
-		  setUploadedImage([]);
-		}
-	  }, [editor, uploadImage]); // Depend on both editor and uploadImage states
-	  
-	const initialHtmlState = {
-		html: "",
-		css: "",
-		assets: [],
-		custom_body: `<script>console.log('body')</script>`,
-		custom_footer: `<script>console.log('footer')</script>`,
-		custom_head:
-			'<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">',
-	};
-	const router = useRouter();
+  const conf = {
+    storageType: "server", // Or "server" if you're storing assets on the server
+    storeOnChange: true,
+    storeAfterUpload: true,
+    credentials: "include",
+    multiUpload: true,
 
-	/** props */
+    assets: [],
+    uploadFile: function (e) {
+      var files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
+      var formData = new FormData();
+      Array.from(files).forEach((file) => {
+        formData.append("files", file);
+      });
 
-	/** initial mount ref */
-	const isInitialMount = useRef(true);
+      fetch("http://localhost:8000/shop/upload/", {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data); // Debugging: Log the raw response data
+          if (Array.isArray(data)) {
+            const images = data.map((item) => ({
+              type: "image",
+              src: item,
+            }));
+            setUploadedImage(images);
+            console.log(images[0].src + "imagese"); // Debugging: Log the processed images data
+            // if (editor && editor.AssetManager) {
+            // 	editor.AssetManager.add(images); // Ensure editor and AssetManager are defined
+            // } else {
+            // 	console.error('AssetManager is not available');
+            // }
+          } else {
+            console.error("Unexpected response format");
+          }
+        })
+        .catch((error) => {
+          console.error("Error uploading files:", error);
+        });
+    },
+  };
 
-	const [initialComponents, setInitialComponents] = useState(initialHtmlState);
-	const [builder, setBuilder] = useState({
-		panelRight: false,
-	});
-	const [settingOpen, setsettingOpen] = useState({
-		name: "",
-		domain: "",
-		pageId: null,
-		open: false,
-	});
+  useEffect(() => {
+    if (editor && editor.AssetManager && uploadImage.length > 0) {
+      // Map the stored image URLs to the format expected by AssetManager
 
-	useEffect(() => {
-		if (page) {
-			// Filter the data to include only the page with the name "home"
-			const homePage = page.find((pa) => pa.name === "Home");
-			// If a home page is found, set it as the initial pageContent
-			if (homePage) {
-				setpageContent(homePage);
-			} else {
-				// If no home page is found, you can set the first page as the initial pageContent
-				// or handle this case as needed
-				setpageContent(page[0]);
-			}
-		}
-		if (data) {
-			const homePage = data.find((page) => page.name === "home");
-			const pageToRender = homePage || data[0]; // If home page not found, render the first page
+      // Add the images to the AssetManager
+      editor.AssetManager.add(uploadImage);
 
-			setInitialComponents({
-				html: pageToRender?.content.html,
-				css: pageToRender?.content.css,
-				custom_head: pageToRender.custom_head || "",
-				custom_footer: pageToRender.custom_footer || "",
-			});
-			setsettingOpen({
-				name: pageToRender.name,
-				domain: pageToRender?.customdomain || "",
-				open: false,
-			});
-		}
-	}, [data, page]);
+      // Optionally, clear the uploadImage state if you don't need it anymore
+      setUploadedImage([]);
+    }
+  }, [editor, uploadImage]); // Depend on both editor and uploadImage states
 
-	/** Grapes js Initialization */
-	const loadGrapesJs = async () => {
-		
-    const editor = await Grapesjs.init({...dynamicConfig(customizedTemplateDataHook?.id),assetManager: conf});
-    
-		// const assetManager = editor.AssetManager.conf;
-		setEditor(editor);
-		addCommands(editor);
-		addDevices(editor);
-		isStylesOpen(editor);
-		imageUploader(editor);
-		addStyleManager(editor);
-		addPage(editor);
-		onLoad(editor);
-		const canvas = editor.Canvas;
-		// assetManager.add(assets);
-		// setTimeout(addStyleManager(editor),0);
-		const selected = editor.getSelected();
-		// console.log(editor.getSelected);
-		// Scroll smoothly (this behavior can be polyfilled)
-		// canvas.scrollTo(selected, { alignToTop : false });
-		canvas.scrollTo(selected, {behavior: "smooth"});
-		// Force the scroll, even if the element is alredy visible
-		canvas.scrollTo(selected, {force: true});
-		// editor.StyleManager.getProperty('typography', 'Rubik');
-	};
+  const initialHtmlState = {
+    html: "",
+    css: "",
+    assets: [],
+    custom_body: `<script>console.log('body')</script>`,
+    custom_footer: `<script>console.log('footer')</script>`,
+    custom_head:
+      '<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">',
+  };
+  const router = useRouter();
 
-	/** handle open style container */
-	const handleopen = () => {
-		setBuilder({...builder, panelRight: true});
-	};
+  /** props */
 
-	/** handle close style container */
-	const handleClose = () => {
-		const ele = window?.editor?.getSelected();
-		window.editor?.selectToggle(ele);
-		setBuilder({...builder, panelRight: false});
-	};
+  /** initial mount ref */
+  const isInitialMount = useRef(true);
 
-	/** after loaading of grapejs  */
-	const onLoad = (editor) => {
-		const categories = editor.BlockManager.getCategories();
+  const [initialComponents, setInitialComponents] = useState(initialHtmlState);
+  const [builder, setBuilder] = useState({
+    panelRight: false,
+  });
+  const [settingOpen, setsettingOpen] = useState({
+    name: "",
+    domain: "",
+    pageId: null,
+    open: false,
+  });
 
-		// Assuming `data` is the prop that contains the updated content
-		const homePage = data.find((page) => page.name === "home");
-		const pageToRender = homePage || data[0]; // If home page not found, render the first page
+  useEffect(() => {
+    if (page) {
+      // Filter the data to include only the page with the name "home"
+      const homePage = page.find((pa) => pa.name === "Home");
+      // If a home page is found, set it as the initial pageContent
+      if (homePage) {
+        setpageContent(homePage);
+      } else {
+        // If no home page is found, you can set the first page as the initial pageContent
+        // or handle this case as needed
+        setpageContent(page[0]);
+      }
+    }
+    if (data) {
+      const homePage = data.find((page) => page.name === "home");
+      const pageToRender = homePage || data[0]; // If home page not found, render the first page
 
-		// Set initial HTML in builder using the updated data
-		editor.setComponents(pageToRender?.content.html);
+      setInitialComponents({
+        html: pageToRender?.content.html,
+        css: pageToRender?.content.css,
+        custom_head: pageToRender.custom_head || "",
+        custom_footer: pageToRender.custom_footer || "",
+      });
+      setsettingOpen({
+        name: pageToRender.name,
+        domain: pageToRender?.customdomain || "",
+        open: false,
+      });
+    }
+  }, [data, page]);
 
-		// Setting CSS
-		editor.setStyle(pageToRender?.content.css);
+  /** Grapes js Initialization */
+  const loadGrapesJs = async () => {
+    const editor = await Grapesjs.init({
+      ...dynamicConfig(customizedTemplateDataHook?.id),
+      assetManager: conf,
+    });
 
-		/** Find block categories and make default open false */
-		categories.forEach((category) => {
-			category.set("open", false).on("change:open", (opened) => {
-				opened.get("open") &&
-					categories.each((category) => {
-						category !== opened && category.set("open", false);
-					});
-			});
-		});
-	};
+    // const assetManager = editor.AssetManager.conf;
+    setEditor(editor);
+    addCommands(editor);
+    addDevices(editor);
+    isStylesOpen(editor);
+    imageUploader(editor);
+    addStyleManager(editor);
+    addPage(editor);
+    onLoad(editor);
+    const canvas = editor.Canvas;
+    // assetManager.add(assets);
+    // setTimeout(addStyleManager(editor),0);
+    const selected = editor.getSelected();
+    // console.log(editor.getSelected);
+    // Scroll smoothly (this behavior can be polyfilled)
+    // canvas.scrollTo(selected, { alignToTop : false });
+    canvas.scrollTo(selected, { behavior: "smooth" });
+    // Force the scroll, even if the element is alredy visible
+    canvas.scrollTo(selected, { force: true });
+    // editor.StyleManager.getProperty('typography', 'Rubik');
+  };
 
-	/** Load custom data */
-	// const loadCustomData = () => {
-	//   const codeViewer = editor.CodeManager.getViewer('CodeMirror').clone();
-	//   codeViewer.set({
-	//     ...{ codeName: 'htmlmixed', theme: 'hopscotch', readOnly: 0 },
-	//   });
-	//   editor.on('load', onLoad);
-	// };
+  /** handle open style container */
+  const handleopen = () => {
+    setBuilder({ ...builder, panelRight: true });
+  };
 
-	/** add commands */
-	const addCommands = (editor) => {
-		const commands = editor.Commands;
-		commands.getAll();
-		commands.add("set-device-xs", {
-			run(editor) {
-				editor.setDevice("Mobile");
-			},
-		});
-		commands.add("set-device-sm", {
-			run(editor) {
-				editor.setDevice("Tablet");
-			},
-		});
-		commands.add("set-device-md", {
-			run(editor) {
-				editor.setDevice("Medium");
-			},
-		});
-		commands.add("set-device-lg", {
-			run(editor) {
-				editor.setDevice("Large");
-			},
-		});
-		commands.add("set-device-xl", {
-			run(editor) {
-				editor.setDevice("Desktop");
-			},
-		});
-		commands.add("open-assset-manager", {
-			run(editor) {
-				// console.log(EventTarget);
-				const myCommands = commands.get("core:open-assets");
-				myCommands.run(editor, {target: "_blank"});
-			},
-		});
-	};
+  /** handle close style container */
+  const handleClose = () => {
+    const ele = window?.editor?.getSelected();
+    window.editor?.selectToggle(ele);
+    setBuilder({ ...builder, panelRight: false });
+  };
 
-	const addPage = (editor) => {};
+  /** after loaading of grapejs  */
+  const onLoad = (editor) => {
+    const categories = editor.BlockManager.getCategories();
 
-	// add devices
-	const addDevices = (editor) => {
-		const deviceManager = editor.DeviceManager;
-		deviceManager.add("Mobile", "385px", {
-			width: "385px", //width for mobile size
-			name: "Mobile", // device name
-			widthMedia: "576px", // the width that will be used for the CSS media
-		});
-	};
+    // Assuming `data` is the prop that contains the updated content
+    const homePage = data.find((page) => page.name === "home");
+    const pageToRender = homePage || data[0]; // If home page not found, render the first page
 
-	/** component and canvas action events */
-	const isStylesOpen = (editor) => {
-		editor.on("component:selected", handleopen);
-		editor.on("component:deselected", handleClose);
-		editor.on("run:preview:before", function () {});
-	};
+    // Set initial HTML in builder using the updated data
+    editor.setComponents(pageToRender?.content.html);
 
-	// add dynamic styles
-	const addStyleManager = (editor) => {
-		const styleManager = editor.StyleManager;
-		const sector = styleManager.getSector("advanced");
-		/** added custom fonts */
-		const fontProperty = styleManager.getProperty("appearance", "font-family");
-		// let list = fontProperty.get('list');
-		// list.push({ value: 'Manrope, sans-serif', name: 'Manrope' });
-		// list.push({ value: 'Nunito, sans-serif', name: 'Nunito' });
-		// list.push({ value: 'Segoe UI', name: 'Segoe UI' });
-	};
+    // Setting CSS
+    editor.setStyle(pageToRender?.content.css);
 
-	// image upload
-	// Inside your WithGrapesjs component
+    /** Find block categories and make default open false */
+    categories.forEach((category) => {
+      category.set("open", false).on("change:open", (opened) => {
+        opened.get("open") &&
+          categories.each((category) => {
+            category !== opened && category.set("open", false);
+          });
+      });
+    });
+  };
 
-// Refine the imageUploader function
-const imageUploader = (editor) => {
-		// editor.AssetManager.storageType = "server";
-		// editor.AssetManager.storeOnChange = true;
-		// editor.AssetManager.storeAfterUpload = true;
-		// editor.AssetManager.upload = 'http://localhost:8000/shop/upload/';
-		// editor.AssetManager.assets = [];
-	  
-		// editor.AssetManager.uploadFile = function (e) {
-		//   var files = e.dataTransfer? e.dataTransfer.files : e.target.files;
-		//   var formData = new FormData();
-	  
-		//   Array.from(files).forEach(file => {
-		// 	formData.append("files[]", file);
-		//   });
-	  
-		//   return fetch(editor.AssetManager.upload, {
-		// 	method: "POST",
-		// 	body: formData,
-		//   })
-		//  .then(response => response.json())
-		//  .then(data => {
-		// 	if (Array.isArray(data.urls)) {
-		// 	  const images = data.urls.map(item => ({
-		// 		type: "image",
-		// 		src: item.url,
-		// 	  }));
-		// 	  return images;
-		// 	} else {
-		// 	  throw new Error('Unexpected response format');
-		// 	}
-		//   })
-		//  .catch(error => {
-		// 	console.error("Error uploading files:", error);
-		// 	throw error; // Rethrow the error for GrapesJS to handle
-		//   });
-		// };
-	  
-		editor.on("asset:upload:start", () => {
-		  console.log('Start uploading...');
-		});
-	  
-		editor.on("asset:upload:error", (err) => {
-		  console.error('Error during upload:', err);
-		});
-	  
-		editor.on("asset:upload:response", (response) => {
-		  console.log('Response from server:', response);
-		  if (Array.isArray(response)) {
-			const images = response.map(item => ({
-			  type: "image",
-			  src: item.url,
-			}));
-			editor.AssetManager.add(images);
-		  } else {
-			console.error('Expected an array, got:', typeof response);
-		  }
-		});
-	  
-		editor.on("asset:upload:end", () => {
-		  console.log('Upload ended.');
-		});
-	  };
-	  
+  /** Load custom data */
+  // const loadCustomData = () => {
+  //   const codeViewer = editor.CodeManager.getViewer('CodeMirror').clone();
+  //   codeViewer.set({
+  //     ...{ codeName: 'htmlmixed', theme: 'hopscotch', readOnly: 0 },
+  //   });
+  //   editor.on('load', onLoad);
+  // };
 
+  /** add commands */
+  const addCommands = (editor) => {
+    const commands = editor.Commands;
+    commands.getAll();
+    commands.add("set-device-xs", {
+      run(editor) {
+        editor.setDevice("Mobile");
+      },
+    });
+    commands.add("set-device-sm", {
+      run(editor) {
+        editor.setDevice("Tablet");
+      },
+    });
+    commands.add("set-device-md", {
+      run(editor) {
+        editor.setDevice("Medium");
+      },
+    });
+    commands.add("set-device-lg", {
+      run(editor) {
+        editor.setDevice("Large");
+      },
+    });
+    commands.add("set-device-xl", {
+      run(editor) {
+        editor.setDevice("Desktop");
+      },
+    });
+    commands.add("open-assset-manager", {
+      run(editor) {
+        // console.log(EventTarget);
+        const myCommands = commands.get("core:open-assets");
+        myCommands.run(editor, { target: "_blank" });
+      },
+    });
+  };
 
-  
+  const addPage = (editor) => {};
+
+  // add devices
+  const addDevices = (editor) => {
+    const deviceManager = editor.DeviceManager;
+    deviceManager.add("Mobile", "385px", {
+      width: "385px", //width for mobile size
+      name: "Mobile", // device name
+      widthMedia: "576px", // the width that will be used for the CSS media
+    });
+  };
+
+  /** component and canvas action events */
+  const isStylesOpen = (editor) => {
+    editor.on("component:selected", handleopen);
+    editor.on("component:deselected", handleClose);
+    editor.on("run:preview:before", function () {});
+  };
+
+  // add dynamic styles
+  const addStyleManager = (editor) => {
+    const styleManager = editor.StyleManager;
+    const sector = styleManager.getSector("advanced");
+    /** added custom fonts */
+    const fontProperty = styleManager.getProperty("appearance", "font-family");
+    // let list = fontProperty.get('list');
+    // list.push({ value: 'Manrope, sans-serif', name: 'Manrope' });
+    // list.push({ value: 'Nunito, sans-serif', name: 'Nunito' });
+    // list.push({ value: 'Segoe UI', name: 'Segoe UI' });
+  };
+
+  // image upload
+  // Inside your WithGrapesjs component
+
+  // Refine the imageUploader function
+  const imageUploader = (editor) => {
+    // editor.AssetManager.storageType = "server";
+    // editor.AssetManager.storeOnChange = true;
+    // editor.AssetManager.storeAfterUpload = true;
+    // editor.AssetManager.upload = 'http://localhost:8000/shop/upload/';
+    // editor.AssetManager.assets = [];
+
+    // editor.AssetManager.uploadFile = function (e) {
+    //   var files = e.dataTransfer? e.dataTransfer.files : e.target.files;
+    //   var formData = new FormData();
+
+    //   Array.from(files).forEach(file => {
+    // 	formData.append("files[]", file);
+    //   });
+
+    //   return fetch(editor.AssetManager.upload, {
+    // 	method: "POST",
+    // 	body: formData,
+    //   })
+    //  .then(response => response.json())
+    //  .then(data => {
+    // 	if (Array.isArray(data.urls)) {
+    // 	  const images = data.urls.map(item => ({
+    // 		type: "image",
+    // 		src: item.url,
+    // 	  }));
+    // 	  return images;
+    // 	} else {
+    // 	  throw new Error('Unexpected response format');
+    // 	}
+    //   })
+    //  .catch(error => {
+    // 	console.error("Error uploading files:", error);
+    // 	throw error; // Rethrow the error for GrapesJS to handle
+    //   });
+    // };
+
+    editor.on("asset:upload:start", () => {
+      console.log("Start uploading...");
+    });
+
+    editor.on("asset:upload:error", (err) => {
+      console.error("Error during upload:", err);
+    });
+
+    editor.on("asset:upload:response", (response) => {
+      console.log("Response from server:", response);
+      if (Array.isArray(response)) {
+        const images = response.map((item) => ({
+          type: "image",
+          src: item.url,
+        }));
+        editor.AssetManager.add(images);
+      } else {
+        console.error("Expected an array, got:", typeof response);
+      }
+    });
+
+    editor.on("asset:upload:end", () => {
+      console.log("Upload ended.");
+    });
+  };
+
   //  Life cycle method for loading grapesjs */
-	useEffect(() => {
-		if (isInitialMount.current) {
-			isInitialMount.current = false;
-      loadGrapesJs()
-	// .then(() => {
-    //     // After the editor is loaded, apply global configuration
-    //     editor.AssetManager.storageType = "server";
-    //     editor.AssetManager.storeOnChange = true;
-    //     editor.AssetManager.storeAfterUpload = true;
-    //   });      
-		}
-		//else {
-		//   loadCustomData();
-		// }
-	}, [editor]);
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      loadGrapesJs();
+      // .then(() => {
+      //     // After the editor is loaded, apply global configuration
+      //     editor.AssetManager.storageType = "server";
+      //     editor.AssetManager.storeOnChange = true;
+      //     editor.AssetManager.storeAfterUpload = true;
+      //   });
+    }
+    //else {
+    //   loadCustomData();
+    // }
+  }, [editor]);
 
-	const toggleDrawer = () => {
-		setsettingOpen({
-			...settingOpen,
-			open: !settingOpen.open,
-		});
-	};
+  const toggleDrawer = () => {
+    setsettingOpen({
+      ...settingOpen,
+      open: !settingOpen.open,
+    });
+  };
 
-	const handleUpdatePage = (e) => {
-		e.preventDefault();
-		props.updatePage({
-			page_id: data._id,
-			body: {
-				name: settingOpen.name,
-				customdomain: settingOpen.domain,
-			},
-		});
-		toggleDrawer();
-	};
+  const handleUpdatePage = (e) => {
+    e.preventDefault();
+    props.updatePage({
+      page_id: data._id,
+      body: {
+        name: settingOpen.name,
+        customdomain: settingOpen.domain,
+      },
+    });
+    toggleDrawer();
+  };
 
-	const updatePage = () => {
-		props.updatePage({
-			page_id: data._id,
-			body: {
-				content: {
-					html: editor.getHtml(),
-					css: editor.getCss(),
-					customheader: initialComponents.custom_head,
-					customfooter: initialComponents.custom_footer,
-				},
-			},
-		});
-	};
-  
+  const updatePage = () => {
+    props.updatePage({
+      page_id: data._id,
+      body: {
+        content: {
+          html: editor.getHtml(),
+          css: editor.getCss(),
+          customheader: initialComponents.custom_head,
+          customfooter: initialComponents.custom_footer,
+        },
+      },
+    });
+  };
+
   const previewPage = () => {
     window.open(data.live_url, "_blank");
   };
@@ -560,14 +557,19 @@ const imageUploader = (editor) => {
 			}
             
         }
+
+        // Compare the content with the original page data
+        const pageJs = pa.js; // Assuming you have a way to get the JS for each page
+
+        
     } catch (error) {
-        console.error("Error updating template:", error);
-        setTimeout(() => {
-            toast.error("Saving failed");
-        }, 1000);
+      console.error("Error updating template:", error);
+      setTimeout(() => {
+        toast.error("Saving failed");
+      }, 1000);
     }
-};
-  
+  };
+
   const publishHandlerNoSave = () => {
     // router.push("/admin/dashboard");
   };
@@ -634,14 +636,14 @@ const imageUploader = (editor) => {
       <div className="panel__top flex flex-wrap">
         {/* <div>
         </div> */}
-				<div className="panel__switcher">
-					<KeyboardBackspaceOutlined
-						onClick={() => router.back()}
-						className="go_back"
-					/>
-				</div>
+        <div className="panel__switcher">
+          <KeyboardBackspaceOutlined
+            onClick={() => router.back()}
+            className="go_back"
+          />
+        </div>
 
-				<div className="views-actions" style={{position: "static"}}></div>
+        <div className="views-actions" style={{ position: "static" }}></div>
 
         <div className="panel-action ">
           <button
@@ -692,28 +694,28 @@ const imageUploader = (editor) => {
           <div id="gjs">
             {/* {template?.html}
             <h1>Hello world</h1> */}
-					</div>
-				</div>
-				<div
-					className="panel__right"
-					style={builder.panelRight ? {display: "block"} : {display: "none"}}
-				>
-					<div className="close-icon">
-						<i
-							className="crossCircle"
-							style={{cursor: "pointer", color: "black"}}
-							onClick={handleClose}
-						></i>
-					</div>
-					<div id="traits-container" />
-					<div className="layers-container" />
-					<div className="styles-container" />
-				</div>
-			</div>
-		</div>
-	);
+          </div>
+        </div>
+        <div
+          className="panel__right"
+          style={
+            builder.panelRight ? { display: "block" } : { display: "none" }
+          }
+        >
+          <div className="close-icon">
+            <i
+              className="crossCircle"
+              style={{ cursor: "pointer", color: "black" }}
+              onClick={handleClose}
+            ></i>
+          </div>
+          <div id="traits-container" />
+          <div className="layers-container" />
+          <div className="styles-container" />
+        </div>
+      </div>
+    </div>
+  );
 };
 
-
 export default WithGrapesjs;
-

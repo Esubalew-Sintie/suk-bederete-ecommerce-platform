@@ -28,9 +28,9 @@ const WithGrapesjsConfig = (CustomtemplateId) => {
   // const pluginName = dynamicConfiguration.plugin.map((value) => value.name);
   // const pluginOpts = getOptions(dynamicConfiguration.plugin);
   // loadDependency(dynamicConfiguration.plugin);
-  console.log(CustomtemplateId)
+  console.log(CustomtemplateId);
   const projectID = 1;
-const projectEndpoint = `http://localhost:8000/shop/updatecustomized_template/1/`;
+  const projectEndpoint = `http://localhost:8000/shop/updatecustomized_template/1/`;
   const config = {
     // Indicate where to init the editor. You can also pass an HTMLElement
     container: "#gjs",
@@ -173,43 +173,6 @@ const projectEndpoint = `http://localhost:8000/shop/updatecustomized_template/1/
         ],
       },
     },
-    // assetManager: {
-    //   storageType: "server", // Or "server" if you're storing assets on the server
-    //   storeOnChange: true,
-    //   storeAfterUpload: true,
-    //   assets: [],
-    //   uploadFile: function (e) {
-    //     var files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
-    //     // Prepare the FormData object to hold the files
-    //     console.log(files)
-    //     var formData = new FormData();
-    //     Array.from(files).forEach((file) => {
-    //       formData.append("files", file);
-    //     });
-
-    //     // Send the files to the Django backend
-    //     fetch("http://localhost:8000/shop/upload/", {
-    //       // Adjust the URL to match your Django endpoint
-    //       method: "POST",
-    //       body: formData,
-    //     })
-    //       .then((response) => response.json())
-    //       .then((data) => {
-    //         // Assuming the response contains an array of URLs or paths to the uploaded files
-    //         console.log(data);
-    //         const images = data?.urls?.map((item) => ({
-    //           type: "image",
-    //           src: item.url, // Adjust this based on the actual structure of your response
-    //         }));
-    //         // Add the images to the AssetManager
-    //         // editor?.AssetManager.add(images);
-    //         // setUploadedImage(images)
-    //       })
-    //       .catch((error) => {
-    //         console.error("Error uploading files:", error);
-    //       });
-    //   },
-    // },
     plugins: [plugin1, block, pluginForms],
     // plugins: [...pluginName,CodeEditor,exportCode],
     // pluginsOpts: { ...pluginOpts,CodeEditor:{},exportCode:{} },
@@ -818,7 +781,7 @@ const projectEndpoint = `http://localhost:8000/shop/updatecustomized_template/1/
       ],
     },
     storageManager: {
-      type: 'remote',
+      type: "remote",
       autosave: true, // Store data automatically
       autoload: true,
       stepsBeforeSave: 3,
@@ -828,14 +791,15 @@ const projectEndpoint = `http://localhost:8000/shop/updatecustomized_template/1/
           urlStore: projectEndpoint,
           // The `remote` storage uses the POST method when stores data but
           // the json-server API requires PATCH.
-          fetchOptions: opts => (opts.method === 'POST' ?  { method: 'PATCH' } : {}),
+          fetchOptions: (opts) =>
+            opts.method === "POST" ? { method: "PATCH" } : {},
           // As the API stores projects in this format `{id: 1, data: projectData }`,
           // we have to properly update the body before the store and extract the
           // project data from the response result.
-          onStore: data => ({ id: projectID, data }),
-          onLoad: result => result.data,
-        }
-      }
+          onStore: (data) => ({ id: projectID, data }),
+          onLoad: (result) => result.data,
+        },
+      },
     },
     canvas: {
       //autoscrollLimit: 50,
@@ -846,7 +810,7 @@ const projectEndpoint = `http://localhost:8000/shop/updatecustomized_template/1/
         "https://my-assets-bucket.s3.amazonaws.com/assets/framework1.css",
         "https://fonts.googleapis.com/css2?family=Manrope:wght@200,300,400,500,600,700&display=swap",
         "https://fonts.googleapis.com/css2?family=Nunito:wght@200,300,400,500,600,700&display=swap",
-        "https://kit.fontawesome.com/0e53af926d.js" 
+        "https://kit.fontawesome.com/0e53af926d.js",
       ],
       scripts: [
         "https://cdn.tailwindcss.com",

@@ -15,9 +15,10 @@ const dynamicConfiguration = {
 
 const Card = (props) => {
   const templateId = props.templetId;
-  const { data: page, isLoading: pageLoading } = useGetPageContentQuery(templateId);
+  const { data: page, isLoading: pageLoading } =
+    useGetPageContentQuery(templateId);
+
   
-  // const [merchantId, setMerchantId] = useState(null);
   const [initAppData, setData] = useState(null);
   const [loading, setLoading] = useState({
     get: false,
@@ -91,5 +92,4 @@ const Card = (props) => {
     </div>
   );
 };
-
 export default Card;

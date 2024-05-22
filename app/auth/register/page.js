@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 import Auth from "../../layouts/Auth"
 import { setMerchant } from "@/lib/features/auth/merchantSlice";
-
+import Loader from '@/app/components/Prompt/Loader'
 import { useRegisterMutation } from "@/lib/features/auth/authMerchant";
 import { useDispatch } from "react-redux";
 export default function Register() {
@@ -133,7 +133,7 @@ export default function Register() {
                       type="submit"
                       disabled={isLoading}
                     >
-                      Create Account
+                      {isLoading ? "Loading":"Create Account"}
                     </button>
                   </div>
                 </form>
