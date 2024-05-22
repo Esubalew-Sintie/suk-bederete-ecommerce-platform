@@ -17,7 +17,7 @@ const Card = (props) => {
   const templateId = props.templetId;
   const { data: page, isLoading: pageLoading } = useGetPageContentQuery(templateId);
   
-  const [merchantId, setMerchantId] = useState(null);
+  // const [merchantId, setMerchantId] = useState(null);
   const [initAppData, setData] = useState(null);
   const [loading, setLoading] = useState({
     get: false,
@@ -26,18 +26,20 @@ const Card = (props) => {
   const [displayPage, setDisplayPage] = useState(false);
 
   // Set merchantId from localStorage
-  useEffect(() => {
-    const storedmerchantId = localStorage.getItem("unique_id");
-    setMerchantId(storedmerchantId);
-  }, []);
+  // useEffect(() => {
+  //   const storedmerchantId = localStorage.getItem("unique_id");
+  //   setMerchantId(storedmerchantId);
+  // }, []);
 
   // Fetch customized pages only when merchantId is set
+  const merchantId = localStorage.getItem("unique_id");
   const { data: customized_pages, isLoading: customized_pagesLoading } = useGetCustomisedPagesQuery(merchantId, {
     skip: !merchantId, // Skip the query if merchantId is null
   });
 
   useEffect(() => {
     if (customized_pages && !customized_pagesLoading) {
+      console.log("sending the customised page")
       const pageConfigs = customized_pages.map((pageItem) => ({
         name: pageItem?.name,
         brand_url: "",
@@ -53,6 +55,7 @@ const Card = (props) => {
       setData(pageConfigs);
       setDisplayPage(true);
     } else if (page && !pageLoading) {
+      console.log("sending the not customised page")
       const pageConfigs = page.map((pageItem) => ({
         name: pageItem?.name,
         brand_url: "",

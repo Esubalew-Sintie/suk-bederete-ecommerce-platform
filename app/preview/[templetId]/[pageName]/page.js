@@ -30,6 +30,7 @@ const {
 } = useGetCustomizedTemplateQuery(merchantId);
 const [updateCustomizedTemplate, { isLoading: isUpdating }] =
 useUpdatecustomizedTemplateMutation();
+
 const captureAndUploadScreenshot = async () => {
   const container = document.querySelector('#features');
 
@@ -79,7 +80,7 @@ const [finalContent, setFinalContent] = useState(null);
   const productCartElements = document.querySelectorAll('.product-cart');
 
     // Iterate over the products array
-    if (!isLoading && products.length > 0) {
+    if (!isLoading && products?.length > 0) {
       products?.forEach((product, index) => {
         // Check if there's a corresponding.product-cart element
         if (productCartElements[index]) {
@@ -144,7 +145,7 @@ const [finalContent, setFinalContent] = useState(null);
 
  useEffect(() => {
   if (finalContent) {
-    updateCustomizedTemplate({
+    updateCustomisedTemplate({
       CustomtemplateId: customizedTemplateDataHook?.id,
       modifiedPages: {
         pageName: {

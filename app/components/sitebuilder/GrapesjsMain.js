@@ -59,18 +59,14 @@ const WithGrapesjs = ({ data, page, templateId }) => {
 	const dispatch = useDispatch();
 	const status = useSelector((state) => state.status.status);
 	const pageName = useSelector((state) => state.status.pageName);
+	const shopName = localStorage.getItem("shopName");
 	const [editor, setEditor] = useState({});
   console.log(pageName, status);
   const [uploadImage, setUploadedImage]=useState([])
 	
 
 	const [triggerRequest, setTriggerRequest] = useState(false);
-	const {
-		data: customizedTemplateDataHook,
-		refetch,
-		isLoading: isLoadingQuery,
-		error: queryError,
-	} = useGetCustomizedTemplateQuery(merchantId);
+	const {data: customizedTemplateDataHook,refetch,isLoading: isLoadingQuery,error: queryError,} = useGetCustomizedTemplateQuery(merchantId);
 	const {data: template, isLoading: templateLoading} =
 		useGetWebBuilderQuery(templateId);
 	const modifier_merchant = useSelector((state) => state.merchant);
@@ -476,8 +472,8 @@ const imageUploader = (editor) => {
 
   const [customisedTemplate, { isLoading: isCreating }] =
     useCustomisedTemplateMutation();
-  const [updateCustomizedTemplate, { isLoading: isUpdating }] =
-    useUpdatecustomizedTemplateMutation();
+
+  const [updateCustomisedTemplate, { isLoading: isUpdating }] = useUpdatecustomizedTemplateMutation();
 
   useEffect(() => {
     const storedmerchantId = localStorage.getItem("unique_id");
@@ -545,24 +541,24 @@ const imageUploader = (editor) => {
             // Update the existing customized template
             // sending the  modifiedPagesData
             
-            await customisedTemplate({ originalTemplateId: templateId, modifiedMerhant: merchantId, modifiedPages: modifiedPagesData }).unwrap();
+            await updateCustomisedTemplate({ customised_templateId: customizedTemplateId, modifiedPages: modifiedPagesData }).unwrap();
         }
   
         if (isPublish) {
-            // Publish the shop
-            const shopName = "My New Shop"; // This should be dynamically set based on your form or state
-            const shopTemplateId = templateId; // This should be dynamically set based on your form or state
-            const shopHtml = editor.getHtml();
-            const shopCss = editor.getCss();
+             ; // This should be dynamically set based on your form or state
   
-            await createShop({ name: shopName, templateId: shopTemplateId, html: shopHtml, css: shopCss });
+            await createShop({ name: shopName, templateId: customizedTemplateDataHook.id }).unwrap();
             toast.success("Shop published successfully");
             setTimeout(() => {
                 router.push("/admin/dashboard");
             }, 3000);
         } else {
-            // Just save the template
-            toast.success("Saved successfully");
+            if (customisedTemplate && updateCustomisedTemplate) {
+				toast.success("Saved successfully");
+			}else{
+				console.log("error in create or update customised data")
+			}
+            
         }
     } catch (error) {
         console.error("Error updating template:", error);
