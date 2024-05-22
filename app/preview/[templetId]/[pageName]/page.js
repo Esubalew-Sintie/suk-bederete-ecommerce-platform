@@ -39,13 +39,13 @@ function PreviewPage({params}) {
 	const merchantId = localStorage.getItem("unique_id");
 
 	const {
-		data: customizedTemplateDataHook,
-		refetch,
-		isLoading: isLoadingQuery,
-		error: queryError,
-	} = useGetCustomizedTemplateQuery(merchantId);
-	const [customisedTemplate, {isLoading: isUpdating}] =
-		useCustomisedTemplateMutation();
+    data: customizedTemplateDataHook,
+    refetch,
+    isLoading: isLoadingQuery,
+    error: queryError,
+  } = useGetCustomizedTemplateQuery(merchantId);
+  const [updateCustomizedTemplate, { isLoading: isUpdating }] =
+  useUpdatecustomizedTemplateMutation();
 	const captureAndUploadScreenshot = async () => {
 		const container = document.querySelector("#features");
 

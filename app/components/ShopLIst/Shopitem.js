@@ -1,13 +1,17 @@
 "use client";
 import React from "react";
+import { useRouter } from "next/navigation";
 
 const ShopItem = ({ shop, fullWidth }) => {
+  const router = useRouter();
+  
   console.log(shop);
   return (
     <div
       className={`group transition-transform duration-500  rounded-lg  hover:transform hover:scale-105 hover:rounded-xl hover:cursor-pointer hover:shadow-blue-200 transform  ${
         fullWidth ? "w-full" : "md:w-[45%] xl:w-[30%]"
       }  p-4 my-5  mx-5 overflow-hidden`}
+      onClick={() => router.push(`/${shop?.unique_id}`)}
     >
       <div className="relative   h-80 overflow-hidden">
         <img
@@ -28,6 +32,7 @@ const ShopItem = ({ shop, fullWidth }) => {
           <button
             className="ml-auto text-white py-1 opacity-0 px-3 text-xl font-bold group-hover:opacity-100 bg-[#1E293B] rounded-lg transition-all"
             style={{ transitionDuration: "2s" }}
+            onClick={() => router.push(`/${shop?.unique_id}`)}
           >
             Visit
           </button>

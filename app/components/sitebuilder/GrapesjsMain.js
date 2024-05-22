@@ -57,23 +57,19 @@ const WithGrapesjs = ({ data, page, templateId }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [originalTemplate, setOriginalTemplate] = useState(null);
   const [error, setError] = useState(null);
-  const dispatch = useDispatch();
-  const status = useSelector((state) => state.status.status);
-  const pageName = useSelector((state) => state.status.pageName);
-  const [editor, setEditor] = useState({});
+	const dispatch = useDispatch();
+	const status = useSelector((state) => state.status.status);
+	const pageName = useSelector((state) => state.status.pageName);
+	const shopName = localStorage.getItem("shopName");
+	const [editor, setEditor] = useState({});
   console.log(pageName, status);
   const [uploadImage, setUploadedImage] = useState([]);
 
-  const [triggerRequest, setTriggerRequest] = useState(false);
-  const {
-    data: customizedTemplateDataHook,
-    refetch,
-    isLoading: isLoadingQuery,
-    error: queryError,
-  } = useGetCustomizedTemplateQuery(merchantId);
-  const { data: template, isLoading: templateLoading } =
-    useGetWebBuilderQuery(templateId);
-  const modifier_merchant = useSelector((state) => state.merchant);
+	const [triggerRequest, setTriggerRequest] = useState(false);
+	const {data: customizedTemplateDataHook,refetch,isLoading: isLoadingQuery,error: queryError,} = useGetCustomizedTemplateQuery(merchantId);
+	const {data: template, isLoading: templateLoading} =
+		useGetWebBuilderQuery(templateId);
+	const modifier_merchant = useSelector((state) => state.merchant);
 
   const handlePageChange = (e) => {
     const selectedPageName = e.target.value;
@@ -473,8 +469,8 @@ const WithGrapesjs = ({ data, page, templateId }) => {
 
   const [customisedTemplate, { isLoading: isCreating }] =
     useCustomisedTemplateMutation();
-  const [updateCustomizedTemplate, { isLoading: isUpdating }] =
-    useUpdatecustomizedTemplateMutation();
+
+  const [updateCustomisedTemplate, { isLoading: isUpdating }] = useUpdatecustomizedTemplateMutation();
 
   useEffect(() => {
     const storedmerchantId = localStorage.getItem("unique_id");
@@ -499,83 +495,73 @@ const WithGrapesjs = ({ data, page, templateId }) => {
     toast.dismiss();
     const loadingToast = toast.loading("Saving...", { duration: 500 });
     try {
-      const modifiedPagesData = {};
-
-      // Iterate over each page
-      for (let i = 0; i < page.length; i++) {
-        const pa = page[i];
-        const pageName = pa.name;
-
-        // Initialize pageContent and pageCss variables
-        let pageContent, pageCss;
-
-        // If the current page matches the selected page, get the HTML and CSS from the editor
-        if (pageName === settingOpen.name) {
-          pageContent = editor.getHtml();
-          pageCss = editor.getCss();
+        const modifiedPagesData = {};
+  
+        // Iterate over each page
+        for (let i = 0; i < page.length; i++) {
+            const pa = page[i];
+            const pageName = pa.name;
+    
+            // Initialize pageContent and pageCss variables
+            let pageContent, pageCss;
+    
+            // If the current page matches the selected page, get the HTML and CSS from the editor
+            if (pageName === settingOpen.name) {
+                pageContent = editor.getHtml();
+                pageCss = editor.getCss();
+            } else {
+                // Otherwise, keep the original content from the pa object
+                pageContent = pa.html;
+                pageCss = pa.css;
+            }
+    
+            // Compare the content with the original page data
+            const pageJs = pa.js; // Assuming you have a way to get the JS for each page
+        
+            // If there are differences, include the modified content
+            modifiedPagesData[pageName] = {
+                html: pageContent,
+                css: pageCss,
+                js: pageJs,
+            };
+        }
+  
+        // Use the state variables instead of directly calling the hook
+        if (queryError && queryError.status === 404) {
+            console.log("Customized template does not exist for the given merchant ID");
+            await customisedTemplate({ originalTemplateId: templateId, modifiedMerhant: merchantId, modifiedPages: modifiedPagesData }).unwrap();
+            refetch();
+        } else if (customizedTemplateDataHook) {
+            console.log("Exists");
+            const customizedTemplateId = customizedTemplateDataHook.id;
+        
+            // Update the existing customized template
+            // sending the  modifiedPagesData
+            
+            await updateCustomisedTemplate({ customised_templateId: customizedTemplateId, modifiedPages: modifiedPagesData }).unwrap();
+        }
+  
+        if (isPublish) {
+             ; // This should be dynamically set based on your form or state
+  
+            await createShop({ name: shopName, templateId: customizedTemplateDataHook.id }).unwrap();
+            toast.success("Shop published successfully");
+            setTimeout(() => {
+                router.push("/admin/dashboard");
+            }, 3000);
         } else {
-          // Otherwise, keep the original content from the pa object
-          pageContent = pa.html;
-          pageCss = pa.css;
+            if (customisedTemplate && updateCustomisedTemplate) {
+				toast.success("Saved successfully");
+			}else{
+				console.log("error in create or update customised data")
+			}
+            
         }
 
         // Compare the content with the original page data
         const pageJs = pa.js; // Assuming you have a way to get the JS for each page
 
-        // If there are differences, include the modified content
-        modifiedPagesData[pageName] = {
-          html: pageContent,
-          css: pageCss,
-          js: pageJs,
-        };
-      }
-
-      // Use the state variables instead of directly calling the hook
-      if (queryError && queryError.status === 404) {
-        console.log(
-          "Customized template does not exist for the given merchant ID"
-        );
-        await customisedTemplate({
-          originalTemplateId: templateId,
-          modifiedMerhant: merchantId,
-          modifiedPages: modifiedPagesData,
-        }).unwrap();
-        refetch();
-      } else if (customizedTemplateDataHook) {
-        console.log("Exists");
-        const customizedTemplateId = customizedTemplateDataHook.id;
-
-        // Update the existing customized template
-        // sending the  modifiedPagesData
-
-        await customisedTemplate({
-          originalTemplateId: templateId,
-          modifiedMerhant: merchantId,
-          modifiedPages: modifiedPagesData,
-        }).unwrap();
-      }
-
-      if (isPublish) {
-        // Publish the shop
-        const shopName = "My New Shop"; // This should be dynamically set based on your form or state
-        const shopTemplateId = templateId; // This should be dynamically set based on your form or state
-        const shopHtml = editor.getHtml();
-        const shopCss = editor.getCss();
-
-        await createShop({
-          name: shopName,
-          templateId: shopTemplateId,
-          html: shopHtml,
-          css: shopCss,
-        });
-        toast.success("Shop published successfully");
-        setTimeout(() => {
-          router.push("/admin/dashboard");
-        }, 3000);
-      } else {
-        // Just save the template
-        toast.success("Saved successfully");
-      }
+        
     } catch (error) {
       console.error("Error updating template:", error);
       setTimeout(() => {
