@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 
 const ShopItem = ({ shop, fullWidth }) => {
   const router = useRouter();
-  
+
   console.log(shop);
   return (
     <div

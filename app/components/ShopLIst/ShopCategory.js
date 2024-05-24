@@ -7,7 +7,6 @@ import ProductSlider from "./ProductSlider";
 import Footer from "../Footers/Footer";
 import { useGetShopsQuery } from "@/lib/features/shop/shop";
 
-
 const ShopCategory = () => {
   const { data, error, isLoading } = useGetShopsQuery();
   console.log(data);
@@ -49,9 +48,8 @@ const ShopCategory = () => {
           </div>
           <div className="flex flex-wrap ">
             {data?.map((shop) => (
-              <ShopItem key={shop.id} shop={shop} fullWidth={false}  />
-            ))
-              }
+              <ShopItem key={shop.id} shop={shop} fullWidth={false} />
+            ))}
           </div>
         </div>
       </div>

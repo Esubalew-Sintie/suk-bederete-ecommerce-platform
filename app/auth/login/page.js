@@ -26,9 +26,9 @@ export default function Login() {
 
       console.log(response.message);
       dispatch(setMerchant(response.merchant));
-      localStorage.setItem('unique_id', response.merchant.unique_id);
-      localStorage.setItem('access_token', response.tokens.access);
-      localStorage.setItem('refresh_token', response.tokens.refresh);
+      localStorage.setItem("unique_id", response.merchant.unique_id);
+      localStorage.setItem("access_token", response.tokens.access);
+      localStorage.setItem("refresh_token", response.tokens.refresh);
       console.log(response.merchant.unique_id);
       router.push("/prompt/prompt");
     } catch (error) {

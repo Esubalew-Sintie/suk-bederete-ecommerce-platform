@@ -1,49 +1,48 @@
-
-'use client'
-import React, {useState} from "react";
+"use client";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 // layout for page
 
-import Auth from "../../layouts/Auth"
+import Auth from "../../layouts/Auth";
 import { setMerchant } from "@/lib/features/auth/merchantSlice";
-import Loader from '@/app/components/Prompt/Loader'
+import Loader from "@/app/components/Prompt/Loader";
 import { useRegisterMutation } from "@/lib/features/auth/authMerchant";
 import { useDispatch } from "react-redux";
 export default function Register() {
   const [register, { isLoading, isError, error }] = useRegisterMutation();
- const [email, setEmail] = useState("");
- const [password, setPassword] = useState("");
- const router = useRouter()
- const dispatch = useDispatch();
- const handleRegister = async (e) => {
-  e.preventDefault();
-  try {
-    const formData = new FormData()
-    formData.append("email", email)
-    formData.append("password", password)
-    const response = await register(formData).unwrap();
-    // Handle successful registration, e.g., redirect to login page
-    console.log("Registration successful");
-    console.log("Response:", response.tokens);
-    console.log(response.message);
-    // Store the merchant the response it returned to the slice
-    dispatch(setMerchant(response.merchant));
-    console.log(response.merchant);
-    localStorage.setItem('unique_id', response.merchant.unique_id);
-    console.log(response.merchant.unique_id);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append("email", email);
+      formData.append("password", password);
+      const response = await register(formData).unwrap();
+      // Handle successful registration, e.g., redirect to login page
+      console.log("Registration successful");
+      console.log("Response:", response.tokens);
+      console.log(response.message);
+      // Store the merchant the response it returned to the slice
+      dispatch(setMerchant(response.merchant));
+      console.log(response.merchant);
+      localStorage.setItem("unique_id", response.merchant.unique_id);
+      console.log(response.merchant.unique_id);
 
-    // Store tokens in localStorage
-    localStorage.setItem('access_token', response.tokens.access);
-    localStorage.setItem('refresh_token', response.tokens.refresh);
+      // Store tokens in localStorage
+      localStorage.setItem("access_token", response.tokens.access);
+      localStorage.setItem("refresh_token", response.tokens.refresh);
 
-    router.push("/prompt/prompt");
-  } catch (error) {
-    // Handle registration error
-    console.error("Registration failed:", error.message);
-    console.log("Response:", error.response);
-  }
-};
-     
+      router.push("/prompt/prompt");
+    } catch (error) {
+      // Handle registration error
+      console.error("Registration failed:", error.message);
+      console.log("Response:", error.response);
+    }
+  };
+
   return (
     <Auth>
       <div className="container mx-auto px-4 h-full">
@@ -57,7 +56,6 @@ export default function Register() {
                   </h6>
                 </div>
                 <div className="btn-wrapper text-center">
-                  
                   <button
                     className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                     type="button"
@@ -73,8 +71,6 @@ export default function Register() {
                   <small>Or sign up with credentials</small>
                 </div>
                 <form onSubmit={handleRegister}>
-                  
-
                   <div className="relative w-full mb-3">
                     <label
                       className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -133,7 +129,7 @@ export default function Register() {
                       type="submit"
                       disabled={isLoading}
                     >
-                      {isLoading ? "Loading":"Create Account"}
+                      {isLoading ? "Loading" : "Create Account"}
                     </button>
                   </div>
                 </form>
