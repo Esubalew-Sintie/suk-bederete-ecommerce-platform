@@ -2,12 +2,14 @@
 import React from "react";
 import Link from "next/link";
 import {usePathname} from "next/navigation";
-
+import { useGetCustomizedTemplateQuery } from "@/lib/features/shop/shop.js";
 import NotificationDropdown from "../../components/Dropdowns/NotificationDropdown.js";
 import UserDropdown from "../../components/Dropdowns/UserDropdown.js";
 
 export default function Sidebar() {
 	const [collapseShow, setCollapseShow] = React.useState("hidden");
+	const merchantId = localStorage.getItem("unique_id");
+	const { data: customisedTemplate, error: customisedPageError, isSuccess: isCustomisedPageSuccess } = useGetCustomizedTemplateQuery(merchantId)
 	const pathname = usePathname();
 	return (
 		<>
@@ -23,7 +25,7 @@ export default function Sidebar() {
 					</button>
 					{/* Brand */}
 					<Link
-						href="#pablo"
+						href="/"
 						className="md:block text-center md:px-2 md:text-xl text-red-400 text-blueGray-600   whitespace-nowrap text-sm uppercase font-bold hover:bg-gray-400 bg-gray-300  md:py-3 rounded-full"
 					>
 						Suk-Bederete
@@ -315,7 +317,7 @@ export default function Sidebar() {
 							</li>
 							<li className="items-center">
 								<Link
-									href="/"
+									href= {`/site-builder/${customisedTemplate?.id}`}
 									className=" text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block"
 								>
 									<i className="<i fa-solid fa-shop text-blueGray-400 mr-2 text-sm"></i>{" "}

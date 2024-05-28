@@ -7,12 +7,13 @@ import {useDispatch, useSelector} from "react-redux";
 
 import {
 	useGetWebBuilderQuery,
-	useGetCustomisedPageQuery,
 	useGetWebBuildersQuery,
-	useGetCustomizedTemplateQuery,
-	useUpdatecustomizedTemplateMutation,
+	
 	useCustomisedTemplateMutation,
 } from "@/lib/features/webBuilder/webBuilder";
+import { useGetCustomisedPageQuery, 
+	useGetCustomizedTemplateQuery,
+	useUpdatecustomizedTemplateMutation,} from "@/lib/features/shop/shop";
 import {
 	useGetProductsQuery,
 	useUpdateProductMutation,

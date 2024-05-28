@@ -4,9 +4,9 @@ import WithGrapesjs from "./GrapesjsMain";
 import Loader from "../Prompt/Loader";
 import {
   useGetPageContentQuery,
-  useGetCustomisedPagesQuery,
 } from "@/lib/features/webBuilder/webBuilder";
-
+import { useGetCustomisedPageQuery } from "@/lib/features/shop/shop";
+import { useGetCustomisedPagesQuery } from "@/lib/features/shop/shop";
 const dynamicConfiguration = {
   plugin: [
     // Define your plugins here
