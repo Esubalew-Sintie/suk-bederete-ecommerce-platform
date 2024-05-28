@@ -15,13 +15,15 @@ import Link from "next/link";
 import {
   useGetWebBuilderQuery,
   useUpdatePageContentMutation,
-  useCustomisedTemplateMutation,
-  useGetCustomizedTemplateQuery,
-  useUpdatecustomizedTemplateMutation,
+  // useCustomisedTemplateMutation,
+  // useGetCustomizedTemplateQuery,
+  // useUpdatecustomizedTemplateMutation,
 } from "@/lib/features/webBuilder/webBuilder";
+import { useCustomisedTemplateMutation, useGetCustomizedTemplateQuery, useUpdatecustomizedTemplateMutation } from "@/lib/features/shop/shop";
 import {
   useCreateShopMutation,
   useUpdateShopMutation,
+  useGetshopMerchantQuery
 } from "@/lib/features/shop/shop";
 import { toast } from "react-hot-toast";
 import CustomToaster from "@/app/components/sitebuilder/Toaster/Toaster";
@@ -29,7 +31,7 @@ import { AlertDialogDemo } from "./AlertDialoge";
 import { AddProduct } from "./ProductForm/FormDialogue";
 import { setStatus, setPageName } from "@/lib/features/uiBuilder/status";
 import { useDispatch, useSelector } from "react-redux";
-
+import useCheckUnauthorized from "@/lib/features/auth/unauthorise";
 const filterAssets = (assets, group) => {
   const images = assets
     ? assets.map((items) => {
@@ -64,12 +66,14 @@ const WithGrapesjs = ({ data, page, templateId }) => {
 	const [editor, setEditor] = useState({});
   console.log(pageName, status);
   const [uploadImage, setUploadedImage] = useState([]);
-
+  const {data:shop, isLoading:shopLoading, status:shopstatus} = useGetshopMerchantQuery(merchantId);
 	const [triggerRequest, setTriggerRequest] = useState(false);
 	const {data: customizedTemplateDataHook,refetch,isLoading: isLoadingQuery,error: queryError,} = useGetCustomizedTemplateQuery(merchantId);
 	const {data: template, isLoading: templateLoading} =
 		useGetWebBuilderQuery(templateId);
 	const modifier_merchant = useSelector((state) => state.merchant);
+  useCheckUnauthorized(queryError);
+  useCheckUnauthorized(createShopError);
 
   const handlePageChange = (e) => {
     const selectedPageName = e.target.value;
@@ -470,8 +474,8 @@ const WithGrapesjs = ({ data, page, templateId }) => {
   const [customisedTemplate, { isLoading: isCreating }] =
     useCustomisedTemplateMutation();
 
-  const [updateCustomisedTemplate, { isLoading: isUpdating }] = useUpdatecustomizedTemplateMutation();
-
+  const [updateCustomisedTemplate,  { error:updateerror,  isLoading: isUpdating }] = useUpdatecustomizedTemplateMutation();
+  useCheckUnauthorized(updateerror);
   useEffect(() => {
     const storedmerchantId = localStorage.getItem("unique_id");
     setMerchantId(storedmerchantId);
@@ -550,18 +554,14 @@ const WithGrapesjs = ({ data, page, templateId }) => {
                 router.push("/admin/dashboard");
             }, 3000);
         } else {
-            if (customisedTemplate && updateCustomisedTemplate) {
+            if (customisedTemplate || updateCustomisedTemplate) {
 				toast.success("Saved successfully");
 			}else{
 				console.log("error in create or update customised data")
 			}
             
         }
-
-        // Compare the content with the original page data
-        const pageJs = pa.js; // Assuming you have a way to get the JS for each page
-
-        
+ 
     } catch (error) {
       console.error("Error updating template:", error);
       setTimeout(() => {
@@ -661,11 +661,14 @@ const WithGrapesjs = ({ data, page, templateId }) => {
           >
             Publish
           </button> */}
+          {shopstatus !== 200 && 
           <AlertDialogDemo
             button="Publish"
             publishSaveClick={() => updatePageHandler(true)}
             publishCancelClick={publishHandlerNoSave}
-          />
+          />}
+        
+          
           {/* </Link> */}
           {pageContent.id && (
             <Link
