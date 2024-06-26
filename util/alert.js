@@ -1,12 +1,16 @@
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { MenuOpen } from "@mui/icons-material";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { CiMenuKebab } from "react-icons/ci";
-import { AddItemForm } from "@/app/components/WebBuilder/AddPage/AddItemForm";
-import { DialogDemo } from "@/app/components/WebBuilder/AddPage/AddItem";
+import { AddItemForm } from "@/app/[locale]/components/WebBuilder/AddPage/AddItemForm";
+import { DialogDemo } from "@/app/[locale]/components/WebBuilder/AddPage/AddItem";
 
-export function PopoverDemo({action}) {
+export function PopoverDemo({ action }) {
   const onButtonClick = (e, row) => {
     e.stopPropagation(); // Prevents the click event from propagating up to parent elements
     // Implement your logic for handling the click event on a specific row
@@ -16,9 +20,7 @@ export function PopoverDemo({action}) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <button  className=" w-5 h-8">
-         {action}
-        </button>
+        <button className=" w-5 h-8">{action}</button>
       </PopoverTrigger>
       <PopoverContent className="w-60">
         <Box display="flex" alignItems="center" gap={1}>
