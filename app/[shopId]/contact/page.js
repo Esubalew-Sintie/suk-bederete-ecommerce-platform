@@ -1,13 +1,13 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { useGetshopQuery } from "@/lib/features/webBuilder/webBuilder";
+import { useGetShopQuery } from "@/lib/features/shop/shop";
 import Loading from "@/app/loading";
 import { useRouter } from "next/navigation";
 
 export default function ContactPage({ params }) {
     const shopId = params.shopId;
     const [contactpage, setContactpage] = useState({});
-    const { data, error, isLoading } = useGetshopQuery(shopId);
+    const { data, error, isLoading } = useGetShopQuery(shopId);
     const router = useRouter();
 
     useEffect(() => {
