@@ -1,19 +1,59 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Auth from "../../layouts/Auth";
 import { useLoginMutation } from "@/lib/features/auth/authMerchant";
 import { useRouter } from "next/navigation";
 import { setMerchant } from "@/lib/features/auth/merchantSlice";
 import { useDispatch } from "react-redux";
+import {
+  useGetCustomizedTemplateQuery,
+  useGetshopMerchantQuery,
+} from "@/lib/features/shop/shop";
 
 export default function Login() {
   const [login, { isLoading, isError, error }] = useLoginMutation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [merchantId, setMerchantId] = useState("");
   const [responseMessage, setResponseMessage] = useState("");
+
   const router = useRouter();
   const dispatch = useDispatch();
+
+  const {
+    data: shopMerchant,
+    error: shopError,
+    isSuccess: isShopSuccess,
+  } = useGetshopMerchantQuery(merchantId, {
+    skip: !merchantId,
+  });
+  const {
+    data: customizedTemplate,
+    error: templateError,
+    isSuccess: isTemplateSuccess,
+  } = useGetCustomizedTemplateQuery(merchantId, {
+    skip: !merchantId,
+  });
+
+  useEffect(() => {
+    if (merchantId) {
+      if (isShopSuccess && shopMerchant) {
+        router.push("/admin/dashboard");
+      } else if (isTemplateSuccess && customizedTemplate) {
+        router.push(`/site-builder/${customizedTemplate.id}`);
+      } else if (merchantId) {
+        router.push("/prompt/prompt");
+      }
+    }
+  }, [
+    merchantId,
+    isShopSuccess,
+    shopMerchant,
+    isTemplateSuccess,
+    customizedTemplate,
+    router,
+  ]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -29,8 +69,7 @@ export default function Login() {
       localStorage.setItem("unique_id", response.merchant.unique_id);
       localStorage.setItem("access_token", response.tokens.access);
       localStorage.setItem("refresh_token", response.tokens.refresh);
-      console.log(response.merchant.unique_id);
-      router.push("/prompt/prompt");
+      setMerchantId(response.merchant.unique_id);
     } catch (error) {
       console.error("Login failed:", error.message);
       setResponseMessage(error.message);

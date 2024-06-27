@@ -2,11 +2,12 @@
 import React, { useState, useEffect } from "react";
 import WithGrapesjs from "./GrapesjsMain";
 import Loader from "../Prompt/Loader";
+import useCheckUnauthorized from "@/lib/features/auth/unauthorise";
 import {
   useGetPageContentQuery,
-  useGetCustomisedPagesQuery,
 } from "@/lib/features/webBuilder/webBuilder";
-
+import { useGetCustomisedPageQuery } from "@/lib/features/shop/shop";
+import { useGetCustomisedPagesQuery } from "@/lib/features/shop/shop";
 const dynamicConfiguration = {
   plugin: [
     // Define your plugins here
@@ -15,10 +16,10 @@ const dynamicConfiguration = {
 
 const Card = (props) => {
   const templateId = props.templetId;
-  const { data: page, isLoading: pageLoading } =
+  const { data: page, error, isLoading: pageLoading } =
     useGetPageContentQuery(templateId);
-
   
+  useCheckUnauthorized(error);
   const [initAppData, setData] = useState(null);
   const [loading, setLoading] = useState({
     get: false,
