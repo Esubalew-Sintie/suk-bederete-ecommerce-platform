@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { useGetshopQuery } from "@/lib/features/webBuilder/webBuilder";
+import { useGetshopQuery } from "@/lib/features/shop/shop";
 import Loading from "@/app/[locale]/loading";
 import { useRouter } from "next/navigation";
 

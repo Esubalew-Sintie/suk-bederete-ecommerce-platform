@@ -1,8 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { useGetshopQuery } from "@/lib/features/webBuilder/webBuilder";
+// import { useGetshopQuery } from "@/lib/features/webBuilder/webBuilder";
 import Loading from "../loading";
 import { useRouter } from "next/navigation";
+import { useGetshopQuery } from "@/lib/features/shop/shop";
 
 export default function Shop({ params }) {
   const shopId = params.shopId;
@@ -77,7 +78,7 @@ export default function Shop({ params }) {
   }
 
   return (
-    <div>
+    <div className="flex gap-14">
       <div dangerouslySetInnerHTML={{ __html: homepage.html }} />
       <style>{homepage.css}</style>
       <script>{homepage.js}</script>

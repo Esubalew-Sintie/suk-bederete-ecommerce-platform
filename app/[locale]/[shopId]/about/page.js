@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { useGetshopQuery } from "@/lib/features/webBuilder/webBuilder";
+import { useGetshopQuery } from "@/lib/features/shop/shop";
 import Loading from "@/app/[locale]/loading";
 import { useRouter } from "next/navigation";
 
@@ -47,7 +47,7 @@ export default function AboutPage({ params }) {
   }
 
   return (
-    <div>
+    <div className="flex ">
       <div dangerouslySetInnerHTML={{ __html: aboutpage.html }} />
       <style>{aboutpage.css}</style>
       <script>{aboutpage.js}</script>
