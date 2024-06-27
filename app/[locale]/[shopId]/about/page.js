@@ -1,19 +1,19 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { useGetShopQuery } from "@/lib/features/shop/shop";
-import Loading from "@/app/loading";
+import { useGetshopQuery } from "@/lib/features/webBuilder/webBuilder";
+import Loading from "@/app/[locale]/loading";
 import { useRouter } from "next/navigation";
 
-export default function BlogPage({ params }) {
+export default function AboutPage({ params }) {
   const shopId = params.shopId;
-  const [blogpage, setBlogpage] = useState({});
-  const { data, error, isLoading } = useGetShopQuery(shopId);
+  const [aboutpage, setAboutpage] = useState({});
+  const { data, error, isLoading } = useGetshopQuery(shopId);
   const router = useRouter();
 
   useEffect(() => {
     if (data) {
-      const homePageData = data.find((page) => page.name === "Blog");
-      setBlogpage(homePageData);
+      const homePageData = data.find((page) => page.name === "About");
+      setAboutpage(homePageData);
     }
   }, [data]);
 
@@ -42,15 +42,15 @@ export default function BlogPage({ params }) {
   if (error) {
     return <div>Error: {error.message}</div>;
   }
-  if (!blogpage) {
+  if (!aboutpage) {
     return <div>No home page found.</div>;
   }
 
   return (
     <div>
-      <div dangerouslySetInnerHTML={{ __html: blogpage.html }} />
-      <style>{blogpage.css}</style>
-      <script>{blogpage.js}</script>
+      <div dangerouslySetInnerHTML={{ __html: aboutpage.html }} />
+      <style>{aboutpage.css}</style>
+      <script>{aboutpage.js}</script>
     </div>
   );
 }
