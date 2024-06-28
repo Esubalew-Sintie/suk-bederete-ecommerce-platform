@@ -8,16 +8,18 @@ import Navbar from "./components/Navbars/AuthNavbar.js";
 import { useRouter } from "next/navigation";
 import TranslationsProvider from "./components/Translation/TranslationsProvider.js";
 import initTranslations from "../i18n.js";
+import { useAuth } from "@clerk/nextjs";
 const i18nNamespaces = ["home"]; // Define your namespaces
 export default function Index({ params: { locale } }) {
   const router = useRouter();
 
-  const merchantId = localStorage.getItem("unique_id");
+  // const merchantId = localStorage.getItem("unique_id");
+  const { isLoaded, userId, sessionId, getToken } = useAuth();
   const handleClick = () => {
-    if (merchantId) {
+    if (userId) {
       router.push("/prompt/prompt");
     } else {
-      router.push("/auth/login");
+      router.push("/sign-in");
     }
   };
   const [translations, setTranslations] = useState({
