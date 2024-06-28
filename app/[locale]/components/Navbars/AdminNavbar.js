@@ -4,6 +4,7 @@ import React from "react";
 import NotificationPop from "../Prompt/Notification";
 
 import UserDropdown from "@/app/[locale]/components/Dropdowns/UserDropdown.js";
+import { UserButton } from "@clerk/nextjs";
 export default function Navbar({ notification, setNotification }) {
   return (
     <>
@@ -39,7 +40,7 @@ export default function Navbar({ notification, setNotification }) {
           </div>
           {/* User */}
           <ul className="flex-col md:flex-row list-none items-center hidden md:flex">
-            <UserDropdown />
+            <UserButton afterSignOutUrl="/" />
           </ul>
         </div>
       </nav>

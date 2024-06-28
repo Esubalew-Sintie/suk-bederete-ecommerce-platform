@@ -2,11 +2,21 @@
 import React from "react";
 import Link from "next/link";
 // components
+import {
+  ClerkProvider,
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+  useAuth,
+} from "@clerk/nextjs";
 
 import PagesDropdown from "../Dropdowns/PagesDropdown";
+import { Button } from "@/components/ui/button";
 
 export default function Navbar(props) {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
+  const { isLoaded, userId, sessionId, getToken } = useAuth();
   return (
     <>
       <nav className="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg">
@@ -37,9 +47,17 @@ export default function Navbar(props) {
               <li className="flex items-center">
                 <PagesDropdown />
               </li>
-              <li>
-                <Link href="/auth/login">Login</Link>
-              </li>
+              {userId ? (
+                <UserButton afterSignOutUrl="/" />
+              ) : (
+                <SignedOut>
+                  <Button>
+                    <Link href={"/sign-in"}>
+                      <SignInButton />
+                    </Link>
+                  </Button>
+                </SignedOut>
+              )}
             </ul>
           </div>
         </div>
