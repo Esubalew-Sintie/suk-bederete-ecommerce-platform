@@ -5,6 +5,8 @@ import Link from "next/link";
 import {
   ClerkProvider,
   SignInButton,
+  SignOutButton,
+  SignUpButton,
   SignedIn,
   SignedOut,
   UserButton,
@@ -51,11 +53,18 @@ export default function Navbar(props) {
                 <UserButton afterSignOutUrl="/" />
               ) : (
                 <SignedOut>
-                  <Button>
-                    <Link href={"/sign-in"}>
-                      <SignInButton />
-                    </Link>
-                  </Button>
+                  <div className="flex gap-3">
+                    <Button className="">
+                      <Link href={"/sign-in"}>
+                        <SignInButton className="w-full h-full" />
+                      </Link>
+                    </Button>
+                    <Button className="">
+                      <Link href={"/sign-up"}>
+                        <SignUpButton className="w-full h-full" />
+                      </Link>
+                    </Button>
+                  </div>
                 </SignedOut>
               )}
             </ul>
