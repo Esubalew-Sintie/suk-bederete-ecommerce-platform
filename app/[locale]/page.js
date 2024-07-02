@@ -58,7 +58,6 @@ export default function Index({ params: { locale } }) {
       console.log(data);
     } catch (error) {
       console.error("Error:", error);
-      setStatus("An error occurred.");
     }
   };
 
