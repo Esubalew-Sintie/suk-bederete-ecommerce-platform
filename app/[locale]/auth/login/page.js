@@ -92,11 +92,13 @@ export default function Login({ params: { locale } }) {
 
       const response = await login(formData).unwrap();
 
-      console.log(response.message);
+      console.log(response?.message);
       dispatch(setMerchant(response.merchant));
       localStorage.setItem("unique_id", response.merchant.unique_id);
       localStorage.setItem("access_token", response.tokens.access);
       localStorage.setItem("refresh_token", response.tokens.refresh);
+      document.cookie = `access_token=${response.tokens.access}; path=/`;
+      document.cookie = `refresh_token=${response.tokens.refresh}; path=/`;
       setMerchantId(response.merchant.unique_id);
     } catch (error) {
       console.error("Login failed:", error.message);

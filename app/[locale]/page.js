@@ -8,10 +8,11 @@ import Navbar from "./components/Navbars/AuthNavbar.js";
 import { useRouter } from "next/navigation";
 import TranslationsProvider from "./components/Translation/TranslationsProvider.js";
 import initTranslations from "../i18n.js";
-import { useAuth } from "@clerk/nextjs";
+import { useAuth, useUser } from "@clerk/nextjs";
 const i18nNamespaces = ["home"]; // Define your namespaces
 export default function Index({ params: { locale } }) {
   const router = useRouter();
+  const { isSignedIn, user } = useUser();
 
   // const merchantId = localStorage.getItem("unique_id");
   const { isLoaded, userId, sessionId, getToken } = useAuth();
@@ -44,6 +45,29 @@ export default function Index({ params: { locale } }) {
   if (!translations.t) {
     return null; // Or a loading indicator
   }
+  const handleUpdateRole = async () => {
+    // Example user ID
+    const userId = user?.id;
+    const role = "customer"; // Example role
+
+    try {
+      const response = await fetch(
+        `http://localhost:8000/api/update-metadata/${userId}/${role}/`
+      );
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error("Error:", error);
+      setStatus("An error occurred.");
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      handleUpdateRole(); // Call handleUpdateRole when user data changes
+      console.log(user?.publicMetadata?.role);
+    }
+  }, [user]);
 
   return (
     <TranslationsProvider
