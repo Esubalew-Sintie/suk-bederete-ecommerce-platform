@@ -32,6 +32,7 @@ export default function Login() {
         const formData = {
           email: user.primaryEmailAddress.emailAddress,
           password: "1234", // Ensure secure handling of passwords in production
+          role: "client",
         };
 
         // Attempt to log the user in
