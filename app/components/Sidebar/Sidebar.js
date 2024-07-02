@@ -5,11 +5,12 @@ import {usePathname} from "next/navigation";
 import { useGetCustomizedTemplateQuery } from "@/lib/features/shop/shop.js";
 import NotificationDropdown from "../../components/Dropdowns/NotificationDropdown.js";
 import UserDropdown from "../../components/Dropdowns/UserDropdown.js";
-
+import useCheckUnauthorized from "@/lib/features/auth/unauthorise.js";
 export default function Sidebar() {
 	const [collapseShow, setCollapseShow] = React.useState("hidden");
 	const merchantId = localStorage.getItem("unique_id");
 	const { data: customisedTemplate, error: customisedPageError, isSuccess: isCustomisedPageSuccess } = useGetCustomizedTemplateQuery(merchantId)
+	useCheckUnauthorized(customisedPageError);
 	const pathname = usePathname();
 	return (
 		<>

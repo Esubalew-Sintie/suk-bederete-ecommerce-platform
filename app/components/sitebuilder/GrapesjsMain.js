@@ -49,6 +49,7 @@ const filterAssets = (assets, group) => {
 };
 
 const WithGrapesjs = ({ data, page, templateId }) => {
+  console.log(page)
   const [pageContent, setpageContent] = useState({});
   const [
     createShop,
@@ -189,8 +190,8 @@ const WithGrapesjs = ({ data, page, templateId }) => {
       }
     }
     if (data) {
-      const homePage = data.find((page) => page.name === "home");
-      const pageToRender = homePage || data[0]; // If home page not found, render the first page
+      const homePage = data.find((page) => page.name === "Home");
+      const pageToRender = homePage 
 
       setInitialComponents({
         html: pageToRender?.content.html,

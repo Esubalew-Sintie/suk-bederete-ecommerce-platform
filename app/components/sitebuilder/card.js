@@ -21,6 +21,7 @@ const Card = (props) => {
   
   useCheckUnauthorized(error);
   const [initAppData, setData] = useState(null);
+  const [pages, setpages] = useState([])
   const [loading, setLoading] = useState({
     get: false,
     update: false,
@@ -42,6 +43,7 @@ const Card = (props) => {
   useEffect(() => {
     if (customized_pages && !customized_pagesLoading) {
       console.log("sending the customised page")
+      console.log(customized_pages);
       const pageConfigs = customized_pages.map((pageItem) => ({
         name: pageItem?.name,
         brand_url: "",
@@ -55,6 +57,7 @@ const Card = (props) => {
       }));
 
       setData(pageConfigs);
+      setpages(customized_pages)
       setDisplayPage(true);
     } else if (page && !pageLoading) {
       console.log("sending the not customised page")
@@ -71,6 +74,7 @@ const Card = (props) => {
       }));
 
       setData(pageConfigs);
+      setpages(page)
       setDisplayPage(true);
     }
   }, [page, pageLoading, customized_pages, customized_pagesLoading]);
@@ -80,7 +84,7 @@ const Card = (props) => {
       {displayPage && initAppData ? (
         <WithGrapesjs
           templateId={templateId}
-          page={page}
+          page={pages}
           {...props}
           data={initAppData}
           setData={setData}

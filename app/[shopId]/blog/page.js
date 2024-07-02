@@ -22,12 +22,19 @@ export default function BlogPage({ params }) {
             event.preventDefault();
             router.push(`/${shopId}/blog`);
         };
+        const handleHomeClick = (event) => {
+            event.preventDefault();
+            router.push(`/${shopId}/`);
+        };
 
         const blogLink = document.getElementById('blog');
         if (blogLink) {
             blogLink.addEventListener('click', handleClick);
         }
-
+        const homeLink = document.getElementById('home');
+        if (homeLink) {
+            homeLink.addEventListener('click', handleHomeClick);
+        }
         // Cleanup event listener on component unmount
         return () => {
             if (blogLink) {

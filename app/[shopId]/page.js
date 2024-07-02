@@ -30,6 +30,10 @@ export default function Shop({ params }) {
             router.push(`/${shopId}/about`);
             }
         };
+        const handleExploreClick = (event) => {
+            event.preventDefault();
+           router.push(`/${shopId}/product-list`)
+        };
 
         const attachEventListeners = () => {
             const blogLink = document.getElementById('blog');
@@ -45,6 +49,11 @@ export default function Shop({ params }) {
                 aboutLink.addEventListener('click', (event) => handleClick(event, 'about'));
             }
         };
+
+        const explore = document.getElementById('explore');
+        if(explore){
+            explore.addEventListener('click', (event) => handleExploreClick(event))
+        }
 
         // Attach event listeners when homepage content is set
         if (homepage.html) {
