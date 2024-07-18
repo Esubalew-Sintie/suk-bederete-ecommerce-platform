@@ -89,17 +89,18 @@ export default function Login({ params: { locale } }) {
       const formData = new FormData();
       formData.append("email", email);
       formData.append("password", password);
+      formData.append("role", "client");
 
       const response = await login(formData).unwrap();
 
       console.log(response?.message);
-      dispatch(setMerchant(response.merchant));
-      localStorage.setItem("unique_id", response.merchant.unique_id);
+      dispatch(setMerchant(response.data));
+      localStorage.setItem("unique_id", response.data.unique_id);
       localStorage.setItem("access_token", response.tokens.access);
       localStorage.setItem("refresh_token", response.tokens.refresh);
       document.cookie = `access_token=${response.tokens.access}; path=/`;
       document.cookie = `refresh_token=${response.tokens.refresh}; path=/`;
-      setMerchantId(response.merchant.unique_id);
+      setMerchantId(response.data.unique_id);
     } catch (error) {
       console.error("Login failed:", error.message);
       setResponseMessage(error.message);
