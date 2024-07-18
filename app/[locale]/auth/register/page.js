@@ -10,6 +10,7 @@ import { useRegisterMutation } from "@/lib/features/auth/authMerchant";
 import { useDispatch } from "react-redux";
 import initTranslations from "@/app/i18n";
 import TranslationsProvider from "../../components/Translation/TranslationsProvider";
+import Link from "next/link";
 const i18nNamespaces = ["signup"];
 
 export default function Register({ params: { locale } }) {
@@ -24,17 +25,18 @@ export default function Register({ params: { locale } }) {
       const formData = new FormData();
       formData.append("email", email);
       formData.append("password", password);
+      formData.append("role", "client");
+
       const response = await register(formData).unwrap();
       // Handle successful registration, e.g., redirect to login page
-      console.log("Registration successful");
-      console.log("Response:", response.tokens);
       console.log(response.message);
       // Store the merchant the response it returned to the slice
-      dispatch(setMerchant(response.merchant));
-      console.log(response.merchant);
-      localStorage.setItem("unique_id", response.merchant.unique_id);
-      console.log(response.merchant.unique_id);
-
+      dispatch(setMerchant(response.data));
+      localStorage.setItem("unique_id", response?.data?.unique_id);
+      localStorage.setItem("uid", response?.data?.user);
+      console.log("uid", response.data.user);
+      document.cookie = `access_token=${response.tokens.access}; path=/`;
+      document.cookie = `refresh_token=${response.tokens.refresh}; path=/`;
       // Store tokens in localStorage
       localStorage.setItem("access_token", response.tokens.access);
       localStorage.setItem("refresh_token", response.tokens.refresh);
@@ -147,13 +149,13 @@ export default function Register({ params: { locale } }) {
                         />
                         <span className="ml-2 text-sm font-semibold text-blueGray-600">
                           {translations.t("agree_with_privacy_policy")}{" "}
-                          <a
-                            href="#pablo"
+                          <Link
+                            href="/auth/login"
                             className="text-lightBlue-500"
-                            onClick={(e) => e.preventDefault()}
+                            // onClick={(e) => e.preventDefault()}
                           >
                             {translations.t("privacy_policy")}
-                          </a>
+                          </Link>
                         </span>
                       </label>
                     </div>

@@ -1,24 +1,13 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-// components
-import {
-  ClerkProvider,
-  SignInButton,
-  SignOutButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-  useAuth,
-} from "@clerk/nextjs";
 
 import PagesDropdown from "../Dropdowns/PagesDropdown";
 import { Button } from "@/components/ui/button";
+import UserDropdown from "../Dropdowns/UserDropdown";
 
 export default function Navbar(props) {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
-  const { isLoaded, userId, sessionId, getToken } = useAuth();
   return (
     <>
       <nav className="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg">
@@ -48,25 +37,8 @@ export default function Navbar(props) {
             <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
               <li className="flex items-center">
                 <PagesDropdown />
+                <UserDropdown />
               </li>
-              {userId ? (
-                <UserButton afterSignOutUrl="/" />
-              ) : (
-                <SignedOut>
-                  <div className="flex gap-3">
-                    <Button className="">
-                      <Link href={"/sign-in"}>
-                        <SignInButton className="w-full h-full" />
-                      </Link>
-                    </Button>
-                    <Button className="">
-                      <Link href={"/sign-up"}>
-                        <SignUpButton className="w-full h-full" />
-                      </Link>
-                    </Button>
-                  </div>
-                </SignedOut>
-              )}
             </ul>
           </div>
         </div>
