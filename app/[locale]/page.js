@@ -16,11 +16,12 @@ export default function Index({ params: { locale } }) {
 
   // const merchantId = localStorage.getItem("unique_id");
   const { isLoaded, userId, sessionId, getToken } = useAuth();
+  
   const handleClick = () => {
     if (userId) {
       router.push("/prompt/prompt");
     } else {
-      router.push("/sign-in");
+      router.push("auth/login");
     }
   };
   const [translations, setTranslations] = useState({

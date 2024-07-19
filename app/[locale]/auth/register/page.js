@@ -1,8 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-// layout for page
-
 import Auth from "../../layouts/Auth";
 import { setMerchant } from "@/lib/features/auth/merchantSlice";
 import Loader from "@/app/[locale]/components/Prompt/Loader";
@@ -10,6 +8,7 @@ import { useRegisterMutation } from "@/lib/features/auth/authMerchant";
 import { useDispatch } from "react-redux";
 import initTranslations from "@/app/i18n";
 import TranslationsProvider from "../../components/Translation/TranslationsProvider";
+import Link from "next/link";
 const i18nNamespaces = ["signup"];
 
 export default function Register({ params: { locale } }) {
@@ -18,34 +17,35 @@ export default function Register({ params: { locale } }) {
   const [password, setPassword] = useState("");
   const router = useRouter();
   const dispatch = useDispatch();
+
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
       const formData = new FormData();
       formData.append("email", email);
       formData.append("password", password);
+      formData.append("role", "merchant"); // Include the role here
+
       const response = await register(formData).unwrap();
-      // Handle successful registration, e.g., redirect to login page
       console.log("Registration successful");
       console.log("Response:", response.tokens);
       console.log(response.message);
-      // Store the merchant the response it returned to the slice
+
+      // Store the merchant data in Redux state
       dispatch(setMerchant(response.merchant));
-      console.log(response.merchant);
-      localStorage.setItem("unique_id", response.merchant.unique_id);
-      console.log(response.merchant.unique_id);
 
       // Store tokens in localStorage
+      localStorage.setItem("unique_id", response.merchant.unique_id);
       localStorage.setItem("access_token", response.tokens.access);
       localStorage.setItem("refresh_token", response.tokens.refresh);
 
       router.push("/prompt/prompt");
     } catch (error) {
-      // Handle registration error
       console.error("Registration failed:", error.message);
       console.log("Response:", error.response);
     }
   };
+
   const [translations, setTranslations] = useState({
     t: () => {}, // Placeholder function until translations are loaded
     resources: {},
@@ -54,21 +54,25 @@ export default function Register({ params: { locale } }) {
   useEffect(() => {
     const loadTranslations = async () => {
       try {
-        const { t, resources } = await initTranslations(locale, i18nNamespaces);
+        const { t, resources } = await initTranslations(
+          locale,
+          i18nNamespaces
+        );
         setTranslations({ t, resources });
         console.log("Translations initialized successfully");
       } catch (error) {
-        console.error("Error initiaamlizing translations:", error);
+        console.error("Error initializing translations:", error);
         // Optionally, handle the error further here
       }
     };
 
     loadTranslations();
-  }, [locale]); // Re-run the effect if the locale changes
+  }, [locale]);
 
   if (!translations.t) {
     return null; // Or a loading indicator
   }
+
   return (
     <TranslationsProvider
       namespaces={i18nNamespaces}
@@ -169,6 +173,14 @@ export default function Register({ params: { locale } }) {
                       </button>
                     </div>
                   </form>
+                  <div className="text-center mt-2">
+                    <span className="text-sm">
+                      {translations.t("already have account?")}{" "}
+                      <Link href="/auth/login" className="font-bold text-lightBlue-500">
+                        {translations.t("Sign in")}
+                      </Link>
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>

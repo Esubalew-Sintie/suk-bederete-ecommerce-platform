@@ -16,8 +16,9 @@ import { DialogFooter } from "@/components/ui/dialog";
 
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useState, useRef } from "react";
-import { Value } from "@radix-ui/react-select";
+import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { useCreateProductMutation } from "@/lib/features/products/products";
 
 const formSchema = z.object({
@@ -95,18 +96,26 @@ export function ProductForm() {
     setMode("add");
     form.reset(defaultValues);
   };
+
   const handleDeleteProduct = (index, e) => {
     e.stopPropagation();
     const updatedProducts = products.filter((product, i) => i !== index);
     setProducts(updatedProducts);
   };
-  const saveChange = () => {
-    createProduct({ products, merchantId });
+
+  const saveChange = async () => {
+    try {
+      await createProduct({ products, merchantId }).unwrap();
+      toast.success("Products added successfully!");
+    } catch (error) {
+      toast.error("Failed to add products. Please try again.");
+    }
   };
+
   return (
     <>
       <div>
-        <div className="mt-4 flex  flex-wrap">
+        <div className="mt-4 flex flex-wrap">
           {products.map((product, index) => (
             <div
               key={index}
@@ -118,14 +127,14 @@ export function ProductForm() {
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke-width="1.5"
+                strokeWidth="1.5"
                 stroke="currentColor"
-                className="absolute  top-[-10px] right-[-10px] w-6 h-6 bg-red-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000 ease-in-out"
+                className="absolute top-[-10px] right-[-10px] w-6 h-6 bg-red-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000 ease-in-out"
                 onClick={(e) => handleDeleteProduct(index, e)}
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M6 18 18 6M6 6l12 12"
                 />
               </svg>
@@ -232,7 +241,7 @@ export function ProductForm() {
                     name="image"
                     type="file"
                     className="w-[30%]"
-                    placeholder="Product Category"
+                    placeholder="Product Image"
                     {...field}
                   />
                 </FormControl>
@@ -262,7 +271,7 @@ export function ProductForm() {
                   />
                 </FormControl>
                 <FormDescription>
-                  Provide a short description of the product
+                  Provide a short description of the product.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -282,8 +291,11 @@ export function ProductForm() {
         )}
       </div>
       <DialogFooter>
-        <Button onClick={saveChange}> Save Changes</Button>
-      </DialogFooter>{" "}
+        <Button onClick={saveChange} disabled={isLoading}>
+          {isLoading ? "Saving..." : "Save Changes"}
+        </Button>
+      </DialogFooter>
+      <ToastContainer />
     </>
   );
 }

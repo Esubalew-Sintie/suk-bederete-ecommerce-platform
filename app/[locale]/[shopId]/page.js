@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Loading from "../loading";
 import { useRouter } from "next/navigation";
-import { useGetshopQuery } from "@/lib/features/shop/shop";
+import { useGetshopQuery } from "@/lib/features/shop/publicShopSlice";
 
 export default function Shop({ params }) {
   const shopId = params.shopId;
@@ -91,7 +91,7 @@ export default function Shop({ params }) {
         button.removeEventListener("click", addToCart);
       });
     };
-  }, [router, shopId, homepage.html, cart]);
+  }, [router, shopId, homepage?.html, cart]);
 
   const addToCart = (event) => {
     document.querySelectorAll(".product-cart").forEach((element, index) => {

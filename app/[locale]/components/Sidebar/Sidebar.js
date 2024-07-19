@@ -3,15 +3,11 @@ import React from "react";
 import Link from "next/link";
 import {usePathname} from "next/navigation";
 import { useGetCustomizedTemplateQuery } from "@/lib/features/shop/shop.js";
-<<<<<<< HEAD:app/components/Sidebar/Sidebar.js
 import NotificationDropdown from "../../components/Dropdowns/NotificationDropdown.js";
 import UserDropdown from "../../components/Dropdowns/UserDropdown.js";
 import useCheckUnauthorized from "@/lib/features/auth/unauthorise.js";
-=======
-import NotificationDropdown from "../Dropdowns/NotificationDropdown.js";
-import UserDropdown from "../Dropdowns/UserDropdown.js";
 
->>>>>>> main:app/[locale]/components/Sidebar/Sidebar.js
+
 export default function Sidebar() {
 	const [collapseShow, setCollapseShow] = React.useState("hidden");
 	const merchantId = localStorage.getItem("unique_id");

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Loading from "@/app/[locale]/loading";
 import { useRouter } from "next/navigation";
-import { useGetshopQuery } from "@/lib/features/shop/shop";
+import { useGetshopQuery } from "@/lib/features/shop/publicShopSlice";
 
 export default function BlogPage({ params }) {
   const shopId = params.shopId;

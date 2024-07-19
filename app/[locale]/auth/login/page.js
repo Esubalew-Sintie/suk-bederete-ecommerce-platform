@@ -8,14 +8,16 @@ import { setMerchant } from "@/lib/features/auth/merchantSlice";
 import { useDispatch } from "react-redux";
 import {
   useGetCustomizedTemplateQuery,
-  useGetshopMerchantQuery,
 } from "@/lib/features/shop/shop";
-import { useTranslation } from "react-i18next";
-import TranslationsProvider from "../../components/Translation/TranslationsProvider";
+import { useGetshopMerchantQuery } from "@/lib/features/shop/publicShopSlice";
 import initTranslations from "@/app/i18n";
+import TranslationsProvider from "../../components/Translation/TranslationsProvider";
+import { Spinner } from "react-bootstrap"; // Assuming you have react-bootstrap installed
+
 const i18nNamespaces = ["login"];
+
 export default function Login({ params: { locale } }) {
-  const [login, { isLoading, isError, error }] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
   console.log(locale);
   const [translations, setTranslations] = useState({
     t: () => {}, // Placeholder function until translations are loaded
@@ -45,6 +47,8 @@ export default function Login({ params: { locale } }) {
   const [password, setPassword] = useState("");
   const [merchantId, setMerchantId] = useState("");
   const [responseMessage, setResponseMessage] = useState("");
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -85,6 +89,22 @@ export default function Login({ params: { locale } }) {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    // Reset error states
+    setEmailError(false);
+    setPasswordError(false);
+
+    // Validate inputs
+    if (!email) {
+      setEmailError(true);
+    }
+    if (!password) {
+      setPasswordError(true);
+    }
+    if (!email || !password) {
+      return;
+    }
+
     try {
       const formData = new FormData();
       formData.append("email", email);
@@ -92,17 +112,24 @@ export default function Login({ params: { locale } }) {
 
       const response = await login(formData).unwrap();
 
-      console.log(response?.message);
-      dispatch(setMerchant(response.merchant));
-      localStorage.setItem("unique_id", response.merchant.unique_id);
-      localStorage.setItem("access_token", response.tokens.access);
-      localStorage.setItem("refresh_token", response.tokens.refresh);
-      document.cookie = `access_token=${response.tokens.access}; path=/`;
-      document.cookie = `refresh_token=${response.tokens.refresh}; path=/`;
-      setMerchantId(response.merchant.unique_id);
+      console.log("Response:", response);
+
+      if (response?.tokens) {
+        console.log(response.message);
+        dispatch(setMerchant(response.profile));
+        console.log("unique_id:", response.profile.unique_id);
+        localStorage.setItem("unique_id", response.profile.unique_id);
+        localStorage.setItem("access_token", response.tokens.access);
+        localStorage.setItem("refresh_token", response.tokens.refresh);
+        document.cookie = `access_token=${response.tokens.access}; path=/`;
+        document.cookie = `refresh_token=${response.tokens.refresh}; path=/`;
+        setMerchantId(response.profile.unique_id);
+      } else {
+        throw new Error("Invalid response structure");
+      }
     } catch (error) {
-      console.error("Login failed:", error.message);
-      setResponseMessage(error.message);
+      console.error("Login failed:", error);
+      setResponseMessage(error.data?.message || "Login failed. Please try again.");
     }
   };
 
@@ -159,11 +186,18 @@ export default function Login({ params: { locale } }) {
                       </label>
                       <input
                         type="email"
-                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                        className={`border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150 ${
+                          emailError ? "border-red-500" : ""
+                        }`}
                         placeholder={translations.t("email")}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                       />
+                      {emailError && (
+                        <p className="text-red-500 text-xs italic">
+                          {translations.t("email_required")}
+                        </p>
+                      )}
                     </div>
                     <div className="relative w-full mb-3">
                       <label
@@ -174,11 +208,18 @@ export default function Login({ params: { locale } }) {
                       </label>
                       <input
                         type="password"
-                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                        className={`border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150 ${
+                          passwordError ? "border-red-500" : ""
+                        }`}
                         placeholder={translations.t("password")}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                       />
+                      {passwordError && (
+                        <p className="text-red-500 text-xs italic">
+                          {translations.t("password_required")}
+                        </p>
+                      )}
                     </div>
                     <div>
                       <label className="inline-flex items-center cursor-pointer">
@@ -196,8 +237,19 @@ export default function Login({ params: { locale } }) {
                       <button
                         className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                         type="submit"
+                        disabled={isLoading}
                       >
-                        {translations.t("sign_in")}
+                        {isLoading ? (
+                          <Spinner
+                            as="span"
+                            animation="border"
+                            size="sm"
+                            role="status"
+                            aria-hidden="true"
+                          />
+                        ) : (
+                          translations.t("sign_in")
+                        )}
                       </button>
                     </div>
                   </form>
