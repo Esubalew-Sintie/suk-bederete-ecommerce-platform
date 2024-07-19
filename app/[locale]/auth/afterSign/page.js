@@ -30,8 +30,10 @@ export default function Login() {
     const handleUserSignIn = async () => {
       if (isSignedIn && user) {
         const formData = {
+          unique_id: user.id,
           email: user.primaryEmailAddress.emailAddress,
           password: "1234", // Ensure secure handling of passwords in production
+          role: "client",
         };
 
         // Attempt to log the user in
