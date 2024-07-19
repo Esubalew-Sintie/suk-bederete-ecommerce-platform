@@ -89,6 +89,7 @@ export default function Login({ params: { locale } }) {
       const formData = new FormData();
       formData.append("email", email);
       formData.append("password", password);
+      formData.append("role", "client");
 
       const response = await login(formData).unwrap();
 

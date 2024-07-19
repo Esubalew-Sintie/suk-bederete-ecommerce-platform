@@ -12,7 +12,7 @@ const Searchbox = () => {
 
         <input
           type="text"
-          className="w-1/2 xl:w-1/3   md:px-3 md:py-2 md:text-xl  xl:text-2xl placeholder-stone-300 focus:border-[#1E293B] rounded-full focus:outline-none sm:py-1 sm:px-2 sm:text-sm xs:py-1"
+          className="w-1/2 xl:w-1/3   md:px-3 md:py-1 md:text-xl  xl:text-xl placeholder-stone-300 focus:border-[#1E293B] rounded-full focus:outline-none sm:py-1 sm:px-2 sm:text-sm xs:py-1"
           placeholder="Search for your favorite store..."
         />
       </div>

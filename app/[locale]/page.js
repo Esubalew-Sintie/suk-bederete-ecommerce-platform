@@ -9,6 +9,8 @@ import { useRouter } from "next/navigation";
 import TranslationsProvider from "./components/Translation/TranslationsProvider.js";
 import initTranslations from "../i18n.js";
 import { useAuth, useUser } from "@clerk/nextjs";
+import LanguageSwitcher from "./components/LanguageSwitcher/LanguageSwitcher.js";
+
 const i18nNamespaces = ["home"]; // Define your namespaces
 export default function Index({ params: { locale } }) {
   const router = useRouter();
@@ -89,6 +91,7 @@ export default function Index({ params: { locale } }) {
               className="w-full h-full absolute opacity-75 bg-black"
             ></span>
           </div>
+
           <div className="container relative mx-auto">
             <div className="items-center flex flex-wrap">
               <button

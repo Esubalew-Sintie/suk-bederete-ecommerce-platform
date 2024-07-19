@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
+import LanguageSwitcher from "../LanguageSwitcher/LanguageSwitcher";
 // components
 import {
   ClerkProvider,
@@ -67,6 +68,7 @@ export default function Navbar(props) {
                   </div>
                 </SignedOut>
               )}
+              <LanguageSwitcher />
             </ul>
           </div>
         </div>

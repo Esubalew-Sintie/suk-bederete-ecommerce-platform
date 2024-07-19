@@ -11,7 +11,7 @@ import {
 const Dropdown = ({ name }) => {
   return (
     <DropdownMenu className="bg-[#D3D3CB] focus:outline-none">
-      <DropdownMenuTrigger className="focus:outline-none focus:border-red-500 px-4">
+      <DropdownMenuTrigger className="focus:outline-none focus:border-red-500 px-2">
         <span>
           <svg
             fill="white"
