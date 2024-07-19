@@ -1,144 +1,220 @@
-import { i18nRouter } from "next-i18n-router";
-import i18nConfig from "./i18nConfig";
-
-export default function middleware(req) {
-  return i18nRouter(req, i18nConfig);
-}
-
-export const config = {
-  matcher: [
-    // Combine the matchers from both middleware functions
-    "/((?!.*\\..*|_next).*)",
-    "/(api|trpc)(.*)",
-  ],
-};
-
-// for django
-// import { NextResponse } from "next/server";
 // import { i18nRouter } from "next-i18n-router";
-// import i18nConfig from "./i18nConfig"; // Your i18n configuration
-// import axios from "axios";
+// import i18nConfig from "./i18nConfig";
 
-// const API_URL = "http://localhost:8000/api/token/verify/";
-// export default async function middleware(request) {
-//   const { cookies, url } = request;
-//   const locale = cookies.get("NEXT_LOCALE");
-//   const { pathname, search, origin } = new URL(url);
-//   let i18nResponse;
-//   console.log(locale);
-//   // Check if the URL already has a valid locale ('en' or 'am')
-//   const validLocales = ["en", "am"];
-//   const urlParts = pathname.split("/");
-//   const currentLocale = urlParts[1]; // Assumes locale is the first segment after the origin
-
-//   if (
-//     !validLocales.includes(currentLocale) &&
-//     validLocales.includes(locale?.value)
-//   ) {
-//     // No valid locale in URL, add locale from cookie
-//     const newUrl = `${origin}/${locale?.value}${pathname}${search}`;
-//     return NextResponse.redirect(newUrl);
-//   }
-//   try {
-//     // Attempt internationalization first
-//     i18nResponse = await i18nRouter(request, i18nConfig);
-//     // return i18nResponse;
-//   } catch (error) {
-//     console.error("Error during i18n processing:", error);
-//     // Handle error appropriately
-//   }
-//   const token = request.cookies.get("access_token");
-//   const refreshToken = request.cookies.get("refresh_token");
-//   console.log(token);
-//   if (token?.value) {
-//     try {
-//       const response = await fetch(API_URL, {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({ token }),
-//       });
-
-//       if (response.ok) {
-//         const data = await response.json();
-//         const { user_id } = data;
-//         console.log(`User ID: ${user_id}`);
-
-//         // Add user details to request headers or context as needed
-//         request.headers.set("x-user-id", user_id);
-//       } else {
-//         const errorData = await response.json();
-//         if (errorData.access) {
-//           // Token expired, get new access token
-//           const newAccessToken = errorData.access;
-//           request.cookies.set("access_token", newAccessToken);
-//           const retryResponse = await fetch(API_URL, {
-//             method: "POST",
-//             headers: {
-//               "Content-Type": "application/json",
-//             },
-//             body: JSON.stringify({ token: newAccessToken }),
-//           });
-
-//           if (retryResponse.ok) {
-//             const retryData = await retryResponse.json();
-//             const { user_id } = retryData;
-//             console.log(`User ID: ${user_id}`);
-
-//             // Add user details to request headers or context as needed
-//             request.headers.set("x-user-id", user_id);
-//           } else {
-//             console.error(
-//               "Token verification failed on retry:",
-//               await retryResponse.json()
-//             );
-//             return NextResponse.redirect("/auth/login");
-//           }
-//         } else {
-//           console.error("Token verification failed:", errorData);
-//           return NextResponse.redirect("http://localhost:3000/auth/login");
-//         }
-//       }
-//     } catch (error) {
-//       console.error("Token verification failed:", error);
-//       return NextResponse.redirect("http://localhost:3000/auth/login");
-//     }
-//   } else {
-//     if (requiresAuthentication(request.url)) {
-//       console.log("No token found, redirecting to login");
-//       return NextResponse.redirect("http://localhost:3000/auth/login");
-//     }
-//   }
-
-//   // Return the i18n response if it exists
-//   // if (i18nResponse) {
-//   //   return i18nResponse;
-//   // }
-
-//   // Token is present or route doesn't require authentication, allow request to proceed
-//   console.log("Token found or no authentication required, proceeding");
-//   return NextResponse.next();
-// }
-
-// function requiresAuthentication(url) {
-//   const { pathname } = new URL(url);
-
-//   return (
-//     pathname.startsWith("/am/admin") ||
-//     pathname.startsWith("/en/admin") ||
-//     pathname.startsWith("/en/site-builder") ||
-//     pathname.startsWith("/en/prompt") ||
-//     pathname.startsWith("/account")
-//   );
+// export default function middleware(req) {
+//   return i18nRouter(req, i18nConfig);
 // }
 
 // export const config = {
 //   matcher: [
-//     "/((?!.*\\..*|_next).*)", // Exclude routes with query parameters and internal Next.js routes
-//     "/(api|trpc)(.*)", // Include API and tRPC routes
+//     // Combine the matchers from both middleware functions
+//     "/((?!.*\\..*|_next).*)",
+//     "/(api|trpc)(.*)",
 //   ],
 // };
+
+// for django
+import { NextResponse } from "next/server";
+import { i18nRouter } from "next-i18n-router";
+import i18nConfig from "./i18nConfig"; // Your i18n configuration
+import axios from "axios";
+
+const API_URL = "http://localhost:8000/api/token/verify/";
+
+export default async function middleware(request) {
+  const { cookies, url } = request;
+  const locale = cookies.get("NEXT_LOCALE");
+  const { pathname, origin } = new URL(url);
+  let i18nResponse;
+
+  // Attempt internationalization first
+  try {
+    i18nResponse = await i18nRouter(request, i18nConfig);
+  } catch (error) {
+    console.error("Error during i18n processing:", error);
+  }
+
+  const token = cookies.get("access_token")?.value;
+  const refreshToken = cookies.get("refresh_token")?.value;
+
+  if (token) {
+    try {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          token: token,
+          refresh: refreshToken || null,
+        }),
+      });
+
+      if (!response.ok) {
+        console.error("Non-200 response from token verification API", response);
+        throw new Error("Non-200 response from token verification API");
+      }
+
+      const data = await response.json();
+      const { user_id, role, access } = data;
+
+      if (user_id && role) {
+        if (access) {
+          cookies.set("access_token", access);
+        }
+
+        request.headers.set("x-user-id", user_id);
+        request.headers.set("x-user-role", role);
+
+        if (
+          isUnprotectedPath(pathname) ||
+          requiresRoleBasedAccess(pathname, role)
+        ) {
+          console.log("protected", pathname, role),
+            isUnprotectedPath(pathname),
+            requiresRoleBasedAccess(pathname, role);
+          if (i18nResponse) {
+            return i18nResponse;
+          }
+          return NextResponse.next();
+        } else {
+          console.error("Access denied. Role not authorized.");
+          if (
+            !pathname.startsWith(`/${locale?.value || "en"}/auth/unauthorized`)
+          ) {
+            return NextResponse.redirect(
+              `${origin}/${locale?.value || "en"}/auth/unauthorized`
+            );
+          } else {
+            if (i18nResponse) {
+              return i18nResponse;
+            }
+            return NextResponse.next(); // Avoid loop
+          }
+        }
+      } else {
+        console.error("Unexpected response:", data);
+        if (!pathname.startsWith(`/${locale?.value || "en"}/auth/login`)) {
+          return NextResponse.redirect(
+            `${origin}/${locale?.value || "en"}/auth/login`
+          );
+        } else {
+          if (i18nResponse) {
+            return i18nResponse;
+          }
+          return NextResponse.next(); // Avoid loop
+        }
+      }
+    } catch (error) {
+      console.error("Token verification failed:", error.message || error);
+      if (!pathname.startsWith(`/${locale?.value || "en"}/auth/login`)) {
+        return NextResponse.redirect(
+          `${origin}/${locale?.value || "en"}/auth/login`
+        );
+      } else {
+        if (i18nResponse) {
+          return i18nResponse;
+        }
+        return NextResponse.next(); // Avoid loop
+      }
+    }
+  } else {
+    if (requiresAuthentication(pathname)) {
+      console.log("No token found, redirecting to login");
+      if (!pathname.startsWith(`/${locale?.value || "en"}/auth/login`)) {
+        return NextResponse.redirect(
+          `${origin}/${locale?.value || "en"}/auth/login`
+        );
+      } else {
+        if (i18nResponse) {
+          return i18nResponse;
+        }
+        return NextResponse.next(); // Avoid loop
+      }
+    }
+  }
+
+  // Return the i18n response if it exists
+  if (i18nResponse) {
+    return i18nResponse;
+  }
+
+  // Token is present or route doesn't require authentication, allow request to proceed
+  console.log("Token found or no authentication required, proceeding");
+  return NextResponse.next();
+}
+
+function requiresAuthentication(pathname) {
+  return (
+    pathname.includes("/admin") ||
+    pathname.includes("/site-builder") ||
+    pathname.includes("/prompt") ||
+    pathname.includes("/account")
+  );
+}
+
+function requiresRoleBasedAccess(pathname, role) {
+  const roleBasedPaths = {
+    merchant: [
+      "/site-builder",
+      "/am/prompt",
+      "/account", // Add other paths merchants should access
+    ],
+    client: [
+      "/shop",
+      "/checkout",
+      "/orders", // Add other paths clients should access
+    ],
+  };
+
+  if (role === "admin") {
+    console.log("admin");
+    return true; // Admins have access to all paths
+  }
+  console.log(
+    roleBasedPaths[role]?.some((path) => pathname.startsWith(path)) || false,
+    "check protection"
+  );
+  return (
+    roleBasedPaths[role]?.some((path) => pathname.startsWith(path)) || false
+  );
+}
+
+function isUnprotectedPath(pathname) {
+  const unprotectedPaths = [
+    "/",
+    "/about",
+    "/contact",
+    "/shop",
+    "/auth/login",
+    "/auth/register",
+    "/forgot-password",
+    "/reset-password",
+    "/auth/unauthorized",
+  ];
+
+  // Exact match check for the root path
+  if (pathname === "/") {
+    return true;
+  }
+  console.log(
+    unprotectedPaths.some(
+      (path) => pathname.startsWith(path) && pathname !== "/",
+      "unprotected"
+    )
+  );
+  // Check for paths that start with any of the unprotected paths
+  return unprotectedPaths.some(
+    (path) => pathname.startsWith(path) && pathname !== "/"
+  );
+}
+
+export const config = {
+  matcher: [
+    "/((?!.*\\..*|_next).*)", // Exclude routes with query parameters and internal Next.js routes
+    "/(api|trpc)(.*)", // Include API and tRPC routes
+  ],
+};
 
 // import { i18nRouter } from "next-i18n-router";
 // import i18nConfig from "./i18nConfig"; // Your i18n configuration
