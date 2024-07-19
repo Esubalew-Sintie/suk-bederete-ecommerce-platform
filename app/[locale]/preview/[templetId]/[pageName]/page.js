@@ -186,7 +186,7 @@ function PreviewPage({params}) {
 			js: data?.js,
 		};
 		if (finalContent) {
-			customisedTemplate({
+			updateCustomizedTemplate({
 				originalTemplateId: templateId,
 				modifiedMerhant: merchantId,
 				modifiedPages: modifiedPagesData,

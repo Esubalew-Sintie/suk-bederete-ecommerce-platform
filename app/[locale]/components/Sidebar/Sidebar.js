@@ -7,6 +7,7 @@ import NotificationDropdown from "../../components/Dropdowns/NotificationDropdow
 import UserDropdown from "../../components/Dropdowns/UserDropdown.js";
 import useCheckUnauthorized from "@/lib/features/auth/unauthorise.js";
 
+
 export default function Sidebar() {
   const [collapseShow, setCollapseShow] = React.useState("hidden");
   const merchantId = localStorage.getItem("unique_id");

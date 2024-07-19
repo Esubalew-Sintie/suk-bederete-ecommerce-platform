@@ -27,8 +27,8 @@ import {
 import {
   useCreateShopMutation,
   useUpdateShopMutation,
-  useGetshopMerchantQuery,
 } from "@/lib/features/shop/shop";
+import { useGetshopMerchantQuery } from "@/lib/features/shop/publicShopSlice";
 import { toast } from "react-hot-toast";
 import CustomToaster from "@/app/[locale]/components/sitebuilder/Toaster/Toaster";
 import { AlertDialogDemo } from "./AlertDialoge";
@@ -596,6 +596,10 @@ const WithGrapesjs = ({ data, page, templateId }) => {
       }, 1000);
     }
   };
+  useEffect(() => {
+    console.log('Shop status:', shopstatus); // Should log 200 if successful
+    console.log('Shop data:', shop); // Should log the shop data
+  }, [shopstatus, shop]);
 
   const publishHandlerNoSave = () => {
     // router.push("/admin/dashboard");
@@ -688,7 +692,7 @@ const WithGrapesjs = ({ data, page, templateId }) => {
           >
             Publish
           </button> */}
-          {shopstatus !== 200 && (
+          {shopstatus !== 'fulfilled' && (
             <AlertDialogDemo
               button="Publish"
               publishSaveClick={() => updatePageHandler(true)}

@@ -8,7 +8,7 @@ import CardTable from "@/app/[locale]/components/Cards/CardTable.js";
 // layout for page
 
 import { Admin } from "@/app/[locale]/layouts/Admin";
-import { useGetShopsQuery } from "@/lib/features/shop/shop";
+import { useGetShopsQuery } from "@/lib/features/shop/publicShopSlice";
 import EnhancedTable from "../../components/Tables/ShopList";
 export default function Tables() {
   const { data: shops, isLoading } = useGetShopsQuery();
