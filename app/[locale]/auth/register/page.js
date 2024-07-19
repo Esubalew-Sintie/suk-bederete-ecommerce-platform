@@ -24,31 +24,18 @@ export default function Register({ params: { locale } }) {
       const formData = new FormData();
       formData.append("email", email);
       formData.append("password", password);
-<<<<<<< HEAD
-      formData.append("role", "merchant"); // Include the role here
-
-      const response = await register(formData).unwrap();
-      console.log("Registration successful");
-      console.log("Response:", response.tokens);
-      console.log(response.message);
-
-      // Store the merchant data in Redux state
-      dispatch(setMerchant(response.merchant));
-
-=======
-      formData.append("role", "client");
+      formData.append("role", "merchant"); 
 
       const response = await register(formData).unwrap();
       // Handle successful registration, e.g., redirect to login page
       console.log(response.message);
       // Store the merchant the response it returned to the slice
-      dispatch(setMerchant(response.data));
+      dispatch(setMerchant(response?.data));
       localStorage.setItem("unique_id", response?.data?.unique_id);
       localStorage.setItem("uid", response?.data?.user);
-      console.log("uid", response.data.user);
+      console.log("uid", response.data?.user);
       document.cookie = `access_token=${response.tokens.access}; path=/`;
       document.cookie = `refresh_token=${response.tokens.refresh}; path=/`;
->>>>>>> main
       // Store tokens in localStorage
       localStorage.setItem("unique_id", response.merchant.unique_id);
       localStorage.setItem("access_token", response.tokens.access);
@@ -57,7 +44,7 @@ export default function Register({ params: { locale } }) {
       router.push("/prompt/prompt");
     } catch (error) {
       console.error("Registration failed:", error.message);
-      console.log("Response:", error.response);
+      console.log("Response:", error?.response);
     }
   };
 
