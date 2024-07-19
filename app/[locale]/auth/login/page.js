@@ -113,32 +113,21 @@ export default function Login({ params: { locale } }) {
 
       const response = await login(formData).unwrap();
 
-<<<<<<< HEAD
       console.log("Response:", response);
 
       if (response?.tokens) {
         console.log(response.message);
-        dispatch(setMerchant(response.profile));
-        console.log("unique_id:", response.profile.unique_id);
-        localStorage.setItem("unique_id", response.profile.unique_id);
+        dispatch(setMerchant(response.data));
+        console.log("unique_id:", response.data.unique_id);
+        localStorage.setItem("unique_id", response.data.unique_id);
         localStorage.setItem("access_token", response.tokens.access);
         localStorage.setItem("refresh_token", response.tokens.refresh);
         document.cookie = `access_token=${response.tokens.access}; path=/`;
         document.cookie = `refresh_token=${response.tokens.refresh}; path=/`;
-        setMerchantId(response.profile.unique_id);
+        setMerchantId(response.data.unique_id);
       } else {
         throw new Error("Invalid response structure");
       }
-=======
-      console.log(response?.message);
-      dispatch(setMerchant(response.data));
-      localStorage.setItem("unique_id", response.data.unique_id);
-      localStorage.setItem("access_token", response.tokens.access);
-      localStorage.setItem("refresh_token", response.tokens.refresh);
-      document.cookie = `access_token=${response.tokens.access}; path=/`;
-      document.cookie = `refresh_token=${response.tokens.refresh}; path=/`;
-      setMerchantId(response.data.unique_id);
->>>>>>> main
     } catch (error) {
       console.error("Login failed:", error);
       setResponseMessage(error.data?.message || "Login failed. Please try again.");

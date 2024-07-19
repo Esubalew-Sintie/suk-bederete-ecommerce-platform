@@ -4,6 +4,7 @@ import {useRouter} from "next/navigation"; // Import useRouter from next/router
 
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
+import useCheckUnauthorized from "@/lib/features/auth/unauthorise";
 
 import {
 	useGetWebBuilderQuery,
@@ -29,6 +30,7 @@ function PreviewPage({params}) {
 		templateId,
 		pageName,
 	});
+	console.log(data);
 	const [updateProduct, {isLoading: updateLoading, isUpdateError}] =
 		useUpdateProductMutation();
 	const [hasMounted, setHasMounted] = useState(false);
@@ -45,8 +47,15 @@ function PreviewPage({params}) {
     isLoading: isLoadingQuery,
     error: queryError,
   } = useGetCustomizedTemplateQuery(merchantId);
-  const [updateCustomizedTemplate, { isLoading: isUpdating }] =
-  useUpdatecustomizedTemplateMutation();
+  useCheckUnauthorized(queryError)
+  console.log(customizedTemplateDataHook);
+
+  const [
+    updateCustomisedTemplate,
+    { error: updateerror, isLoading: isUpdating },
+  ] = useUpdatecustomizedTemplateMutation();
+
+  useCheckUnauthorized(updateerror)
 	const captureAndUploadScreenshot = async () => {
 		const container = document.querySelector("#features");
 
@@ -185,10 +194,10 @@ function PreviewPage({params}) {
 			css: data?.css,
 			js: data?.js,
 		};
+		
 		if (finalContent) {
-			updateCustomizedTemplate({
-				originalTemplateId: templateId,
-				modifiedMerhant: merchantId,
+			updateCustomisedTemplate({
+				customised_templateId: customizedTemplateDataHook?.id,
 				modifiedPages: modifiedPagesData,
 			})
 				.unwrap()
