@@ -123,7 +123,7 @@ export default function OrdersPage() {
         </div>
       </div>
       <div className="flex flex-wrap mt-4">
-        {orders?.length > 0 ? (
+        {orders?.length > 0 && (
           <EnhancedTable
             key={orders.length + 2}
             rows={orders}
@@ -131,8 +131,6 @@ export default function OrdersPage() {
             headCells={orderHeadCells}
             onButtonClick={(event, row) => console.log("Button clicked", row)} // Placeholder for button click handler
           />
-        ) : (
-          <Loader />
         )}
       </div>
       <div className="flex flex-wrap mt-4">

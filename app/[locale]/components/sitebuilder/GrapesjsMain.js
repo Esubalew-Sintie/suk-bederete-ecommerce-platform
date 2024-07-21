@@ -53,7 +53,7 @@ const filterAssets = (assets, group) => {
 };
 
 const WithGrapesjs = ({ data, page, templateId }) => {
-  console.log(page)
+  console.log(page);
   const [pageContent, setpageContent] = useState({});
   const [
     createShop,
@@ -204,16 +204,16 @@ const WithGrapesjs = ({ data, page, templateId }) => {
     }
     if (data) {
       const homePage = data.find((page) => page.name === "Home");
-      const pageToRender = homePage 
+      const pageToRender = homePage;
 
       setInitialComponents({
         html: pageToRender?.content.html,
         css: pageToRender?.content.css,
-        custom_head: pageToRender.custom_head || "",
-        custom_footer: pageToRender.custom_footer || "",
+        custom_head: pageToRender?.custom_head || "",
+        custom_footer: pageToRender?.custom_footer || "",
       });
       setsettingOpen({
-        name: pageToRender.name,
+        name: pageToRender?.name,
         domain: pageToRender?.customdomain || "",
         open: false,
       });
@@ -597,8 +597,8 @@ const WithGrapesjs = ({ data, page, templateId }) => {
     }
   };
   useEffect(() => {
-    console.log('Shop status:', shopstatus); // Should log 200 if successful
-    console.log('Shop data:', shop); // Should log the shop data
+    console.log("Shop status:", shopstatus); // Should log 200 if successful
+    console.log("Shop data:", shop); // Should log the shop data
   }, [shopstatus, shop]);
 
   const publishHandlerNoSave = () => {
@@ -692,7 +692,7 @@ const WithGrapesjs = ({ data, page, templateId }) => {
           >
             Publish
           </button> */}
-          {shopstatus !== 'fulfilled' && (
+          {shopstatus !== "fulfilled" && (
             <AlertDialogDemo
               button="Publish"
               publishSaveClick={() => updatePageHandler(true)}

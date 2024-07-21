@@ -1,4 +1,4 @@
-"use client";
+import { useState } from "react";
 import * as React from "react";
 import PropTypes from "prop-types";
 import { alpha } from "@mui/material/styles";
@@ -21,15 +21,21 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
-import TextField from "@mui/material/TextField"; // Import TextField
+import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { PopoverDemo } from "@/util/alert";
 import { visuallyHidden } from "@mui/utils";
-import { AiOutlineEdit, AiFillDelete, DialogDemo } from "react-icons/ai";
+import { AiOutlineEdit, AiFillDelete } from "react-icons/ai";
 import { LuView } from "react-icons/lu";
-
 import { AddProduct } from "../Prompt/AddProduct";
 import { OrderDialog } from "../Prompt/OrderDetial";
+import {
+  DialogDemo,
+  DialogDemo2,
+  DialogDemo3,
+} from "../WebBuilder/AddPage/AddItem";
+import Image from "next/image";
+import { ConfirmationModal } from "../Prompt/ConfirmationPromt";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -76,15 +82,16 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
+        <TableCell
+          padding="checkbox"
+          sx={{ color: "#fff", backgroundColor: "#0a2351" }} // Adjust text color to white
+        >
           <Checkbox
             color="primary"
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
-            inputProps={{
-              "aria-label": "select all desserts",
-            }}
+            inputProps={{ "aria-label": "select all desserts" }}
           />
         </TableCell>
         {headCells.map((headCell) => (
@@ -93,6 +100,7 @@ function EnhancedTableHead(props) {
             align={"left"}
             padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
+            sx={{ color: "#fff", backgroundColor: "#0a2351" }} // Adjust text color to white
           >
             <TableSortLabel
               active={orderBy === headCell.id}
@@ -155,17 +163,14 @@ function EnhancedTableToolbar(props) {
           id="tableTitle"
           component="div"
         >
-          <div className=" flex gap-32">
+          <div className="flex gap-32 text-black">
             <p>{title}</p>
-            {/* <TableCell align="left" sx={{ color: "text-blueGray-500" }}> */}
             <div onClick={(event) => event.stopPropagation()}>
               <AddProduct />
             </div>
-            {/* </TableCell> */}
           </div>
         </Typography>
       )}
-
       {numSelected > 0 ? (
         <Tooltip title="Delete">
           <IconButton>
@@ -185,6 +190,7 @@ function EnhancedTableToolbar(props) {
 
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
 };
 
 export default function EnhancedTable({ rows, headCells, title }) {
@@ -195,6 +201,32 @@ export default function EnhancedTable({ rows, headCells, title }) {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [searchQuery, setSearchQuery] = React.useState("");
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+  async function handleDeleteProduct(id) {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this product?"
+    );
+    if (!confirmed) return;
+
+    try {
+      setIsLoading(true);
+      await axios.delete(`/api/products/${id}`);
+      toast({
+        title: "Success",
+        description: "Product deleted successfully.",
+      });
+      // Optionally, redirect or update UI to reflect the deletion
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to delete product.",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -210,9 +242,9 @@ export default function EnhancedTable({ rows, headCells, title }) {
     }
     setSelected([]);
   };
+
   const onButtonClick = (e, row) => {
     e.stopPropagation(); // Prevents the click event from propagating up to parent elements
-    // Implement your logic for editing and deleting rows here
     console.log("Editing or deleting row:", row);
   };
 
@@ -253,64 +285,80 @@ export default function EnhancedTable({ rows, headCells, title }) {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-  const visibleRows = React.useMemo(() => {
-    const filteredRows = rows.filter((row) =>
-      Object.values(row).some((val) =>
-        String(val).toLowerCase().includes(searchQuery.toLowerCase())
-      )
+  const filteredRows = rows?.filter((row) => {
+    return (
+      row?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      row?.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      row?.slug?.toLowerCase().includes(searchQuery.toLowerCase())
     );
-    return stableSort(filteredRows, getComparator(order, orderBy))?.slice(
-      page * rowsPerPage,
-      page * rowsPerPage + rowsPerPage
-    );
-  }, [order, orderBy, page, rowsPerPage, searchQuery]);
+  });
+
+  const visibleRows = stableSort(
+    filteredRows,
+    getComparator(order, orderBy)
+  ).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Paper sx={{ width: "100%", mb: 2 }}>
-        <EnhancedTableToolbar
-          headCells
-          title={title}
-          numSelected={selected.length}
+    <Box sx={{ width: "100%", marginTop: "1.5rem" }}>
+      <Paper
+        sx={{
+          width: "100%",
+          mb: 2,
+          backgroundColor: "#2d3748",
+          color: "#fff",
+          borderRadius: "10px",
+        }}
+      >
+        <EnhancedTableToolbar numSelected={selected.length} title={title} />
+        <TextField
+          id="search"
+          label="Search products"
+          variant="outlined"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          sx={{
+            marginLeft: 2,
+            marginTop: 2,
+            marginBottom: 2,
+            width: "30%",
+            "& .MuiInputBase-root": {
+              color: "#fff",
+            },
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "#fff",
+              },
+              "&:hover fieldset": {
+                borderColor: "#fff",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "#fff",
+              },
+            },
+          }}
         />
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            p: 2,
-          }}
-        >
-          <TextField
-            label="Search Product"
-            variant="outlined"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            halfWidth
-            className=" flex items-center justify-center rounded-lg"
-          />
-        </Box>
-        <TableContainer
-          sx={{
-            backgroundColor: "bg-blueGray-50", // Adjust the background color
-          }}
-        >
+        <TableContainer>
           <Table
-            sx={{ minWidth: 750 }}
+            sx={{
+              minWidth: 750,
+              "& .MuiTableCell-root": {
+                borderBottom: "1px solid #555", // Adjust table border color
+              },
+            }}
             aria-labelledby="tableTitle"
             size={dense ? "small" : "medium"}
           >
             <EnhancedTableHead
-              headCells={headCells}
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows?.length}
+              rowCount={rows.length}
+              headCells={headCells}
             />
             <TableBody>
-              {visibleRows?.map((row, index) => {
+              {visibleRows.map((row, index) => {
                 const isItemSelected = isSelected(row.id);
                 const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -323,7 +371,7 @@ export default function EnhancedTable({ rows, headCells, title }) {
                     tabIndex={-1}
                     key={row.id}
                     selected={isItemSelected}
-                    sx={{ cursor: "pointer" }}
+                    sx={{ "&:hover": { backgroundColor: "#4a5568" } }} // Adjust row hover color
                   >
                     <TableCell padding="checkbox">
                       <Checkbox
@@ -334,50 +382,70 @@ export default function EnhancedTable({ rows, headCells, title }) {
                         }}
                       />
                     </TableCell>
-
-                    <TableCell align="left">
-                      {row?.productName?.length > 15
-                        ? `${row?.productName?.substring(0, 15)}...`
-                        : row?.productName}
+                    <TableCell align="left" sx={{ color: "#fff" }}>
+                      {row?.name?.length > 15
+                        ? `${row?.name?.substring(0, 15)}...`
+                        : row?.name}
+                    </TableCell>
+                    <TableCell align="left" sx={{ color: "#fff" }}>
+                      {row?.description?.length > 15
+                        ? `${row?.description?.substring(0, 15)}...`
+                        : row?.description}
+                    </TableCell>
+                    <TableCell align="left" sx={{ color: "#fff" }}>
+                      {row?.slug?.length > 15
+                        ? `${row?.slug?.substring(0, 15)}...`
+                        : row?.slug}
+                    </TableCell>
+                    <TableCell align="left" sx={{ color: "#fff" }}>
+                      {row?.price}
+                    </TableCell>
+                    <TableCell align="left" sx={{ color: "#fff" }}>
+                      {row?.stock}
                     </TableCell>
                     <TableCell align="left">
-                      {row?.productDescription?.length > 15
-                        ? `${row?.productDescription?.substring(0, 15)}...`
-                        : row?.productDescription}
-                    </TableCell>
-                    <TableCell align="left">
-                      {row?.productVariant?.map((variant, index) => (
-                        <p key={index}>{variant}</p>
-                      ))}
-                    </TableCell>
-                    <TableCell align="left">
-                      {row?.productCatagory?.length > 15
-                        ? `${row?.productCatagory?.substring(0, 15)}...`
-                        : row?.productCatagory}{" "}
-                    </TableCell>
-                    <TableCell align="left">{row?.price}</TableCell>
-                    <TableCell align="left">{row?.inventoryStatus}</TableCell>
-                    <TableCell align="left">
-                      {row?.images?.map((image, index) => (
-                        <img
-                          src={image}
-                          alt={`Image ${index}`}
+                      {row?.image && (
+                        <Image
+                          src={row.image}
+                          alt={`product`}
                           style={{ width: 50, height: 50 }}
+                          width={50}
+                          height={50}
                         />
-                      ))}
+                      )}
                     </TableCell>
-                    <TableCell align="left">
-                      {row?.tagsKeywords?.join(", ")}
-                    </TableCell>
-
                     <TableCell align="left" sx={{ color: "text-blueGray-500" }}>
                       <div
                         className=" flex gap-2 "
                         onClick={(event) => event.stopPropagation()}
                       >
-                        <DialogDemo action={<LuView />} />
-                        <DialogDemo action={<AiOutlineEdit />} />
-                        <DialogDemo action={<AiFillDelete />} />
+                        <DialogDemo
+                          action={<LuView color="black" />}
+                          type="edit"
+                          product={row}
+                        />
+                        <DialogDemo
+                          action={<AiOutlineEdit color="blue" size={25} />}
+                          type="edit"
+                          product={row}
+                        />
+                        <button
+                          onClick={() => setIsModalOpen(true)}
+                          disabled={isLoading}
+                          variant="outline"
+                          className="flex justify-center items-center gap-10 border-2 rounded-md w-10 h-10  bg-white"
+                        >
+                          {isLoading ? (
+                            "Deleting..."
+                          ) : (
+                            <AiFillDelete color="red" size={25} />
+                          )}
+                        </button>
+                        <ConfirmationModal
+                          isOpen={isModalOpen}
+                          onClose={() => setIsModalOpen(false)}
+                          onConfirm={handleDeleteProduct}
+                        />
                       </div>
                     </TableCell>
                   </TableRow>
@@ -387,6 +455,7 @@ export default function EnhancedTable({ rows, headCells, title }) {
                 <TableRow
                   style={{
                     height: (dense ? 33 : 53) * emptyRows,
+                    backgroundColor: "#333",
                   }}
                 >
                   <TableCell colSpan={6} />
@@ -398,17 +467,32 @@ export default function EnhancedTable({ rows, headCells, title }) {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows?.length}
+          count={rows.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
+          sx={{
+            color: "#fff",
+            "& .MuiTablePagination-selectLabel, & .MuiTablePagination-input, & .MuiTablePagination-selectIcon":
+              {
+                color: "#fff",
+              },
+            "& .MuiIconButton-root": { color: "#fff" },
+          }}
         />
       </Paper>
       <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="Dense padding"
+        sx={{ color: "#fff", marginTop: 2 }} // Adjust switch color and position
       />
     </Box>
   );
 }
+
+EnhancedTable.propTypes = {
+  rows: PropTypes.array.isRequired,
+  headCells: PropTypes.array.isRequired,
+  title: PropTypes.string.isRequired,
+};
