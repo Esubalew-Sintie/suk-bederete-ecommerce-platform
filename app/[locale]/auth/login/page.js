@@ -6,9 +6,7 @@ import { useLoginMutation } from "@/lib/features/auth/authMerchant";
 import { useRouter } from "next/navigation";
 import { setMerchant } from "@/lib/features/auth/merchantSlice";
 import { useDispatch } from "react-redux";
-import {
-  useGetCustomizedTemplateQuery,
-} from "@/lib/features/shop/shop";
+import { useGetCustomizedTemplateQuery } from "@/lib/features/shop/shop";
 import { useGetshopMerchantQuery } from "@/lib/features/shop/publicShopSlice";
 import initTranslations from "@/app/i18n";
 import TranslationsProvider from "../../components/Translation/TranslationsProvider";
@@ -75,7 +73,7 @@ export default function Login({ params: { locale } }) {
       } else if (isTemplateSuccess && customizedTemplate) {
         router.push(`/site-builder/${customizedTemplate.id}`);
       } else if (merchantId) {
-        router.push("/prompt/prompt");
+        router.push("/selecttheme");
       }
     }
   }, [
@@ -130,7 +128,9 @@ export default function Login({ params: { locale } }) {
       }
     } catch (error) {
       console.error("Login failed:", error);
-      setResponseMessage(error.data?.message || "Login failed. Please try again.");
+      setResponseMessage(
+        error.data?.message || "Login failed. Please try again."
+      );
     }
   };
 

@@ -1,9 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import axios from "axios";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -15,17 +16,11 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { toast } from "@/components/ui/use-toast";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import Image from "next/image";
+import { useUpdateProductMutation } from "@/lib/features/products/products";
 
 const FormSchema = z.object({
   itemType: z.string({
@@ -36,32 +31,47 @@ const FormSchema = z.object({
   }),
   itemPrice: z.preprocess((val) => parseFloat(val), z.number().nonnegative()),
   description: z.string(),
+  stock: z.preprocess((val) => parseInt(val, 10), z.number().nonnegative()),
   image: z.any().optional(),
 });
 
-export function AddItemForm({ product }) {
-  console.log(product);
+export function EditProductForm({ product }) {
+  const [updateProduct, { isLoading, isError }] = useUpdateProductMutation();
+  const [selectedFile, setSelectedFile] = useState(null);
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       itemType: product.name || "",
-      stock: product.stock ? product?.stock?.toString() : "",
+      stock: product.stock ? product.stock.toString() : "",
       itemTitle: product.slug || "",
-      itemPrice: product.price ? product?.price?.toString() : "",
+      itemPrice: product.price ? product.price.toString() : "",
       description: product.description || "",
-      image: product.image || "",
     },
   });
 
-  function onSubmit(data) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+  async function onSubmit(data) {
+    try {
+      const formData = new FormData();
+      formData.append("itemType", data.itemType);
+      formData.append("itemTitle", data.itemTitle);
+      formData.append("itemPrice", data.itemPrice);
+      formData.append("description", data.description);
+      formData.append("stock", data.stock);
+      if (selectedFile) {
+        formData.append("image", selectedFile);
+      }
+
+      await updateProduct({ id: product.id, data: formData });
+      toast({
+        title: "Success",
+        description: "Product updated successfully.",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update product.",
+      });
+    }
   }
 
   return (
@@ -74,17 +84,26 @@ export function AddItemForm({ product }) {
             <FormItem>
               <FormLabel>Image</FormLabel>
               <FormControl>
-                {product.image ? (
-                  <Image
-                    src={product.image}
-                    alt="Product Image"
-                    className=" ml-11"
-                    width={100}
-                    height={100}
+                <div>
+                  {product.image && (
+                    <Image
+                      src={product.image}
+                      alt="Product Image"
+                      className="mb-4"
+                      width={100}
+                      height={100}
+                    />
+                  )}
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      if (e.target.files.length > 0) {
+                        setSelectedFile(e.target.files[0]);
+                      }
+                    }}
                   />
-                ) : (
-                  <p>No image available</p>
-                )}
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -100,7 +119,7 @@ export function AddItemForm({ product }) {
                 <FormDescription>required</FormDescription>
               </div>
               <FormControl>
-                <Input placeholder="coat..." {...field} readOnly />
+                <Input placeholder="coat..." {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -112,11 +131,11 @@ export function AddItemForm({ product }) {
           render={({ field }) => (
             <FormItem>
               <div className="flex justify-between w-full">
-                <FormLabel>Product Categorie </FormLabel>
+                <FormLabel>Product Category</FormLabel>
                 <FormDescription>required</FormDescription>
               </div>
               <FormControl>
-                <Input placeholder="cloth..." {...field} readOnly />
+                <Input placeholder="cloth..." {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -129,12 +148,7 @@ export function AddItemForm({ product }) {
             <FormItem>
               <FormLabel>Price</FormLabel>
               <FormControl>
-                <Input
-                  //   type="number"
-                  placeholder="0.00 ETB"
-                  {...field}
-                  readOnly
-                />
+                <Input type="number" placeholder="0.00 ETB" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -147,12 +161,7 @@ export function AddItemForm({ product }) {
             <FormItem>
               <FormLabel>Product Quantity</FormLabel>
               <FormControl>
-                <Input
-                  //   type="number"
-                  placeholder="0.00 ETB"
-                  {...field}
-                  readOnly
-                />
+                <Input type="number" placeholder="0" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -169,13 +178,15 @@ export function AddItemForm({ product }) {
                   placeholder="Write a short description of your menu item"
                   className="resize-none"
                   {...field}
-                  readOnly
                 />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+        <Button type="submit" disabled={isLoading}>
+          Update Product
+        </Button>
       </form>
     </Form>
   );
