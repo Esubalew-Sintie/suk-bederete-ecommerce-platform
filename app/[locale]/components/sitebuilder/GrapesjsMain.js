@@ -573,15 +573,18 @@ const WithGrapesjs = ({ data, page, templateId }) => {
 
       if (isPublish) {
         // This should be dynamically set based on your form or state
-
+        localStorage.setItem("status", "publish");
         await createShop({
           name: shopName,
           templateId: customizedTemplateDataHook.id,
         }).unwrap();
         toast.success("Shop published successfully");
         setTimeout(() => {
-          router.push("/admin/dashboard");
-        }, 3000);
+          router.push(
+            `/preview/${customizedTemplateDataHook?.id}/${pageContent.name}`
+          );
+        }, 1000);
+        // localStorage.removeItem("status")
       } else {
         if (customisedTemplate || updateCustomisedTemplate) {
           toast.success("Saved successfully");
