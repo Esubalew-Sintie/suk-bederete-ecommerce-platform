@@ -1,14 +1,27 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Navbar from "../components/Navbars/ThemeNavbar";
+import SelectTheme from "./page";
 
 function ThemeLayout({ children }) {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filters, setFilters] = useState({ free: false, premium: false });
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
+
+  const handleFilter = (filterName, value) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [filterName]: value,
+    }));
+  };
+
   return (
     <div className="bg-blueGray-800 text-white">
-      <div>
-        <Navbar />
-      </div>
-
-      {children}
+      <Navbar onSearch={handleSearch} onFilter={handleFilter} />
+      {React.cloneElement(children, { searchQuery, filters })}
     </div>
   );
 }
