@@ -1,28 +1,9 @@
 import { i18nRouter } from "next-i18n-router";
 import i18nConfig from "./i18nConfig";
 
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
-
-const isProtectedRoute = createRouteMatcher([
-  "/admin(.*)",
-  "/am/admin(.*)",
-  "/site-builder(.*)",
-]);
-
-export default clerkMiddleware((auth, req) => {
-  if (req.nextUrl.pathname.startsWith("/api")) {
-    const newPathname = req.nextUrl.pathname.replace(/^\/[^/]+/, "");
-    const newUrl = new URL(req.url); // Use req.url instead of req.nextUrl.href
-    newUrl.pathname = newPathname;
-    req.url = newUrl.toString(); // Assign the modified URL back to req.url
-  }
-
-  if (isProtectedRoute(req)) {
-    console.log("Protecting route...");
-    auth().protect();
-  }
+export default function middleware(req) {
   return i18nRouter(req, i18nConfig);
-});
+}
 
 export const config = {
   matcher: [
@@ -92,7 +73,6 @@ export const config = {
 //           // Token expired, get new access token
 //           const newAccessToken = errorData.access;
 //           request.cookies.set("access_token", newAccessToken);
-
 //           const retryResponse = await fetch(API_URL, {
 //             method: "POST",
 //             headers: {

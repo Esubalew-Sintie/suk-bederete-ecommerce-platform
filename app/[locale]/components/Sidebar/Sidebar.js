@@ -3,8 +3,8 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useGetCustomizedTemplateQuery } from "@/lib/features/shop/shop.js";
-import NotificationDropdown from "../Dropdowns/NotificationDropdown.js";
-import UserDropdown from "../Dropdowns/UserDropdown.js";
+import NotificationDropdown from "../../components/Dropdowns/NotificationDropdown.js";
+import UserDropdown from "../../components/Dropdowns/UserDropdown.js";
 import useCheckUnauthorized from "@/lib/features/auth/unauthorise.js";
 
 export default function Sidebar() {

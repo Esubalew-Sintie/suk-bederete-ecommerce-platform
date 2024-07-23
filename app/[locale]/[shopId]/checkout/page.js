@@ -1,16 +1,17 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { useGetshopQuery } from "@/lib/features/shop/shop";
 import Loading from "@/app/[locale]/loading";
 import { useRouter } from "next/navigation";
+import { useGetshopQuery } from "@/lib/features/shop/shop";
 import MenuBar from "../../components/MenuBar/MenuBar";
 
-export default function ContactPage({ params }) {
+export default function Shop({ params }) {
   const shopId = params.shopId;
-  const [contactPage, setContactPage] = useState({});
+  const [checkOutPage, setCheckOutPage] = useState({});
   const { data, error, isLoading } = useGetshopQuery(shopId);
-  const [message, setMessage] = useState("");
   const router = useRouter();
+
+  const [customerData, setCustomerData] = useState({});
 
   const storedData = localStorage.getItem("cart");
   let initialCartItems;
@@ -24,8 +25,9 @@ export default function ContactPage({ params }) {
 
   useEffect(() => {
     if (data) {
-      const homePageData = data.find((page) => page.name === "Contact");
-      setContactPage(homePageData);
+      console.log("website data ", data);
+      const checkoutPageData = data.find((page) => page.name === "Checkout");
+      setCheckOutPage(checkoutPageData);
     }
   }, [data]);
 
@@ -93,52 +95,60 @@ export default function ContactPage({ params }) {
         handleClick(event, "shopping-cart")
       );
     }
-    const submitButton = document.getElementById("contact-submit-button");
-    if (submitButton) {
-      submitButton.addEventListener("click", handleContactUs);
+    const handleSubmit = () => {
+      const firstName =
+        document.getElementById("first-name-input")?.value || "";
+      const lastName = document.getElementById("last-name-input")?.value || "";
+      const phoneNumber =
+        document.getElementById("phone-number-input")?.value || "";
+      const streetAddress =
+        document.getElementById("street-address-input")?.value || "";
+      const city = document.getElementById("city-input")?.value || "";
+      const country = document.getElementById("country-input");
+      const state = document.getElementById("state-input")?.value || "";
+      const zipCode = document.getElementById("zip-code-input")?.value || "";
+
+      const checkoutData = {
+        firstName,
+        lastName,
+        phoneNumber,
+        streetAddress,
+        city,
+        state,
+        zipCode,
+      };
+      setCustomerData(checkoutData);
+      console.log("Checkout Data:", checkoutData);
+    };
+
+    const paymentButton = document.getElementById("Payment-method");
+    if (paymentButton) {
+      console.log("event listener add");
+      paymentButton.addEventListener("click", handleSubmit);
     }
     // Cleanup event listener on component unmount
     return () => {
+      const blogLink = document.getElementById("blog");
       if (blogLink) {
         blogLink.removeEventListener("click", handleClick);
       }
+      const addToCartButtons = document.querySelectorAll(
+        ".product-cart button"
+      );
+      addToCartButtons.forEach((button, index) => {
+        button.id = `${index}`;
+        console.log("removed event to ", index);
+      });
     };
-  }, [router, shopId, contactPage?.html, message]);
+  }, [router, shopId, checkOutPage?.html, customerData]);
 
-  const handleContactUs = (event) => {
-    event.preventDefault();
-
-    const name = document.getElementById("contact-form-name").value;
-    const email = document.getElementById("contact-form-email").value;
-    const message = document.getElementById("contact-form-message").value;
-
-    const contactData = {
-      name: name,
-      email: email,
-      message: message,
-    };
-    console.log("contact us message", contactData);
-    const successMessageElement = document.getElementById(
-      "contactus-submit-message"
-    );
-    if (successMessageElement) {
-      successMessageElement.textContent =
-        "Message will be delivered to merchant!";
-      setMessage("Message will be delivered to merchant!");
-
-      // Hide the message after 2 seconds
-      setTimeout(() => {
-        successMessageElement.textContent = "";
-      }, 2000);
-    }
-  };
   if (isLoading) {
     return <Loading />;
   }
   if (error) {
     return <div>Error: {error.message}</div>;
   }
-  if (!contactPage) {
+  if (!checkOutPage) {
     return <div>No home page found.</div>;
   }
 
@@ -147,9 +157,9 @@ export default function ContactPage({ params }) {
       <div className="fixed rounded-full  z-[9999] bg-blueGray-800 top-12 left-0">
         <MenuBar />
       </div>
-      <div dangerouslySetInnerHTML={{ __html: contactPage.html }} />
-      <style>{contactPage.css}</style>
-      <script>{contactPage.js}</script>
+      <div dangerouslySetInnerHTML={{ __html: checkOutPage.html }} />
+      <style>{checkOutPage.css}</style>
+      <script>{checkOutPage.js}</script>
     </div>
   );
 }

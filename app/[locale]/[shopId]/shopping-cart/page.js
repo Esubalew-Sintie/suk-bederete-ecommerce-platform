@@ -3,14 +3,26 @@ import React, { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import Loading from "@/app/[locale]/loading";
 import { useGetshopQuery } from "@/lib/features/shop/shop";
+import MenuBar from "../../components/MenuBar/MenuBar";
+
 export default function cartPage({ params }) {
   const shopId = params.shopId;
   const [shopCartPage, setShopCartPage] = useState({});
   const { data, error, isLoading } = useGetshopQuery(shopId);
   const router = useRouter();
+  const storedData = localStorage.getItem("cart");
+  let initialCartItems;
 
-  const [cartItems, setCartItems] = useState([]);
-  const [totalOrderPrice, setTotalOrderPrice] = useState(0);
+  try {
+    initialCartItems = storedData ? JSON.parse(storedData) : [];
+  } catch (error) {
+    initialCartItems = [];
+  }
+
+  const [cartItems, setCartItems] = useState(initialCartItems);
+  const [totalOrderPrice, setTotalOrderPice] = useState(0);
+
+  console.log(cartItems, "cartitems cart item");
   useEffect(() => {
     if (data) {
       const shopCartPageData = data.find(
@@ -18,76 +30,95 @@ export default function cartPage({ params }) {
       );
       setShopCartPage(shopCartPageData);
     }
-  }, [data]);
+  }, []);
 
   useEffect(() => {
-    const handleClick = (event) => {
+    const handleClick = (event, link) => {
       event.preventDefault();
-      router.push(`/${shopId}/shopping-cart`);
-    };
-
-    const shoppingCartLink = document.getElementById("shopping-cart");
-    if (shoppingCartLink) {
-      shoppingCartLink.addEventListener("click", handleClick);
-    }
-
-    // Cleanup event listener on component unmount
-    return () => {
-      if (shoppingCartLink) {
-        shoppingCartLink.removeEventListener("click", handleClick);
+      if (link === "contact") {
+        router.push(`/${shopId}/contact`);
+        return;
+      } else if (link === "blog") {
+        router.push(`/${shopId}/blog`);
+        return;
+      } else if (link === "about") {
+        router.push(`/${shopId}/about`);
+      } else if (link === "shopping-cart") {
+        router.push(`/${shopId}/shopping-cart`);
+      } else if (link === "checkout") {
+        router.push(`/${shopId}/checkout`);
+      } else if (link == "home") {
+        router.push(`/${shopId}`);
       }
     };
-  }, [router, shopId]);
+    const checkOutLink = document.getElementById("checkout");
+    const homeLink = document.getElementById("home");
+    const blogLink = document.getElementById("blog");
+    const contactLink = document.getElementById("contact");
+    const aboutLink = document.getElementById("about");
+    const shopCartLink = document.getElementById("shopping-cart");
 
-  // useEffect(() => {
-  //   const totalOrderPriceContainer =
-  //     document.getElementById("total-order-price");
-  //   const cartItemsContainer = document.getElementById("cart-items-container");
-  //   const storedCart = JSON.parse(localStorage.getItem("cart"));
-  //   console.log("the first stored cart ", storedCart);
-  //   if (!storedCart) {
-  //     if (cartItemsContainer) {
-  //       console.log("set stored card empty");
-  //       cartItemsContainer.innerHTML = `<p>Your cart is empty.</p>`;
-  //       totalOrderPriceContainer.innerHTML = "";
-  //     }
-  //   }
-  //   console.log("rendered", JSON.parse(localStorage.getItem("cart")));
-  //   if (cartItemsContainer) {
-  //     cartItemsContainer.innerHTML = `<div class="title">Shopping Cart</div>`;
-  //   }
-  // }, [shopCartPage.html]);
+    if (checkOutLink) {
+      checkOutLink.addEventListener("click", (event) =>
+        handleClick(event, "checkout")
+      );
+    }
+    if (homeLink) {
+      homeLink.addEventListener("click", (event) => handleClick(event, "home"));
+    }
+
+    if (blogLink) {
+      blogLink.addEventListener("click", (event) => handleClick(event, "blog"));
+    }
+    if (contactLink) {
+      contactLink.addEventListener("click", (event) =>
+        handleClick(event, "contact")
+      );
+    }
+    if (aboutLink) {
+      aboutLink.addEventListener("click", (event) =>
+        handleClick(event, "about")
+      );
+    }
+    if (shopCartLink) {
+      shopCartLink.addEventListener("click", (event) =>
+        handleClick(event, "shopping-cart")
+      );
+    }
+  }, [router, shopId, shopCartPage?.html, cartItems]);
 
   useEffect(() => {
+    console.log(
+      "inside use effect,  this is size of the cart",
+      cartItems.length
+    );
     const totalOrderPriceContainer =
       document.getElementById("total-order-price");
     const cartItemsContainer = document.getElementById("cart-items-container");
-    const storedCart = JSON.parse(localStorage.getItem("cart"));
-    console.log("the first stored cart ", storedCart);
-    if (!storedCart) {
-      if (cartItemsContainer) {
-        console.log("set stored card empty");
-        cartItemsContainer.innerHTML = `<p>Your cart is empty.</p>`;
-        totalOrderPriceContainer.innerHTML = "";
-      }
-    }
-    console.log("rendered", JSON.parse(localStorage.getItem("cart")));
+
     if (cartItemsContainer) {
       cartItemsContainer.innerHTML = `<div class="title">Shopping Cart</div>`;
     }
-    // const cartItemsContainer = document.getElementById("cart-items-container");
-    // const totalOrderPriceContainer =
-    //   document.getElementById("total-order-price");
+
+    if (cartItems.length === 0) {
+      console.log("no item in the cart executed");
+      const cartItem = document.getElementById("empty-cart");
+      if (cartItem) {
+        cartItem.innerHTML += `<p>Your cart is empty.</p>`;
+      }
+
+      // totalOrderPriceContainer.innerText = "";
+    }
     let totalPrice = 0;
-    // const storedCart = JSON.parse(localStorage.getItem("cart"));
-    if (storedCart) {
-      storedCart.forEach((item) => {
+    if (cartItems) {
+      cartItems.forEach((item, index) => {
+        console.log(`for each ${item}, ${index}`);
         const cartItem = document.createElement("div");
         cartItem.classList.add("item");
         cartItem.setAttribute("data-id", item.id);
         cartItem.innerHTML = `
         <div class="buttons">
-          <span class="delete-btn" data-id="${item.id}"><i class="fa-solid fa-xmark"></i></span>
+          <span class="delete-item-btn" data-id="${item.id}"><button>Remove</button></span>
         </div>
         <div class="image" >
           <img src="${item.image}" alt="${item.name}" />
@@ -97,11 +128,11 @@ export default function cartPage({ params }) {
         </div>
         <div class="quantity">
           <button class="plus-btn" type="button" name="button">
-            <img src="/images/plus.svg" alt="Increase quantity" />
+            INC
           </button>
           <input type="text" name="name" value="${item.quantity}" />
           <button class="minus-btn" type="button" name="button">
-            <img src="/images/minus.svg" alt="Decrease quantity" />
+           DEC
           </button>
         </div>
         <div class="total-price">${item.price}</div>
@@ -114,60 +145,39 @@ export default function cartPage({ params }) {
       });
 
       if (totalOrderPriceContainer) {
-        totalOrderPriceContainer.innerHTML =
-          storedCart
-            .map(
-              (item) =>
-                `<div>
+        if (cartItems.length === 0) {
+          totalOrderPriceContainer.innerHTML = `<p class="capitalize text-xl text-green-600 font-bold">No item in the cart`;
+        } else {
+          totalOrderPriceContainer.innerHTML =
+            cartItems
+              .map(
+                (item) =>
+                  `<div>
          <span>${item.name}</span>
          <span class="calculated-value">${item.quantity} x ${item.price} = ${
-                  parseInt(item.quantity) * parseFloat(item.price)
-                }</span>
+                    parseInt(item.quantity) * parseFloat(item.price)
+                  }</span>
        </div>`
-            )
-            .join("") +
-          `<div class="calculated-value">Total: ${totalPrice}</div>`;
+              )
+              .join("") +
+            `<div class="calculated-value">Total: ${totalPrice}</div>`;
+        }
       }
     }
-    const deleteCartItem = (itemId) => {
-      let storedCart = JSON.parse(localStorage.getItem("cart"));
-      if (!storedCart || !Array.isArray(storedCart)) {
-        return;
-      }
-
-      storedCart = storedCart.filter((item) => item.id !== itemId);
-
-      localStorage.setItem("cart", JSON.stringify(storedCart));
-      setCartItems(storedCart);
-    };
-
-    const updateCartItemQuantity = (itemId, change) => {
-      let storedCart = JSON.parse(localStorage.getItem("cart"));
-      if (!storedCart || !Array.isArray(storedCart)) {
-        return;
-      }
-
-      const item = storedCart.find((item) => item.id === itemId);
-      if (item) {
-        item.quantity += change;
-
-        if (item.quantity < 1) {
-          item.quantity = 1;
-        }
-
-        localStorage.setItem("cart", JSON.stringify(storedCart));
-
-        setCartItems(storedCart);
-      }
-    };
-
-    document.querySelectorAll(".delete-btn").forEach((button) => {
+    const deleteButtons = document.querySelectorAll(".item .delete-item-btn");
+    deleteButtons.forEach((button, index) => {
+      console.log(`${index} delete button render`);
       button.addEventListener("click", (event) => {
         const itemId = event.currentTarget.getAttribute("data-id");
+        console.log(`${itemId} delete button event attached`);
+
         deleteCartItem(itemId);
       });
     });
-    document.querySelectorAll(".plus-btn").forEach((button) => {
+
+    document.querySelectorAll(".plus-btn").forEach((button, index) => {
+      console.log(`${index} plus button rendered`);
+
       button.addEventListener("click", (event) => {
         const itemId = event.currentTarget
           .closest(".item")
@@ -175,8 +185,13 @@ export default function cartPage({ params }) {
         updateCartItemQuantity(itemId, 1);
       });
     });
+    const cartItemNumber = document.getElementById("cart-item-number");
+    if (cartItemNumber) {
+      cartItemNumber.textContent = cartItems.length;
+    }
 
-    document.querySelectorAll(".minus-btn").forEach((button) => {
+    document.querySelectorAll(".minus-btn").forEach((button, index) => {
+      console.log(`${index} minus button rendered`);
       button.addEventListener("click", (event) => {
         const itemId = event.currentTarget
           .closest(".item")
@@ -184,9 +199,28 @@ export default function cartPage({ params }) {
         updateCartItemQuantity(itemId, -1);
       });
     });
-    setCartItems(storedCart);
-    setTotalOrderPrice(totalPrice);
-  }, [cartItems]);
+  }, [cartItems, shopCartPage.html]);
+
+  const deleteCartItem = (itemId) => {
+    let cartFiltered = cartItems.filter((item) => item.id !== itemId);
+
+    localStorage.setItem("cart", JSON.stringify(cartFiltered));
+    setCartItems(cartFiltered);
+  };
+
+  const updateCartItemQuantity = (itemId, change) => {
+    const cartItemUpdateQuantity = cartItems.map((item) => {
+      if (item.id === itemId) {
+        const newQuantity = parseInt(item.quantity) + parseInt(change);
+        return {
+          ...item,
+          quantity: newQuantity < 1 ? 1 : newQuantity,
+        };
+      }
+      return item;
+    });
+    setCartItems(cartItemUpdateQuantity);
+  };
 
   if (isLoading) {
     return <Loading />;
@@ -199,7 +233,10 @@ export default function cartPage({ params }) {
   }
 
   return (
-    <div>
+    <div className="relative">
+      <div className="fixed rounded-full  z-[9999] bg-blueGray-800 top-12 left-0">
+        <MenuBar />
+      </div>
       <div dangerouslySetInnerHTML={{ __html: shopCartPage.html }} />
       <style>{shopCartPage.css}</style>
       <script>{shopCartPage.js}</script>

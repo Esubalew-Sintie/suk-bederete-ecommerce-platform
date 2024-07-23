@@ -1,9 +1,11 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
+import RatingSet from "./RatingSet";
 
 const ShopItem = ({ shop, fullWidth }) => {
   const router = useRouter();
+  const rating = 11;
 
   console.log(shop);
   return (
@@ -50,7 +52,9 @@ const ShopItem = ({ shop, fullWidth }) => {
           Category
         </span>
 
-        <span className="font-bold  text-xl ml-auto">Rating </span>
+        <span className="font-bold  text-xl ml-auto">
+          <RatingSet rating={rating} />{" "}
+        </span>
       </div>
     </div>
   );

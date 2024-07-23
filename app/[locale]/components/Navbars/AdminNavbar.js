@@ -40,7 +40,7 @@ export default function Navbar({ notification, setNotification }) {
           </div>
           {/* User */}
           <ul className="flex-col md:flex-row list-none items-center hidden md:flex">
-            <UserButton afterSignOutUrl="/" />
+            <UserDropdown />
           </ul>
         </div>
       </nav>
