@@ -4,31 +4,12 @@ import { Admin } from "@/app/[locale]/layouts/Admin";
 import AdminWithOutStat from "@/app/[locale]/layouts/adminWithOutStat";
 import EnhancedTable from "@/app/[locale]/components/Tables/product";
 import { productHeadCells } from "@/util/headCells";
+import { useGetProductsQuery } from "@/lib/features/products/products";
 
 export default function InventoryPage() {
-  const rows = [
-    {
-      productName: "Product A",
-      productDescription: "Description for Product A",
-      productVariant: ["Variant 1", "Variant 2"],
-      productCatagory: "Category A",
-      price: "$100",
-      inventoryStatus: "In Stock",
-      images: ["/image1.jpg", "/image2.jpg"],
-      tagsKeywords: ["tag1", "tag2"],
-    },
-    {
-      productName: "Product B",
-      productDescription: "Description for Product B",
-      productVariant: ["Variant 3", "Variant 4"],
-      productCatagory: "Category B",
-      price: "$200",
-      inventoryStatus: "Out of Stock",
-      images: ["/image3.jpg", "/image4.jpg"],
-      tagsKeywords: ["tag3", "tag4"],
-    },
-    // Add more rows as needed
-  ];
+  const merchant_id = localStorage.getItem("unique_id");
+  const { data, isLoading, isError } = useGetProductsQuery(merchant_id);
+
   return (
     <Admin
       subtitle1="Total Product"
@@ -51,12 +32,18 @@ export default function InventoryPage() {
         </div>
       </div>
       <div className="flex flex-wrap mt-32">
-        <EnhancedTable
-          rows={rows}
-          title={"Inventory Item"}
-          headCells={productHeadCells}
-          onButtonClick={(event, row) => console.log("Button clicked", row)} // Placeholder for button click handler
-        />
+        {data?.all_products?.length ? (
+          <EnhancedTable
+            rows={data?.all_products}
+            title={"Inventory Item"}
+            headCells={productHeadCells}
+            onButtonClick={(event, data) =>
+              console.log("Button clicked", data?.all_products)
+            } // Placeholder for button click handler
+          />
+        ) : (
+          <di className=" flex justify-center items-center">No Products</di>
+        )}
       </div>
     </Admin>
   );

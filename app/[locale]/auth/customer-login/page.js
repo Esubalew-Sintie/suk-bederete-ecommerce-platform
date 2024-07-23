@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Auth from "../../layouts/Auth";
-import { useLoginMutation } from "@/lib/features/auth/authMerchant";
+import { useLoginMutation } from "@/lib/features/auth/authCustomer";
 import { useRouter } from "next/navigation";
 import { setMerchant } from "@/lib/features/auth/merchantSlice";
 import { useDispatch } from "react-redux";
@@ -68,22 +68,9 @@ export default function Login({ params: { locale } }) {
 
   useEffect(() => {
     if (merchantId) {
-      if (isShopSuccess && shopMerchant) {
-        router.push("/admin/dashboard");
-      } else if (isTemplateSuccess && customizedTemplate) {
-        router.push(`/site-builder/${customizedTemplate.id}`);
-      } else if (merchantId) {
-        router.push("/selecttheme");
-      }
+      router.back();
     }
-  }, [
-    merchantId,
-    isShopSuccess,
-    shopMerchant,
-    isTemplateSuccess,
-    customizedTemplate,
-    router,
-  ]);
+  }, [merchantId]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -107,7 +94,7 @@ export default function Login({ params: { locale } }) {
       const formData = new FormData();
       formData.append("email", email);
       formData.append("password", password);
-      formData.append("role", "merchant");
+      formData.append("role", "client");
 
       const response = await login(formData).unwrap();
 
