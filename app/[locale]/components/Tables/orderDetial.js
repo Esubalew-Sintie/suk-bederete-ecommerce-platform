@@ -10,7 +10,7 @@ import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import Lottie from "react-lottie";
-import correct from './correct.json';
+import correct from "./correct.json";
 import {
   CardContent,
   Divider,
@@ -25,6 +25,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import { formatDate } from "@/util/formateDate";
 
 const steps = ["PLACED", "CONFIRMED", "PACKING", "DISPATCHED", "DELIVERED"];
 const price = [
@@ -44,20 +45,28 @@ const defaultOptions = {
   },
 };
 
-function Order() {
+function Order({ order }) {
   const [isStopped, setIsStopped] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+
+  // Calculate total amount with shipping cost
+  const totalAmount = parseFloat(order.total_amount) || 0;
+  const shippingCost = parseFloat(order.shipping_option.cost) || 0;
+  const totalAmountWithShipping = totalAmount + shippingCost;
 
   return (
     <div>
       <Container maxWidth="xl">
-        <Grid container spacing={0} m={1} >
+        <Grid container spacing={0} m={1}>
           <Grid xs={8}>
             <Box
               sx={{
                 width: 1,
                 height: 1,
                 backgroundColor: "#219C90",
+                padding: 2,
+                borderRadius: 2,
+                boxShadow: 3,
               }}
             >
               <Typography
@@ -83,14 +92,14 @@ function Order() {
                 color={"white"}
               >
                 <br></br>
-                Thankyou for ordering
+                Thank you for ordering
                 <Typography
                   variant="body2"
                   textAlign={"center"}
                   p={0}
                   color={"white"}
                 >
-                  we will be sending you an email confirmation to
+                  We will be sending you an email confirmation to
                   xyz.tekjar@gmil.com soon!
                 </Typography>
               </Typography>
@@ -102,14 +111,11 @@ function Order() {
                     textAlign={"center"}
                     color={"white"}
                   >
-                    Order <b>#20322333</b> was placed on <b>March 13,2023</b>{" "}
-                    and is currently in progress
+                    Order <b>{order.id}</b> was placed on{" "}
+                    <b>{formatDate(order.order_date)}</b> and is currently in
+                    progress
                   </Typography>
-                  <Stepper
-                    activeStep={0}
-                    sx={{ maxWidth: 1 }}
-                    alternativeLabel
-                  >
+                  <Stepper activeStep={0} sx={{ maxWidth: 1 }} alternativeLabel>
                     {steps.map((label) => (
                       <Step key={label}>
                         <StepLabel>{label}</StepLabel>
@@ -125,11 +131,11 @@ function Order() {
                 color={"white"}
                 textAlign={"center"}
               >
-                Expected Delivery Date - 23 March,2023
+                Expected Delivery Date - {formatDate(order.order_date)}
               </Typography>
             </Box>
           </Grid>
-          <Grid xs={4} >
+          <Grid xs={4}>
             <Box
               sx={{
                 width: 1,
@@ -141,24 +147,30 @@ function Order() {
               </Typography>
               <Divider variant="middle" />
               <Typography variant="body2" pl={2} pt={0.5} pb={0.5}>
-                232, High Street,
-                <br></br>
-                Behind main bar,
-                <br></br>
-                US
+                {order.customer.address1}, {order.customer.address2},<br></br>
+                {order.customer.city},<br></br>
+                {order.customer.state}
               </Typography>
               <Divider variant="fullWidth" />
               <Typography variant="h6" m={1}>
-                <ReceiptLongIcon /> BILLING ADDRESS
+                <ReceiptLongIcon /> Order Status
               </Typography>
               <Divider variant="middle" />
-              <Typography variant="body2" pl={2} pt={0.5} pb={0.5}>
-                232, High Street,
-                <br></br>
-                Behind main bar,
-                <br></br>
-                US
-              </Typography>
+              <Box
+                sx={{
+                  padding: 1,
+                  borderRadius: 1,
+                  backgroundColor: "#f5f5f5",
+                  boxShadow: 1,
+                  margin: 1,
+                }}
+              >
+                <Typography variant="body2" pl={2} pt={0.5} pb={0.5}>
+                  <b>Payment Status:</b> {order.payment_status} <br></br>
+                  <b>Order Status:</b> {order.order_status} <br></br>
+                  <b>Payment Method:</b> {order.payment_method}
+                </Typography>
+              </Box>
               <Divider variant="fullWidth" />
               <Typography variant="h6" m={1}>
                 <ContactMailIcon /> CONTACT DETAIL
@@ -168,7 +180,7 @@ function Order() {
                 xyz.tejkar@gmail.com
               </Typography>
               <Typography variant="body2" pl={2} pt={0.5} pb={0.5}>
-                +91 88232357
+                {order.customer.phone_number}
               </Typography>
               <Divider variant="fullWidth" />
               <TableContainer>
@@ -176,38 +188,39 @@ function Order() {
                   <TableHead>
                     <TableRow>
                       <TableCell align="center" colSpan={2}>
-                        <Typography variant="h5">
-                          Price Details
-                        </Typography>
+                        <Typography variant="h5">Price Details</Typography>
                       </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {price.map((element) => (
                       <TableRow key={element.product}>
+                        <TableCell>Quantity</TableCell>
+                        <TableCell>+{order.order_items.length} ETB </TableCell>
+                      </TableRow>
+                    ))}
+                    {price.map((element) => (
+                      <TableRow key={element.product}>
                         <TableCell>Sub Total</TableCell>
-                        <TableCell>{element.subtotal} <CurrencyRupeeIcon fontSize="10"/> </TableCell>
+                        <TableCell>{order.total_amount} ETB </TableCell>
                       </TableRow>
                     ))}
                     {price.map((element) => (
                       <TableRow key={element.product}>
-                        <TableCell>Delivery</TableCell>
-                        <TableCell>+{element.delivery} <CurrencyRupeeIcon  fontSize="10" /> </TableCell>
+                        <TableCell>Shipping Cost</TableCell>
+                        <TableCell>{order.shipping_option.cost} ETB </TableCell>
                       </TableRow>
                     ))}
-                    {price.map((element) => (
-                      <TableRow key={element.product}>
-                        <TableCell>
-                          <Typography variant="h5">Total Amount</Typography>
-                        </TableCell>
-                        <TableCell>
-                          <Typography variant="h5">
-                            {element.total}
-                            <CurrencyRupeeIcon /> 
-                          </Typography>
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                    <TableRow>
+                      <TableCell>
+                        <Typography variant="h5">Total Amount</Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography variant="h5" color="primary">
+                          {totalAmountWithShipping?.toFixed(2)} ETB
+                        </Typography>
+                      </TableCell>
+                    </TableRow>
                   </TableBody>
                 </Table>
               </TableContainer>

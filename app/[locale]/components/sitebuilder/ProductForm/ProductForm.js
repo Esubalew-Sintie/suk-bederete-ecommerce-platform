@@ -13,11 +13,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { DialogFooter } from "@/components/ui/dialog";
-
+import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useState, useRef } from "react";
-import { Value } from "@radix-ui/react-select";
+import { useState, useEffect } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useCreateProductMutation } from "@/lib/features/products/products";
 
 const formSchema = z.object({
@@ -31,15 +32,14 @@ const formSchema = z.object({
     (value) => parseFloat(value),
     z.number().nonnegative({
       message: "Product price must be a positive number.",
-    })
+    }),
   ),
   stock: z.preprocess(
     (value) => parseInt(value),
     z.number().nonnegative({
       message: "Product amount must be a positive number.",
-    })
+    }),
   ),
-
   description: z.string().optional(),
 });
 
@@ -47,6 +47,7 @@ export function ProductForm() {
   const [products, setProducts] = useState([]);
   const [selectedProductIndex, setSelectedProductIndex] = useState(null);
   const [mode, setMode] = useState("add");
+  const [imageFile, setImageFile] = useState(null);
   const [createProduct, { isLoading, isError }] = useCreateProductMutation();
 
   const defaultValues = {
@@ -54,7 +55,6 @@ export function ProductForm() {
     category: "",
     price: "",
     stock: "",
-    image: "",
     description: "",
   };
   const merchantId = localStorage.getItem("unique_id");
@@ -65,48 +65,89 @@ export function ProductForm() {
   });
 
   const onSubmit = (data) => {
-    const formData = new FormData();
-    for (const key in data) {
-      formData.append(key, data[key]);
-    }
+    // Ensure the imageFile is included in the product data
+    
+    const productData = { ...data, image: imageFile };
+    
+    
     if (mode === "edit" && selectedProductIndex !== null) {
       const updatedProducts = [...products];
-      updatedProducts[selectedProductIndex] = data;
+      updatedProducts[selectedProductIndex] = productData;
       setProducts(updatedProducts);
-      form.reset({ ...data });
+      form.reset({ ...productData, image: null }); // Reset form with current values except image
     } else {
-      // Add new product
-      setProducts([...products, data]);
-      form.reset(defaultValues);
+      setProducts([...products, productData]);
+      form.reset(defaultValues); // Reset form with default values
     }
+    
+    
   };
 
   const handleEdit = (index) => {
     setSelectedProductIndex(index);
     setMode("edit");
     const product = products[index];
-    const editedProduct = { ...product };
-    delete editedProduct.image;
-    form.reset({ ...editedProduct });
+    form.reset({ ...product, image: null });
+    setImageFile(product.image || null); // Set the image file state
   };
 
   const handleAddNewProduct = () => {
     setSelectedProductIndex(null);
     setMode("add");
     form.reset(defaultValues);
+    setImageFile(null); // Reset the image file state
   };
+
   const handleDeleteProduct = (index, e) => {
     e.stopPropagation();
     const updatedProducts = products.filter((product, i) => i !== index);
     setProducts(updatedProducts);
   };
-  const saveChange = () => {
-    createProduct({ products, merchantId });
+ 
+  const imageUpload = (event) => {
+    setImageFile(event.target.files[0]);
   };
+
+  const saveChanges = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("merchantId", merchantId);
+  
+      products.forEach((product, index) => {
+        for (const key in product) {
+          if (product.hasOwnProperty(key)) {
+            if (key === 'image' && product[key]) {
+              formData.append(`products[${index}][${key}]`, product[key]);
+            } else {
+              formData.append(`products[${index}][${key}]`, product[key]);
+            }
+          }
+        }
+      });
+  
+      // Log the FormData contents
+      for (const [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
+  
+      await createProduct(formData).unwrap();
+      toast.success("Products added successfully!");
+      
+      // Clear the products list
+      setProducts([]);
+    } catch (error) {
+      toast.error("Failed to add products. Please try again.");
+      console.error(error);
+    }
+  };
+  
+  
+  
+
   return (
     <>
       <div>
-        <div className="mt-4 flex  flex-wrap">
+        <div className="mt-4 flex flex-wrap">
           {products.map((product, index) => (
             <div
               key={index}
@@ -118,14 +159,14 @@ export function ProductForm() {
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke-width="1.5"
+                strokeWidth="1.5"
                 stroke="currentColor"
-                className="absolute  top-[-10px] right-[-10px] w-6 h-6 bg-red-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000 ease-in-out"
+                className="absolute top-[-10px] right-[-10px] w-6 h-6 bg-red-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000 ease-in-out"
                 onClick={(e) => handleDeleteProduct(index, e)}
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M6 18 18 6M6 6l12 12"
                 />
               </svg>
@@ -226,14 +267,15 @@ export function ProductForm() {
             name="image"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Product Image</FormLabel>
+                <Label htmlFor="picture">Picture</Label>
                 <FormControl>
                   <Input
+                   id="picture"
                     name="image"
                     type="file"
                     className="w-[30%]"
-                    placeholder="Product Category"
-                    {...field}
+                    placeholder="Product Image"
+                    onChange={imageUpload}
                   />
                 </FormControl>
                 <FormDescription>
@@ -262,7 +304,7 @@ export function ProductForm() {
                   />
                 </FormControl>
                 <FormDescription>
-                  Provide a short description of the product
+                  Provide a short description of the product.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -282,8 +324,11 @@ export function ProductForm() {
         )}
       </div>
       <DialogFooter>
-        <Button onClick={saveChange}> Save Changes</Button>
-      </DialogFooter>{" "}
+        <Button onClick={saveChanges} disabled={isLoading}>
+          {isLoading ? "Saving..." : "Save Changes"}
+        </Button>
+      </DialogFooter>
+      <ToastContainer />
     </>
   );
 }

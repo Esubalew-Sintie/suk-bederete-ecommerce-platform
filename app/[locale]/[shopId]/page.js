@@ -2,8 +2,12 @@
 import React, { useState, useEffect } from "react";
 import Loading from "../loading";
 import { useRouter } from "next/navigation";
+<<<<<<< HEAD
 import { useGetshopQuery } from "@/lib/features/shop/shop";
 import MenuBar from "../components/MenuBar/MenuBar";
+=======
+import { useGetshopQuery } from "@/lib/features/shop/publicShopSlice";
+>>>>>>> main
 
 export default function Shop({ params }) {
   const shopId = params.shopId;
@@ -64,6 +68,7 @@ export default function Shop({ params }) {
       );
     }
 
+<<<<<<< HEAD
     const addToCartButtons = document.querySelectorAll(
       ".product-cart .add-to-cart-button"
     );
@@ -71,6 +76,26 @@ export default function Shop({ params }) {
       button.id = `${index}`;
       console.log("attached event to ", index);
       button.addEventListener("click", addToCart);
+=======
+    // Cleanup event listener on component unmount
+    return () => {
+      const blogLink = document.getElementById("blog");
+      if (blogLink) {
+        blogLink.removeEventListener("click", handleClick);
+      }
+      const addToCartButtons = document.querySelectorAll(
+        ".product-cart button"
+      );
+      addToCartButtons.forEach((button) => {
+        button.removeEventListener("click", addToCart);
+      });
+    };
+  }, [router, shopId, homepage?.html, cart]);
+
+  const addToCart = (event) => {
+    document.querySelectorAll(".product-cart").forEach((element, index) => {
+      element.id = `${index}`;
+>>>>>>> main
     });
 
     const productDetailButton = document.querySelectorAll(

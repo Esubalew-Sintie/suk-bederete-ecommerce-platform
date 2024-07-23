@@ -5,7 +5,8 @@ import Searchbox from "./Searchbox";
 import Banner from "./Banner";
 import ProductSlider from "./ProductSlider";
 import Footer from "../Footers/Footer";
-import { useGetShopsQuery } from "@/lib/features/shop/shop";
+
+import { useGetShopsQuery } from "@/lib/features/shop/publicShopSlice";
 
 const ShopCategory = () => {
   const { data, error, isLoading } = useGetShopsQuery();

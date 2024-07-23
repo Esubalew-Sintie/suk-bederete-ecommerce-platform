@@ -27,8 +27,8 @@ import {
 import {
   useCreateShopMutation,
   useUpdateShopMutation,
-  useGetshopMerchantQuery,
 } from "@/lib/features/shop/shop";
+import { useGetshopMerchantQuery } from "@/lib/features/shop/publicShopSlice";
 import { toast } from "react-hot-toast";
 import CustomToaster from "@/app/[locale]/components/sitebuilder/Toaster/Toaster";
 import { AlertDialogDemo } from "./AlertDialoge";
@@ -573,15 +573,18 @@ const WithGrapesjs = ({ data, page, templateId }) => {
 
       if (isPublish) {
         // This should be dynamically set based on your form or state
-
+        localStorage.setItem("status", "publish");
         await createShop({
           name: shopName,
           templateId: customizedTemplateDataHook.id,
         }).unwrap();
         toast.success("Shop published successfully");
         setTimeout(() => {
-          router.push("/admin/dashboard");
-        }, 3000);
+          router.push(
+            `/preview/${customizedTemplateDataHook?.id}/${pageContent.name}`
+          );
+        }, 1000);
+        // localStorage.removeItem("status")
       } else {
         if (customisedTemplate || updateCustomisedTemplate) {
           toast.success("Saved successfully");
@@ -596,6 +599,10 @@ const WithGrapesjs = ({ data, page, templateId }) => {
       }, 1000);
     }
   };
+  useEffect(() => {
+    console.log("Shop status:", shopstatus); // Should log 200 if successful
+    console.log("Shop data:", shop); // Should log the shop data
+  }, [shopstatus, shop]);
 
   const publishHandlerNoSave = () => {
     // router.push("/admin/dashboard");
@@ -688,7 +695,7 @@ const WithGrapesjs = ({ data, page, templateId }) => {
           >
             Publish
           </button> */}
-          {shopstatus !== 200 && (
+          {shopstatus !== "fulfilled" && (
             <AlertDialogDemo
               button="Publish"
               publishSaveClick={() => updatePageHandler(true)}

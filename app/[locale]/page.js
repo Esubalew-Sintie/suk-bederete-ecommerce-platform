@@ -14,12 +14,15 @@ const i18nNamespaces = ["home"]; // Define your namespaces
 export default function Index({ params: { locale } }) {
   const router = useRouter();
 
+  // const merchantId = localStorage.getItem("unique_id");
+  const { isLoaded, userId, sessionId, getToken } = useAuth();
+  
   const merchantId = localStorage.getItem("unique_id");
   const handleClick = () => {
     if (merchantId) {
       router.push("/prompt/prompt");
     } else {
-      router.push("/auth/login");
+      router.push("auth/login");
     }
   };
   const [translations, setTranslations] = useState({

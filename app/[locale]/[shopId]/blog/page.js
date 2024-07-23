@@ -2,8 +2,12 @@
 import React, { useState, useEffect } from "react";
 import Loading from "@/app/[locale]/loading";
 import { useRouter } from "next/navigation";
+<<<<<<< HEAD
 import { useGetshopQuery } from "@/lib/features/shop/shop";
 import MenuBar from "../../components/MenuBar/MenuBar";
+=======
+import { useGetshopQuery } from "@/lib/features/shop/publicShopSlice";
+>>>>>>> main
 
 export default function BlogPage({ params }) {
   const shopId = params.shopId;

@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Auth from "../../layouts/Auth";
 import { setMerchant } from "@/lib/features/auth/merchantSlice";
 import Loader from "@/app/[locale]/components/Prompt/Loader";
-import { useRegisterMutation } from "@/lib/features/auth/authMerchant";
+import { useRegisterMutation } from "@/lib/features/auth/authCustomer";
 import { useDispatch } from "react-redux";
 import initTranslations from "@/app/i18n";
 import TranslationsProvider from "../../components/Translation/TranslationsProvider";
@@ -24,7 +24,7 @@ export default function Register({ params: { locale } }) {
       const formData = new FormData();
       formData.append("email", email);
       formData.append("password", password);
-      formData.append("role", "merchant"); 
+      formData.append("role", "client");
 
       const response = await register(formData).unwrap();
       // Handle successful registration, e.g., redirect to login page
@@ -37,11 +37,11 @@ export default function Register({ params: { locale } }) {
       document.cookie = `access_token=${response.tokens.access}; path=/`;
       document.cookie = `refresh_token=${response.tokens.refresh}; path=/`;
       // Store tokens in localStorage
-      localStorage.setItem("unique_id", response.merchant.unique_id);
+      localStorage.setItem("unique_id", response.data.unique_id);
       localStorage.setItem("access_token", response.tokens.access);
       localStorage.setItem("refresh_token", response.tokens.refresh);
 
-      router.push("/prompt/prompt");
+      router.push("/prompt/customer");
     } catch (error) {
       console.error("Registration failed:", error.message);
       console.log("Response:", error?.response);
@@ -56,10 +56,7 @@ export default function Register({ params: { locale } }) {
   useEffect(() => {
     const loadTranslations = async () => {
       try {
-        const { t, resources } = await initTranslations(
-          locale,
-          i18nNamespaces
-        );
+        const { t, resources } = await initTranslations(locale, i18nNamespaces);
         setTranslations({ t, resources });
         console.log("Translations initialized successfully");
       } catch (error) {
@@ -178,7 +175,10 @@ export default function Register({ params: { locale } }) {
                   <div className="text-center mt-2">
                     <span className="text-sm">
                       {translations.t("already have account?")}{" "}
-                      <Link href="/auth/login" className="font-bold text-lightBlue-500">
+                      <Link
+                        href="/auth/login"
+                        className="font-bold text-lightBlue-500"
+                      >
                         {translations.t("Sign in")}
                       </Link>
                     </span>

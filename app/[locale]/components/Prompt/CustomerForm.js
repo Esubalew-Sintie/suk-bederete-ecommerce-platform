@@ -4,11 +4,13 @@ import { useState } from "react";
 
 const CustomerForm = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    first_name: "",
+    last_name: "",
     city: "",
     zip: "",
-    address: "",
+    address1: "",
+    phone_number: "",
+    state: "",
   });
 
   const handleChange = (e) => {
@@ -41,17 +43,17 @@ const CustomerForm = ({ onSubmit }) => {
           <div className="flex space-x-4 mb-4">
             <input
               type="text"
-              name="firstName"
+              name="first_name"
               placeholder="First name"
-              value={formData.firstName}
+              value={formData.first_name}
               onChange={handleChange}
               className="w-1/2 p-2 border rounded-lg"
             />
             <input
               type="text"
-              name="lastName"
+              name="last_name"
               placeholder="Last name"
-              value={formData.lastName}
+              value={formData.last_name}
               onChange={handleChange}
               className="w-1/2 p-2 border rounded-lg"
             />
@@ -77,9 +79,27 @@ const CustomerForm = ({ onSubmit }) => {
           <div className="flex space-x-4 mb-4">
             <input
               type="text"
-              name="address"
+              name="phone_number"
+              placeholder="phone number"
+              value={formData.phone_number}
+              onChange={handleChange}
+              className="w-1/2 p-2 border rounded-lg"
+            />
+            <input
+              type="text"
+              name="state"
+              placeholder="State"
+              value={formData.state}
+              onChange={handleChange}
+              className="w-1/2 p-2 border rounded-lg"
+            />
+          </div>
+          <div className="flex space-x-4 mb-4">
+            <input
+              type="text"
+              name="address1"
               placeholder="Address"
-              value={formData.address}
+              value={formData.address1}
               onChange={handleChange}
               className="w-full p-2 border rounded-lg"
             />

@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { useGetShopQuery } from "@/lib/features/shop/shop";
+import { useGetshopQuery } from "@/lib/features/shop/publicShopSlice";
 import Loading from "@/app/loading";
 import { useRouter } from "next/navigation";
 
