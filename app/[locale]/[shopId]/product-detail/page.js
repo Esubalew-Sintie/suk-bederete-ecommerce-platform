@@ -1,15 +1,17 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { useGetshopQuery } from "@/lib/features/shop/publicShopSlice";
 import Loading from "@/app/[locale]/loading";
 import { useRouter } from "next/navigation";
+import { useGetshopQuery } from "@/lib/features/shop/shop";
 import MenuBar from "../../components/MenuBar/MenuBar";
 
-export default function AboutPage({ params }) {
+export default function Shop({ params }) {
   const shopId = params.shopId;
-  const [aboutpage, setAboutpage] = useState({});
+  const [productDetailPage, setProductDetailPage] = useState({});
   const { data, error, isLoading } = useGetshopQuery(shopId);
   const router = useRouter();
+
+  const [productItem, setProductItem] = useState({});
 
   const storedData = localStorage.getItem("cart");
   let initialCartItems;
@@ -23,8 +25,11 @@ export default function AboutPage({ params }) {
 
   useEffect(() => {
     if (data) {
-      const homePageData = data.find((page) => page.name === "About");
-      setAboutpage(homePageData);
+      console.log("website data ", data);
+      const productDetailPage = data.find(
+        (page) => page.name === "product-detail"
+      );
+      setProductDetailPage(productDetailPage);
     }
   }, [data]);
 
@@ -92,14 +97,63 @@ export default function AboutPage({ params }) {
         handleClick(event, "shopping-cart")
       );
     }
+    const storedProductItem = JSON.parse(
+      localStorage.getItem("productDetailItem")
+    );
+    console.log("product item populate storedProductItem", storedProductItem);
 
+    const productImageElement = document.getElementById("product-detail-image");
+    const productPriceElement = document.getElementById("product-detail-price");
+    const productNameElement = document.getElementById("product-detail-name");
+
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const existingProduct = cart.find(
+      (item) => item.id === storedProductItem.id
+    );
+    const addToCartButton = document.getElementById(
+      "product-detail-add-to-cart-button"
+    );
+
+    if (existingProduct) {
+      if (addToCartButton) {
+        addToCartButton.textContent = "Added to Cart";
+        addToCartButton.disabled = true;
+      }
+    } else {
+      if (addToCartButton) {
+        addToCartButton.addEventListener("click", handleAddToCart);
+      }
+    }
+
+    if (
+      storedProductItem &&
+      productImageElement &&
+      productNameElement &&
+      productPriceElement
+    ) {
+      productImageElement.src = storedProductItem.image;
+      productNameElement.textContent = storedProductItem.name;
+      productPriceElement.textContent = storedProductItem.price;
+    }
     // Cleanup event listener on component unmount
     return () => {
+      const blogLink = document.getElementById("blog");
       if (blogLink) {
         blogLink.removeEventListener("click", handleClick);
       }
+      const addToCartButtons = document.querySelectorAll(
+        ".product-cart button"
+      );
+      addToCartButtons.forEach((button, index) => {
+        button.id = `${index}`;
+        console.log("removed event to ", index);
+      });
     };
-  }, [router, shopId]);
+  }, [router, shopId, productDetailPage?.html]);
+
+  const handleAddToCart = () => {
+    console.log("add to cart");
+  };
 
   if (isLoading) {
     return <Loading />;
@@ -107,18 +161,18 @@ export default function AboutPage({ params }) {
   if (error) {
     return <div>Error: {error.message}</div>;
   }
-  if (!aboutpage) {
+  if (!productDetailPage) {
     return <div>No home page found.</div>;
   }
 
   return (
-    <div className="relative ">
+    <div className="relative">
       <div className="fixed rounded-full  z-[9999] bg-blueGray-800 top-12 left-0">
         <MenuBar />
       </div>
-      <div dangerouslySetInnerHTML={{ __html: aboutpage.html }} />
-      <style>{aboutpage.css}</style>
-      <script>{aboutpage.js}</script>
+      <div dangerouslySetInnerHTML={{ __html: productDetailPage.html }} />
+      <style>{productDetailPage.css}</style>
+      <script>{productDetailPage.js}</script>
     </div>
   );
 }

@@ -8,6 +8,8 @@ import Navbar from "./components/Navbars/AuthNavbar.js";
 import { useRouter } from "next/navigation";
 import TranslationsProvider from "./components/Translation/TranslationsProvider.js";
 import initTranslations from "../i18n.js";
+import LanguageSwitcher from "./components/LanguageSwitcher/LanguageSwitcher.js";
+
 const i18nNamespaces = ["home"]; // Define your namespaces
 export default function Index({ params: { locale } }) {
   const router = useRouter();
@@ -67,6 +69,7 @@ export default function Index({ params: { locale } }) {
               className="w-full h-full absolute opacity-75 bg-black"
             ></span>
           </div>
+
           <div className="container relative mx-auto">
             <div className="items-center flex flex-wrap">
               <button
@@ -79,7 +82,7 @@ export default function Index({ params: { locale } }) {
                 className="bg-blueGray-800 text-white hover:bg-blue-200 active:bg-blueGray-600  active:bg-opacity-100 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none  focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 type="button"
               >
-                Shops List
+                <Link href="/shop-list"> Shops List</Link>
               </button>
               <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
                 <div className="pr-12">

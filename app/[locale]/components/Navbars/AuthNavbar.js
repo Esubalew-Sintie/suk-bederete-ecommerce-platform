@@ -1,6 +1,18 @@
 "use client";
 import React from "react";
 import Link from "next/link";
+import LanguageSwitcher from "../LanguageSwitcher/LanguageSwitcher";
+// components
+import {
+  ClerkProvider,
+  SignInButton,
+  SignOutButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+  useAuth,
+} from "@clerk/nextjs";
 
 import PagesDropdown from "../Dropdowns/PagesDropdown";
 import { Button } from "@/components/ui/button";
@@ -39,6 +51,7 @@ export default function Navbar(props) {
                 <PagesDropdown />
                 <UserDropdown />
               </li>
+              <LanguageSwitcher />
             </ul>
           </div>
         </div>

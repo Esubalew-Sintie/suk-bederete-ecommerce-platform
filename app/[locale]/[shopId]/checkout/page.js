@@ -1,15 +1,17 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { useGetshopQuery } from "@/lib/features/shop/publicShopSlice";
 import Loading from "@/app/[locale]/loading";
 import { useRouter } from "next/navigation";
+import { useGetshopQuery } from "@/lib/features/shop/shop";
 import MenuBar from "../../components/MenuBar/MenuBar";
 
-export default function AboutPage({ params }) {
+export default function Shop({ params }) {
   const shopId = params.shopId;
-  const [aboutpage, setAboutpage] = useState({});
+  const [checkOutPage, setCheckOutPage] = useState({});
   const { data, error, isLoading } = useGetshopQuery(shopId);
   const router = useRouter();
+
+  const [customerData, setCustomerData] = useState({});
 
   const storedData = localStorage.getItem("cart");
   let initialCartItems;
@@ -23,8 +25,9 @@ export default function AboutPage({ params }) {
 
   useEffect(() => {
     if (data) {
-      const homePageData = data.find((page) => page.name === "About");
-      setAboutpage(homePageData);
+      console.log("website data ", data);
+      const checkoutPageData = data.find((page) => page.name === "Checkout");
+      setCheckOutPage(checkoutPageData);
     }
   }, [data]);
 
@@ -92,14 +95,52 @@ export default function AboutPage({ params }) {
         handleClick(event, "shopping-cart")
       );
     }
+    const handleSubmit = () => {
+      const firstName =
+        document.getElementById("first-name-input")?.value || "";
+      const lastName = document.getElementById("last-name-input")?.value || "";
+      const phoneNumber =
+        document.getElementById("phone-number-input")?.value || "";
+      const streetAddress =
+        document.getElementById("street-address-input")?.value || "";
+      const city = document.getElementById("city-input")?.value || "";
+      const country = document.getElementById("country-input");
+      const state = document.getElementById("state-input")?.value || "";
+      const zipCode = document.getElementById("zip-code-input")?.value || "";
 
+      const checkoutData = {
+        firstName,
+        lastName,
+        phoneNumber,
+        streetAddress,
+        city,
+        state,
+        zipCode,
+      };
+      setCustomerData(checkoutData);
+      console.log("Checkout Data:", checkoutData);
+    };
+
+    const paymentButton = document.getElementById("Payment-method");
+    if (paymentButton) {
+      console.log("event listener add");
+      paymentButton.addEventListener("click", handleSubmit);
+    }
     // Cleanup event listener on component unmount
     return () => {
+      const blogLink = document.getElementById("blog");
       if (blogLink) {
         blogLink.removeEventListener("click", handleClick);
       }
+      const addToCartButtons = document.querySelectorAll(
+        ".product-cart button"
+      );
+      addToCartButtons.forEach((button, index) => {
+        button.id = `${index}`;
+        console.log("removed event to ", index);
+      });
     };
-  }, [router, shopId]);
+  }, [router, shopId, checkOutPage?.html, customerData]);
 
   if (isLoading) {
     return <Loading />;
@@ -107,18 +148,18 @@ export default function AboutPage({ params }) {
   if (error) {
     return <div>Error: {error.message}</div>;
   }
-  if (!aboutpage) {
+  if (!checkOutPage) {
     return <div>No home page found.</div>;
   }
 
   return (
-    <div className="relative ">
+    <div className="relative">
       <div className="fixed rounded-full  z-[9999] bg-blueGray-800 top-12 left-0">
         <MenuBar />
       </div>
-      <div dangerouslySetInnerHTML={{ __html: aboutpage.html }} />
-      <style>{aboutpage.css}</style>
-      <script>{aboutpage.js}</script>
+      <div dangerouslySetInnerHTML={{ __html: checkOutPage.html }} />
+      <style>{checkOutPage.css}</style>
+      <script>{checkOutPage.js}</script>
     </div>
   );
 }

@@ -2,7 +2,12 @@
 import React, { useState, useEffect } from "react";
 import Loading from "../loading";
 import { useRouter } from "next/navigation";
+<<<<<<< HEAD
+import { useGetshopQuery } from "@/lib/features/shop/shop";
+import MenuBar from "../components/MenuBar/MenuBar";
+=======
 import { useGetshopQuery } from "@/lib/features/shop/publicShopSlice";
+>>>>>>> main
 
 export default function Shop({ params }) {
   const shopId = params.shopId;
@@ -11,9 +16,10 @@ export default function Shop({ params }) {
   const router = useRouter();
   const [cart, setCart] = useState(() => {
     // Initialize cart from local storage if available
-    const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
+    const savedCart = [];
     return savedCart;
   });
+  const [numberOfItems, setNumberOfItems] = useState(0);
 
   useEffect(() => {
     if (data) {
@@ -39,45 +45,38 @@ export default function Shop({ params }) {
       }
     };
 
-    const attachEventListeners = () => {
-      const blogLink = document.getElementById("blog");
-      const contactLink = document.getElementById("contact");
-      const aboutLink = document.getElementById("about");
-      const shopCartLink = document.getElementById("shopping-cart");
-      if (blogLink) {
-        blogLink.addEventListener("click", (event) =>
-          handleClick(event, "blog")
-        );
-      }
-      if (contactLink) {
-        contactLink.addEventListener("click", (event) =>
-          handleClick(event, "contact")
-        );
-      }
-      if (aboutLink) {
-        aboutLink.addEventListener("click", (event) =>
-          handleClick(event, "about")
-        );
-      }
-      if (shopCartLink) {
-        shopCartLink.addEventListener("click", (event) =>
-          handleClick(event, "shopping-cart")
-        );
-      }
-
-      const addToCartButtons = document.querySelectorAll(
-        ".product-cart button"
+    const blogLink = document.getElementById("blog");
+    const contactLink = document.getElementById("contact");
+    const aboutLink = document.getElementById("about");
+    const shopCartLink = document.getElementById("shopping-cart");
+    if (blogLink) {
+      blogLink.addEventListener("click", (event) => handleClick(event, "blog"));
+    }
+    if (contactLink) {
+      contactLink.addEventListener("click", (event) =>
+        handleClick(event, "contact")
       );
-      addToCartButtons.forEach((button) => {
-        button.addEventListener("click", addToCart);
-      });
-    };
-
-    // Attach event listeners when homepage content is set
-    if (homepage.html) {
-      attachEventListeners();
+    }
+    if (aboutLink) {
+      aboutLink.addEventListener("click", (event) =>
+        handleClick(event, "about")
+      );
+    }
+    if (shopCartLink) {
+      shopCartLink.addEventListener("click", (event) =>
+        handleClick(event, "shopping-cart")
+      );
     }
 
+<<<<<<< HEAD
+    const addToCartButtons = document.querySelectorAll(
+      ".product-cart .add-to-cart-button"
+    );
+    addToCartButtons.forEach((button, index) => {
+      button.id = `${index}`;
+      console.log("attached event to ", index);
+      button.addEventListener("click", addToCart);
+=======
     // Cleanup event listener on component unmount
     return () => {
       const blogLink = document.getElementById("blog");
@@ -96,7 +95,41 @@ export default function Shop({ params }) {
   const addToCart = (event) => {
     document.querySelectorAll(".product-cart").forEach((element, index) => {
       element.id = `${index}`;
+>>>>>>> main
     });
+
+    const productDetailButton = document.querySelectorAll(
+      ".product-cart .product-detail-button"
+    );
+    productDetailButton.forEach((button) => {
+      button.addEventListener("click", handleProductDetail);
+    });
+
+    // Cleanup event listener on component unmount
+    // return () => {
+    //   const blogLink = document.getElementById("blog");
+    //   if (blogLink) {
+    //     blogLink.removeEventListener("click", handleClick);
+    //   }
+    //   const addToCartButtons = document.querySelectorAll(
+    //     ".product-cart button"
+    //   );
+    //   addToCartButtons.forEach((button, index) => {
+    //     button.id = `${index}`;
+    //     console.log("removed event to ", index);
+    //     return button.removeEventListener("click", addToCart);
+    //   });
+    // };
+  }, [router, shopId, homepage?.html, cart, numberOfItems]);
+
+  useEffect(() => {
+    const cartItemNumber = document.getElementById("cart-item-number");
+    if (cartItemNumber) {
+      cartItemNumber.textContent = cart.length;
+    }
+  }, [cart, numberOfItems]);
+
+  const handleProductDetail = (event) => {
     event.preventDefault();
 
     const productCart = event.currentTarget.closest(".product-cart");
@@ -106,6 +139,38 @@ export default function Shop({ params }) {
       return;
     }
     const productId = productCart.id;
+    console.log("product id", productId);
+    const productName = productCart.querySelector(".name").textContent.trim();
+    const productPrice = productCart
+      .querySelector(".price-value")
+      .textContent.trim();
+    const imgElement = productCart.querySelector("img");
+    const url = new URL(imgElement.src);
+    const imagePath = url.pathname;
+
+    const productItem = {
+      id: productId,
+      name: productName,
+      price: productPrice,
+      image: imagePath,
+      quantity: 1,
+    };
+    console.log("product added detail item ", productItem);
+    localStorage.setItem("productDetailItem", JSON.stringify(productItem));
+    router.push(`/${shopId}/product-detail`);
+  };
+
+  const addToCart = (event) => {
+    event.preventDefault();
+
+    const productCart = event.currentTarget.closest(".product-cart");
+
+    if (!productCart) {
+      console.log("product not found");
+      return;
+    }
+    const productId = productCart.id;
+    console.log("product id", productId);
     const productName = productCart.querySelector(".name").textContent.trim();
     const productPrice = productCart
       .querySelector(".price-value")
@@ -126,6 +191,7 @@ export default function Shop({ params }) {
         });
         setCart(cart);
         localStorage.setItem("cart", JSON.stringify(cart));
+        setNumberOfItems(cart.length);
       } else {
         const updatedCart = [
           ...cart,
@@ -139,6 +205,7 @@ export default function Shop({ params }) {
         ];
         setCart(updatedCart);
         localStorage.setItem("cart", JSON.stringify(updatedCart));
+        setNumberOfItems(cart.length);
       }
 
       console.log("this what inside cart", cart);
@@ -162,8 +229,12 @@ export default function Shop({ params }) {
   }
 
   return (
-    <div className="flex gap-14">
+    <div className="relative">
+      <div className="fixed rounded-full  z-[9999] bg-blueGray-800 top-12 left-0">
+        <MenuBar />
+      </div>
       <div dangerouslySetInnerHTML={{ __html: homepage.html }} />
+
       <style>{homepage.css}</style>
       <script>{homepage.js}</script>
     </div>

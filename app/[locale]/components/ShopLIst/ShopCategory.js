@@ -10,7 +10,7 @@ import { useGetShopsQuery } from "@/lib/features/shop/publicShopSlice";
 
 const ShopCategory = () => {
   const { data, error, isLoading } = useGetShopsQuery();
-  console.log(data);
+  console.log("shop list data", data);
   return (
     <>
       <div className="">
@@ -18,7 +18,7 @@ const ShopCategory = () => {
 
         <div className="  max-w-[90vw] mx-auto mt-14">
           <div className="w-full ">
-            <Searchbox />{" "}
+            <Searchbox shops={data} />{" "}
           </div>
         </div>
         <div className="group flex md:text-2xl items-center justify-center my-10 text-[#1E293B] sm:text-xl font-normal">

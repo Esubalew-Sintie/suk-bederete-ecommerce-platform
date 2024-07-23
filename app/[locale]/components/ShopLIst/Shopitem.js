@@ -1,10 +1,12 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
+import RatingSet from "./RatingSet";
 import ReactStars from "react-stars"; // Import the ReactStars component
 
 const ShopItem = ({ shop, fullWidth }) => {
   const router = useRouter();
+  const rating = 11;
 
   // Function to determine the star rating
   const getStarRating = (rating) => {
