@@ -11,8 +11,10 @@ export default function cartPage({ params }) {
   const { data, error, isLoading } = useGetshopQuery(shopId);
   const router = useRouter();
   const storedData = localStorage.getItem("cart");
-  let initialCartItems;
 
+  const uniqueId = localStorage.getItem("unique_id");
+
+  let initialCartItems;
   try {
     initialCartItems = storedData ? JSON.parse(storedData) : [];
   } catch (error) {
@@ -59,9 +61,18 @@ export default function cartPage({ params }) {
     const shopCartLink = document.getElementById("shopping-cart");
 
     if (checkOutLink) {
-      checkOutLink.addEventListener("click", (event) =>
-        handleClick(event, "checkout")
-      );
+      if (uniqueId) {
+        console.log("to checkout event");
+        checkOutLink.addEventListener("click", (event) =>
+          handleClick(event, "checkout")
+        );
+      } else {
+        console.log("to register event");
+
+        checkOutLink.addEventListener("click", (event) =>
+          router.push(`/auth/customer-register`)
+        );
+      }
     }
     if (homeLink) {
       homeLink.addEventListener("click", (event) => handleClick(event, "home"));
@@ -128,11 +139,15 @@ export default function cartPage({ params }) {
         </div>
         <div class="quantity">
           <button class="plus-btn" type="button" name="button">
-            INC
+            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m5 15 7-7 7 7"/>
+            </svg>
           </button>
-          <input type="text" name="name" value="${item.quantity}" />
+          <input class="quantity_amount" type="text" name="name" value="${item.quantity}" />
           <button class="minus-btn" type="button" name="button">
-           DEC
+           <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"/>
+          </svg>
           </button>
         </div>
         <div class="total-price">${item.price}</div>
@@ -152,15 +167,19 @@ export default function cartPage({ params }) {
             cartItems
               .map(
                 (item) =>
-                  `<div>
+                  `<div class="display-container">
          <span>${item.name}</span>
-         <span class="calculated-value">${item.quantity} x ${item.price} = ${
+         <span class="calculated-value"><span> <span class="product-name">${
+           item.quantity
+         } Items</span><span class="product-name"> price ${
+                    item.price
+                  }</span> <span class="product-name">Total ${
                     parseInt(item.quantity) * parseFloat(item.price)
-                  }</span>
+                  }</span>  </span>
        </div>`
               )
               .join("") +
-            `<div class="calculated-value">Total: ${totalPrice}</div>`;
+            `<div class="total-calculated calculated-value">Total Order Price  ${totalPrice}</div>`;
         }
       }
     }

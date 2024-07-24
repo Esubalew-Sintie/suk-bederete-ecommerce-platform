@@ -30,14 +30,6 @@ export default function Navbar(props) {
     isLoading: isLoadingCustomer,
   } = useGetCustomerQuery(uniqueId);
 
-  const handleProfileClick = () => {
-    if (role === "client") {
-      router.push("/profile");
-    } else if (role === "merchant") {
-      router.push("/admin/settings");
-    }
-  };
-
   return (
     <>
       <nav className="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg">
@@ -67,15 +59,18 @@ export default function Navbar(props) {
             <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
               <li className="flex items-center">
                 {uniqueId ? (
-                  <button
-                    className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 mx-3 lg:py-2 flex items-center text-xs uppercase font-bold"
-                    onClick={handleProfileClick}
-                  >
-                    Profile
+                  <button className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 mx-3 lg:py-2 flex items-center text-xs uppercase font-bold">
+                    <Link
+                      href={
+                        role === "merchant" ? "/admin/settings" : "/profile"
+                      }
+                    >
+                      Profile
+                    </Link>
                   </button>
                 ) : (
                   <button
-                    className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 mx-3 lg:py-2 flex items-center text-xs uppercase font-bold"
+                    className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 mx-3 lg:py-2 flex items-center text-xs uppercase font-bold bg-red-500"
                     disabled
                   >
                     Profile
@@ -94,7 +89,7 @@ export default function Navbar(props) {
               {!uniqueId && (
                 <li className="flex items-center">
                   <button className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 mx-3 lg:py-2 flex items-center text-xs uppercase font-bold">
-                    <Link href="/auth/login" className={""}>
+                    <Link href="/auth/customer-login" className={""}>
                       Login
                     </Link>
                   </button>
@@ -103,7 +98,7 @@ export default function Navbar(props) {
               {!uniqueId && (
                 <li className="flex items-center">
                   <button className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 mx-3 lg:py-2 flex items-center text-xs uppercase font-bold">
-                    <Link href="/auth/register" className={""}>
+                    <Link href="/auth/customer-register" className={""}>
                       Register
                     </Link>
                   </button>
