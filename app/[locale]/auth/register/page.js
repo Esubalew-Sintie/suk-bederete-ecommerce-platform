@@ -40,7 +40,6 @@ export default function Register({ params: { locale } }) {
         localStorage.setItem("access_token", response.tokens?.access);
         localStorage.setItem("refresh_token", response.tokens?.refresh);
         dispatch(setMerchant(response?.data));
-        console.log("/prompt/prompt");
         router.push("/prompt/prompt");
       } else {
         throw new Error("Invalid response structure");

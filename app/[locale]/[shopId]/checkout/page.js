@@ -1,20 +1,27 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
 import Loading from "@/app/[locale]/loading";
 import { useRouter } from "next/navigation";
-import { useGetshopQuery } from "@/lib/features/shop/publicShopSlice";
+
 import MenuBar from "../../components/MenuBar/MenuBar";
+import {
+  useGetShopQuery,
+  useGetShopWithIdQuery,
+} from "@/lib/features/shop/shop";
 
 export default function Shop({ params }) {
   const shopId = params.shopId;
   const unique_id = localStorage.getItem("unique_id");
   const [checkOutPage, setCheckOutPage] = useState({});
-  const { data, error, isLoading } = useGetshopQuery(shopId);
+  const { data, error, isLoading } = useGetShopQuery(shopId);
   const router = useRouter();
-
+  const {
+    data: shopsData,
+    error: shopsError,
+    isLoading: shopsLoading,
+  } = useGetShopWithIdQuery(shopId);
   const [customerData, setCustomerData] = useState({});
-
-  const [formInputError, setFormInputError] = useState(false);
 
   const storedData = localStorage.getItem("cart");
   let initialCartItems;
@@ -57,7 +64,7 @@ export default function Shop({ params }) {
       } else if (link === "about") {
         router.push(`/${shopId}/about`);
       } else if (link === "shopping-cart") {
-        router.push(`/${shopId}/shopping-cart`);
+        router.pushashe(`/${shopId}/shopping-cart`);
       } else if (link === "checkout") {
         router.push(`/${shopId}/checkout`);
       } else if (link == "home") {
@@ -129,45 +136,43 @@ export default function Shop({ params }) {
         console.log("removed event to ", index);
       });
     };
-  }, [
-    router,
-    shopId,
-    checkOutPage?.html,
-    customerData,
-    cartItems,
-    formInputError,
-    customerData,
-  ]);
+  }, [router, shopId, checkOutPage?.html, cartItems]);
+
+  useEffect(() => {
+    const proceedPaymentButton = document.getElementById("Proceed-payment-btn");
+    if (proceedPaymentButton) {
+      console.log("proceed to payment event listener add in use Effect");
+      proceedPaymentButton.addEventListener("click", handleSubmit);
+    }
+  }, [customerData]);
 
   const handleSubmit = async () => {
     console.log("handle submit called");
-    let firstName = document.getElementById("first-name-input")?.value;
-    let lastName = document.getElementById("last-name-input")?.value;
-    let phoneNumber = document.getElementById("phone-number-input")?.value;
-    let provinceAddress = document.getElementById(
-      "province-address-input"
-    )?.value;
-    let streetAddress = document.getElementById("street-address-input")?.value;
+    let first_name = document.getElementById("first-name-input")?.value;
+    let last_name = document.getElementById("last-name-input")?.value;
+    let phone_number = document.getElementById("phone-number-input")?.value;
+    let address1 = document.getElementById("province-address-input")?.value;
+    let address2 = document.getElementById("street-address-input")?.value;
     let city = document.getElementById("city-input")?.value;
-    let country = document.getElementById("country-input");
+    let country = document.getElementById("country-input").value;
     let state = document.getElementById("state-input")?.value;
-    let zipCode = document.getElementById("zip-code-input")?.value;
-    let formInputError = document.getElementById("form-input-error");
+    let zip_code = document.getElementById("zip-code-input")?.value;
     const checkoutData = {
-      firstName,
-      lastName,
-      phoneNumber,
-      streetAddress,
-      provinceAddress,
+      first_name,
+      last_name,
+      phone_number,
+      address2,
+      address1,
       country,
       city,
       state,
-      zipCode,
+      zip_code,
     };
+    setCustomerData(checkoutData);
+
     console.log("checkout data ", checkoutData);
     console.log("handle form submit called");
 
-    console.log("unique-idb  ", unique_id, " uid  ", uid);
     try {
       const response = await fetch(
         `http://localhost:8000/auth/customer/update/${unique_id}/`,
@@ -176,7 +181,7 @@ export default function Shop({ params }) {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ ...checkoutData, uid: uid }),
+          body: JSON.stringify({ ...checkoutData }),
         }
       );
       if (!response.ok) {
@@ -190,95 +195,48 @@ export default function Shop({ params }) {
       console.error("Error submitting form:", error);
       // Handle error, e.g., show an error message
     }
-    handleOrderData();
-    setCustomerData(checkoutData);
 
-    // if (
-    //   firstName === "" ||
-    //   lastName === "" ||
-    //   phoneNumber === "" ||
-    //   streetAddress === "" ||
-    //   provinceAddress === "" ||
-    //   country === "" ||
-    //   city === "" ||
-    //   state === "" ||
-    //   zipCode === ""
-    // ) {
-    //   formInputError.textContent = "Fill All The Input Form Please!";
-    //   console.log("empty form");
-    //   setFormInputError(true);
-    // } else {
-    //   const checkoutData = {
-    //     firstName,
-    //     lastName,
-    //     phoneNumber,
-    //     streetAddress,
-    //     provinceAddress,
-    //     country,
-    //     city,
-    //     state,
-    //     zipCode,
-    //   };
-    //   setCustomerData(checkoutData);
-
-    //   formInputError.textContent = "";
-    //   firstName = "";
-    //   lastName = "";
-    //   phoneNumber = "";
-    //   streetAddress = "";
-    //   provinceAddress = "";
-    //   country = "";
-    //   city = "";
-    //   state = "";
-    //   zipCode = "";
-    //   handleFormSubmit();
-    // }
-  };
-
-  const handleOrderData = () => {
-    const defaultProductValues = {
-      slug: "default-slug",
-      productHolder: "merchant-id-here",
-      stock: 10,
-      is_available: true,
-      category: 1,
-      description: "Default description",
-    };
-
-    const orderItems = cartItems.map((item) => ({
-      product: {
-        name: item.name,
-        slug: defaultProductValues.slug,
-        productHolder: defaultProductValues.productHolder,
-        image: item.image,
-        stock: defaultProductValues.stock,
-        is_available: defaultProductValues.is_available,
-        category: defaultProductValues.category,
-        price: parseFloat(item.price),
-        description: defaultProductValues.description,
-      },
-      quantity_ordered: parseInt(item.quantity),
-    }));
+    console.log("handle order executed");
 
     let totalPrice = 0;
 
     cartItems.forEach((item) => {
       totalPrice += parseFloat(item.price) * parseInt(item.quantity);
     });
+    console.log(shopsData);
     const Order = {
       customer: unique_id,
-      merchant: shopId,
+      merchant: shopsData?.owner?.unique_id,
       total_amount: totalPrice,
-      order_status: "pending",
+      order_status: "Pending",
       payment_status: "Paid",
       payment_method: "Credit Card",
-      shipping_option: {
-        name: "Standard Shipping",
-        cost: 5.0,
-        delivery_time: "1 00:00:00",
-      },
-      order_items: orderItems,
+      shipping_option: 1,
+      order_items: cartItems.map((item) => ({
+        product: item.id,
+        quantity_ordered: item.quantity,
+      })),
     };
+    console.log(Order);
+    try {
+      const response = await fetch(`http://localhost:8000/order/orders/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(Order),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to submit form");
+      }
+
+      const result = await response.json();
+      console.log("Customer created:", result);
+      // Handle successful creation, e.g., redirect or show a success message
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      // Handle error, e.g., show an error message
+    }
   };
 
   if (isLoading) {
