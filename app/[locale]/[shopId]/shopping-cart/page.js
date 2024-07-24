@@ -2,13 +2,9 @@
 import React, { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import Loading from "@/app/[locale]/loading";
-<<<<<<< HEAD
-import { useGetshopQuery } from "@/lib/features/shop/shop";
 import MenuBar from "../../components/MenuBar/MenuBar";
-
-=======
 import { useGetshopQuery } from "@/lib/features/shop/publicShopSlice";
->>>>>>> main
+
 export default function cartPage({ params }) {
   const shopId = params.shopId;
   const [shopCartPage, setShopCartPage] = useState({});

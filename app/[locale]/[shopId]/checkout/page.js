@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Loading from "@/app/[locale]/loading";
 import { useRouter } from "next/navigation";
-import { useGetshopQuery } from "@/lib/features/shop/shop";
+import { useGetshopQuery } from "@/lib/features/shop/publicShopSlice";
 import MenuBar from "../../components/MenuBar/MenuBar";
 
 export default function Shop({ params }) {
@@ -12,6 +12,8 @@ export default function Shop({ params }) {
   const router = useRouter();
 
   const [customerData, setCustomerData] = useState({});
+
+  const [formInputError, setFormInputError] = useState(false);
 
   const storedData = localStorage.getItem("cart");
   let initialCartItems;
@@ -31,16 +33,16 @@ export default function Shop({ params }) {
     }
   }, [data]);
 
-  useEffect(() => {
-    const cartItemNumber = document.getElementById("cart-item-number");
-    if (cartItemNumber) {
-      if (cartItems.length !== 0) {
-        cartItemNumber.textContent = cartItems.length;
-      } else {
-        cartItemNumber.textContent = "";
-      }
-    }
-  }, [cartItems]);
+  // useEffect(() => {
+  //   const cartItemNumber = document.getElementById("cart-item-number");
+  //   if (cartItemNumber) {
+  //     if (cartItems.length !== 0) {
+  //       cartItemNumber.textContent = cartItems.length;
+  //     } else {
+  //       cartItemNumber.textContent = "";
+  //     }
+  //   }
+  // }, [cartItems]);
 
   useEffect(() => {
     const handleClick = (event, link) => {
@@ -61,12 +63,27 @@ export default function Shop({ params }) {
         router.push(`/${shopId}`);
       }
     };
+
     const checkOutLink = document.getElementById("checkout");
     const homeLink = document.getElementById("home");
     const blogLink = document.getElementById("blog");
     const contactLink = document.getElementById("contact");
     const aboutLink = document.getElementById("about");
     const shopCartLink = document.getElementById("shopping-cart");
+    const proceedPaymentButton = document.getElementById("Proceed-payment-btn");
+    if (proceedPaymentButton) {
+      console.log("proceed to payment event listener add");
+      proceedPaymentButton.addEventListener("click", handleSubmit);
+    }
+
+    const cartItemNumber = document.getElementById("cart-item-number");
+    if (cartItemNumber) {
+      if (cartItems.length !== 0) {
+        cartItemNumber.textContent = cartItems.length;
+      } else {
+        cartItemNumber.textContent = "";
+      }
+    }
 
     if (checkOutLink) {
       checkOutLink.addEventListener("click", (event) =>
@@ -95,37 +112,7 @@ export default function Shop({ params }) {
         handleClick(event, "shopping-cart")
       );
     }
-    const handleSubmit = () => {
-      const firstName =
-        document.getElementById("first-name-input")?.value || "";
-      const lastName = document.getElementById("last-name-input")?.value || "";
-      const phoneNumber =
-        document.getElementById("phone-number-input")?.value || "";
-      const streetAddress =
-        document.getElementById("street-address-input")?.value || "";
-      const city = document.getElementById("city-input")?.value || "";
-      const country = document.getElementById("country-input");
-      const state = document.getElementById("state-input")?.value || "";
-      const zipCode = document.getElementById("zip-code-input")?.value || "";
 
-      const checkoutData = {
-        firstName,
-        lastName,
-        phoneNumber,
-        streetAddress,
-        city,
-        state,
-        zipCode,
-      };
-      setCustomerData(checkoutData);
-      console.log("Checkout Data:", checkoutData);
-    };
-
-    const paymentButton = document.getElementById("Payment-method");
-    if (paymentButton) {
-      console.log("event listener add");
-      paymentButton.addEventListener("click", handleSubmit);
-    }
     // Cleanup event listener on component unmount
     return () => {
       const blogLink = document.getElementById("blog");
@@ -140,7 +127,112 @@ export default function Shop({ params }) {
         console.log("removed event to ", index);
       });
     };
-  }, [router, shopId, checkOutPage?.html, customerData]);
+  }, [
+    router,
+    shopId,
+    checkOutPage?.html,
+    customerData,
+    cartItems,
+    formInputError,
+    customerData,
+  ]);
+
+  const handleSubmit = async () => {
+    console.log("handle submit called");
+    let firstName = document.getElementById("first-name-input")?.value;
+    let lastName = document.getElementById("last-name-input")?.value;
+    let phoneNumber = document.getElementById("phone-number-input")?.value;
+    let provinceAddress = document.getElementById(
+      "province-address-input"
+    )?.value;
+    let streetAddress = document.getElementById("street-address-input")?.value;
+    let city = document.getElementById("city-input")?.value;
+    let country = document.getElementById("country-input");
+    let state = document.getElementById("state-input")?.value;
+    let zipCode = document.getElementById("zip-code-input")?.value;
+    let formInputError = document.getElementById("form-input-error");
+    const checkoutData = {
+      firstName,
+      lastName,
+      phoneNumber,
+      streetAddress,
+      provinceAddress,
+      country,
+      city,
+      state,
+      zipCode,
+    };
+    console.log("checkout data ", checkoutData);
+    console.log("handle form submit called");
+    const unique_id = localStorage.getItem("unique_id");
+    const uid = localStorage.getItem("uid");
+
+    console.log("unique-idb  ", unique_id, " uid  ", uid);
+    try {
+      const response = await fetch(
+        `http://localhost:8000/auth/customer/update/${unique_id}/`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...checkoutData, uid: uid }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to submit form");
+      }
+
+      const result = await response.json();
+      console.log("Customer created:", result);
+      // Handle successful creation, e.g., redirect or show a success message
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      // Handle error, e.g., show an error message
+    }
+    setCustomerData(checkoutData);
+
+    // if (
+    //   firstName === "" ||
+    //   lastName === "" ||
+    //   phoneNumber === "" ||
+    //   streetAddress === "" ||
+    //   provinceAddress === "" ||
+    //   country === "" ||
+    //   city === "" ||
+    //   state === "" ||
+    //   zipCode === ""
+    // ) {
+    //   formInputError.textContent = "Fill All The Input Form Please!";
+    //   console.log("empty form");
+    //   setFormInputError(true);
+    // } else {
+    //   const checkoutData = {
+    //     firstName,
+    //     lastName,
+    //     phoneNumber,
+    //     streetAddress,
+    //     provinceAddress,
+    //     country,
+    //     city,
+    //     state,
+    //     zipCode,
+    //   };
+    //   setCustomerData(checkoutData);
+
+    //   formInputError.textContent = "";
+    //   firstName = "";
+    //   lastName = "";
+    //   phoneNumber = "";
+    //   streetAddress = "";
+    //   provinceAddress = "";
+    //   country = "";
+    //   city = "";
+    //   state = "";
+    //   zipCode = "";
+    //   handleFormSubmit();
+    // }
+  };
 
   if (isLoading) {
     return <Loading />;
