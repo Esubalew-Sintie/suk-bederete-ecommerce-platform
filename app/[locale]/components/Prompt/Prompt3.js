@@ -14,7 +14,6 @@ const Prompt3 = () => {
 
   const handleChange = (event) => {
     setShopNameInput(event.target.value);
-    localStorage.setItem("shopName", shopNameInput);
   };
   const prompt1 = useSelector((state) => state.prompt.promptForm);
   const prompt2 = useSelector((state) => state.prompt.prompt2Form);
@@ -35,8 +34,10 @@ const Prompt3 = () => {
 
       if (response.ok) {
         console.log("success");
+        localStorage.setItem("shopName", shopNameInput);
       } else {
         console.error("Failed to submit form data");
+        router.push("/auth/register");
       }
     } catch (error) {
       console.error("Error submitting form data:", error);
