@@ -41,7 +41,8 @@ export default function Register({ params: { locale } }) {
       localStorage.setItem("access_token", response.tokens.access);
       localStorage.setItem("refresh_token", response.tokens.refresh);
 
-      router.push("/prompt/customer");
+      // router.push("/prompt/customer");
+      router.back();
     } catch (error) {
       console.error("Registration failed:", error.message);
       console.log("Response:", error?.response);

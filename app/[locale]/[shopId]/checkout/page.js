@@ -14,8 +14,6 @@ export default function Shop({ params }) {
 
   const [customerData, setCustomerData] = useState({});
 
-  const [formInputError, setFormInputError] = useState(false);
-
   const storedData = localStorage.getItem("cart");
   let initialCartItems;
 
@@ -129,15 +127,15 @@ export default function Shop({ params }) {
         console.log("removed event to ", index);
       });
     };
-  }, [
-    router,
-    shopId,
-    checkOutPage?.html,
-    customerData,
-    cartItems,
-    formInputError,
-    customerData,
-  ]);
+  }, [router, shopId, checkOutPage?.html, cartItems]);
+
+  useEffect(() => {
+    const proceedPaymentButton = document.getElementById("Proceed-payment-btn");
+    if (proceedPaymentButton) {
+      console.log("proceed to payment event listener add in use Effect");
+      proceedPaymentButton.addEventListener("click", handleSubmit);
+    }
+  }, [customerData]);
 
   const handleSubmit = async () => {
     console.log("handle submit called");
@@ -152,7 +150,6 @@ export default function Shop({ params }) {
     let country = document.getElementById("country-input");
     let state = document.getElementById("state-input")?.value;
     let zipCode = document.getElementById("zip-code-input")?.value;
-    let formInputError = document.getElementById("form-input-error");
     const checkoutData = {
       firstName,
       lastName,
@@ -167,75 +164,30 @@ export default function Shop({ params }) {
     console.log("checkout data ", checkoutData);
     console.log("handle form submit called");
 
-    console.log("unique-idb  ", unique_id, " uid  ", uid);
-    try {
-      const response = await fetch(
-        `http://localhost:8000/auth/customer/update/${unique_id}/`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ ...checkoutData, uid: uid }),
-        }
-      );
-      if (!response.ok) {
-        throw new Error("Failed to submit form");
-      }
+    // try {
+    //   const response = await fetch(
+    //     `http://localhost:8000/auth/customer/update/${unique_id}/`,
+    //     {
+    //       method: "PATCH",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify({ ...checkoutData, uid: uid }),
+    //     }
+    //   );
+    //   if (!response.ok) {
+    //     throw new Error("Failed to submit form");
+    //   }
 
-      const result = await response.json();
-      console.log("Customer created:", result);
-      // Handle successful creation, e.g., redirect or show a success message
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      // Handle error, e.g., show an error message
-    }
-    handleOrderData();
-    setCustomerData(checkoutData);
-
-    // if (
-    //   firstName === "" ||
-    //   lastName === "" ||
-    //   phoneNumber === "" ||
-    //   streetAddress === "" ||
-    //   provinceAddress === "" ||
-    //   country === "" ||
-    //   city === "" ||
-    //   state === "" ||
-    //   zipCode === ""
-    // ) {
-    //   formInputError.textContent = "Fill All The Input Form Please!";
-    //   console.log("empty form");
-    //   setFormInputError(true);
-    // } else {
-    //   const checkoutData = {
-    //     firstName,
-    //     lastName,
-    //     phoneNumber,
-    //     streetAddress,
-    //     provinceAddress,
-    //     country,
-    //     city,
-    //     state,
-    //     zipCode,
-    //   };
-    //   setCustomerData(checkoutData);
-
-    //   formInputError.textContent = "";
-    //   firstName = "";
-    //   lastName = "";
-    //   phoneNumber = "";
-    //   streetAddress = "";
-    //   provinceAddress = "";
-    //   country = "";
-    //   city = "";
-    //   state = "";
-    //   zipCode = "";
-    //   handleFormSubmit();
+    //   const result = await response.json();
+    //   console.log("Customer created:", result);
+    //   // Handle successful creation, e.g., redirect or show a success message
+    // } catch (error) {
+    //   console.error("Error submitting form:", error);
+    //   // Handle error, e.g., show an error message
     // }
-  };
 
-  const handleOrderData = () => {
+    // handle customer order
     const defaultProductValues = {
       slug: "default-slug",
       productHolder: "merchant-id-here",
@@ -279,7 +231,10 @@ export default function Shop({ params }) {
       },
       order_items: orderItems,
     };
+    setCustomerData(checkoutData);
   };
+
+  const handleOrderData = () => {};
 
   if (isLoading) {
     return <Loading />;
