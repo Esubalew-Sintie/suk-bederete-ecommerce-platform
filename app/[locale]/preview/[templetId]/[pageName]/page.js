@@ -132,13 +132,13 @@ function PreviewPage({ params }) {
       console.log("products");
       products?.featured?.forEach((product, index) => {
         console.log("products", product);
-        const productHTML = generateProductHTML(product);
+        const productHTML = generateProductHTML(product, index);
         productsContainer?.insertAdjacentHTML("beforeend", productHTML);
       });
       // Iterate over the products array
       if (!isLoading && products?.new_arrival?.length > 0) {
         products?.new_arrival?.forEach((product, index) => {
-          const productHTML = generateProductHTML(product);
+          const productHTML = generateProductHTML(product, index);
           productsPageContainer?.insertAdjacentHTML("beforeend", productHTML);
         });
       } else if (products?.length === 0) {
@@ -172,23 +172,92 @@ function PreviewPage({ params }) {
       }
     }, 2000); // Adjust the delay as needed
   }, [hasMounted]);
-  function generateProductHTML(product) {
+  function generateProductHTML(product, index) {
     const imagePath = `${process.env.NEXT_PUBLIC_BASE_URL}${product.image}`;
     return `
-       <div class="product-cart">
+       <div class="product-cart" id=${index}>
       <img src="${imagePath}" alt="Dynamic Product" />
-      <span>${product?.name}</span>
-        <h4>${product?.description}</h4>
+        <h4 class="name">${product?.name}</h4>
         <div class="stars">
-          <i class="fa-solid fa-star"></i>
-          <i class="fa-solid fa-star"></i>
-          <i class="fa-solid fa-star"></i>
-          <i class="fa-solid fa-star"></i>
-          <i class="fa-solid fa-star"></i>
+          <svg
+                  style="display: inline"
+                  class="w-6 h-6 text-gray-800 dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z"
+                  />
+                </svg>
+                <svg
+                  style="display: inline"
+                  class="w-6 h-6 text-gray-800 dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z"
+                  />
+                </svg>
+                <svg
+                  style="display: inline"
+                  class="w-6 h-6 text-gray-800 dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z"
+                  />
+                </svg>
+                <svg
+                  style="display: inline"
+                  class="w-6 h-6 text-gray-800 dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z"
+                  />
+                </svg>
         </div>
-        <h4 class="price">$${product?.price}</h4>
+
+          <h4 class="price">$<span class="price price-value">${product?.price}</span></h4>
+          <button class="product-detail-button">Product Detail</button>
+          <button class="add-to-cart-button buy-icon">
+                <svg
+                  class="w-6 h-6 text-gray-800 dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M4 4a1 1 0 0 1 1-1h1.5a1 1 0 0 1 .979.796L7.939 6H19a1 1 0 0 1 .979 1.204l-1.25 6a1 1 0 0 1-.979.796H9.605l.208 1H17a3 3 0 1 1-2.83 2h-2.34a3 3 0 1 1-4.009-1.76L5.686 5H5a1 1 0 0 1-1-1Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </button>
         <p class='productId'  style="display: hidden;">${product?.id}</p>
-        <a href="#" class="fa-solid fa-cart-shopping buy-icon"></a>
+        <span id="added-cart-message"></span>
 		</div>
     `;
   }

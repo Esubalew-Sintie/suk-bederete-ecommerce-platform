@@ -70,7 +70,7 @@ export default function Navbar(props) {
                   </button>
                 ) : (
                   <button
-                    className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 mx-3 lg:py-2 flex items-center text-xs uppercase font-bold bg-red-500"
+                    className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 mx-3 lg:py-2 flex items-center text-xs uppercase font-bold bg-red-300"
                     disabled
                   >
                     Profile
