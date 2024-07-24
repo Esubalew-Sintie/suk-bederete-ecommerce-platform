@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import TranslationsProvider from "./components/Translation/TranslationsProvider.js";
 import initTranslations from "../i18n.js";
 import LanguageSwitcher from "./components/LanguageSwitcher/LanguageSwitcher.js";
+import { useAuth } from "@clerk/nextjs";
 
 const i18nNamespaces = ["home"]; // Define your namespaces
 export default function Index({ params: { locale } }) {

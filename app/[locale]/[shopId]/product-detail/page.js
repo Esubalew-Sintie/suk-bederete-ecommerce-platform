@@ -135,6 +135,15 @@ export default function Shop({ params }) {
       productNameElement.textContent = storedProductItem.name;
       productPriceElement.textContent = storedProductItem.price;
     }
+
+    const cartItemNumber = document.getElementById("cart-item-number");
+    if (cartItemNumber) {
+      if (cartItems.length !== 0) {
+        cartItemNumber.textContent = cartItems.length;
+      } else {
+        cartItemNumber.textContent = "";
+      }
+    }
     // Cleanup event listener on component unmount
     return () => {
       const blogLink = document.getElementById("blog");
@@ -149,7 +158,7 @@ export default function Shop({ params }) {
         console.log("removed event to ", index);
       });
     };
-  }, [router, shopId, productDetailPage?.html]);
+  }, [router, shopId, productDetailPage?.html, cartItems]);
 
   const handleAddToCart = () => {
     console.log("add to cart");

@@ -28,16 +28,16 @@ export default function AboutPage({ params }) {
     }
   }, [data]);
 
-  useEffect(() => {
-    const cartItemNumber = document.getElementById("cart-item-number");
-    if (cartItemNumber) {
-      if (cartItems.length !== 0) {
-        cartItemNumber.textContent = cartItems.length;
-      } else {
-        cartItemNumber.textContent = "";
-      }
-    }
-  }, [cartItems]);
+  // useEffect(() => {
+  //   const cartItemNumber = document.getElementById("cart-item-number");
+  //   if (cartItemNumber) {
+  //     if (cartItems.length !== 0) {
+  //       cartItemNumber.textContent = cartItems.length;
+  //     } else {
+  //       cartItemNumber.textContent = "";
+  //     }
+  //   }
+  // }, [cartItems]);
 
   useEffect(() => {
     const handleClick = (event, link) => {
@@ -92,6 +92,14 @@ export default function AboutPage({ params }) {
         handleClick(event, "shopping-cart")
       );
     }
+    const cartItemNumber = document.getElementById("cart-item-number");
+    if (cartItemNumber) {
+      if (cartItems.length !== 0) {
+        cartItemNumber.textContent = cartItems.length;
+      } else {
+        cartItemNumber.textContent = "";
+      }
+    }
 
     // Cleanup event listener on component unmount
     return () => {
@@ -99,7 +107,7 @@ export default function AboutPage({ params }) {
         blogLink.removeEventListener("click", handleClick);
       }
     };
-  }, [router, shopId]);
+  }, [router, shopId, aboutpage.html, cartItems]);
 
   if (isLoading) {
     return <Loading />;
