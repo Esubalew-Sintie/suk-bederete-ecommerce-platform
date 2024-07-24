@@ -33,14 +33,14 @@ const MenuBar = () => {
           </Link>
           <Link
             className="p-2.5 no-underline text-white text-xl border-t border-gray-300 text-center hover:bg-gray-300 hover:text-blueGray-800 hover:rounded-lg"
-            href="/auth/login"
+            href="/auth/customer-login"
             passHref
           >
             Login
           </Link>
           <Link
             className="p-2.5 no-underline text-white text-xl border-t border-gray-300 text-center hover:bg-gray-300 hover:text-blueGray-800 hover:rounded-lg"
-            href="/auth/register"
+            href="/auth/customer-register"
             passHref
           >
             Register
