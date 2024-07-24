@@ -239,6 +239,8 @@ export default function Shop({ params }) {
     }
   };
 
+  const handleOrderData = () => {};
+
   if (isLoading) {
     return <Loading />;
   }
