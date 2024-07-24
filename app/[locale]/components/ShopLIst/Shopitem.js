@@ -7,6 +7,7 @@ import ReactStars from "react-stars"; // Import the ReactStars component
 const ShopItem = ({ shop, fullWidth }) => {
   const router = useRouter();
   const rating = 11;
+  console.log("shop item data", shop);
 
   // Function to determine the star rating
   const getStarRating = (rating) => {

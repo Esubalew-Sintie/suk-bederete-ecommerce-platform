@@ -25,6 +25,14 @@
   background-position: center; /* Center the image within the block */
   background-repeat: no-repeat;
 }
+
+.gjs-blocks-c .block1-preview {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
+    url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQCxmI_3au0wn7FnWdjqxhc62-0OK51YEx3g&s") !important;
+  background-size: cover; /* Cover the entire block with the image */
+  background-position: center; /* Center the image within the block */
+  background-repeat: no-repeat;
+}
 .gjs-blocks-c .block4-preview {
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
     url("../../../../../public/istockphoto-915201060-612x612.jpg") !important;

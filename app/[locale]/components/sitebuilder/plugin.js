@@ -35,6 +35,7 @@ const loadComponents = (editor, options) => {
     editor.BlockManager.add("block1", {
       label: "Header",
       category: categories?.category1,
+      attributes: { class: "block1-preview" },
       content: `
             <!--
   This example requires updating your template:
