@@ -6,7 +6,7 @@ import Loader from "../../components/Prompt/Loader";
 
 const MerchantSignup = () => {
   const unique_id = localStorage.getItem("unique_id");
-  const uid = localStorage.getItem("uid");
+  // const uid = localStorage.getItem("uid");
   const handleFormSubmit = async (formData) => {
     console.log(formData);
     try {

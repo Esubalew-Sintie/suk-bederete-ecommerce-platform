@@ -15,8 +15,7 @@ export default function Index({ params: { locale } }) {
   const router = useRouter();
 
   // const merchantId = localStorage.getItem("unique_id");
-  const { isLoaded, userId, sessionId, getToken } = useAuth();
-  
+
   const merchantId = localStorage.getItem("unique_id");
   const handleClick = () => {
     if (merchantId) {

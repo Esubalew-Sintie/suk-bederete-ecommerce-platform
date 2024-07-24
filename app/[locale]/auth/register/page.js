@@ -24,24 +24,27 @@ export default function Register({ params: { locale } }) {
       const formData = new FormData();
       formData.append("email", email);
       formData.append("password", password);
-      formData.append("role", "merchant"); 
+      formData.append("role", "merchant");
 
       const response = await register(formData).unwrap();
       // Handle successful registration, e.g., redirect to login page
       console.log(response.message);
       // Store the merchant the response it returned to the slice
-      dispatch(setMerchant(response?.data));
-      localStorage.setItem("unique_id", response?.data?.unique_id);
-      localStorage.setItem("uid", response?.data?.user);
-      console.log("uid", response.data?.user);
-      document.cookie = `access_token=${response.tokens.access}; path=/`;
-      document.cookie = `refresh_token=${response.tokens.refresh}; path=/`;
-      // Store tokens in localStorage
-      localStorage.setItem("unique_id", response.merchant.unique_id);
-      localStorage.setItem("access_token", response.tokens.access);
-      localStorage.setItem("refresh_token", response.tokens.refresh);
-
-      router.push("/prompt/prompt");
+      if (response?.tokens) {
+        console.log("uid", response?.data?.unique_id);
+        localStorage.setItem("unique_id", response?.data?.unique_id);
+        localStorage.setItem("role", response?.data?.user?.role);
+        document.cookie = `access_token=${response?.tokens?.access}; path=/`;
+        document.cookie = `refresh_token=${response?.tokens?.refresh}; path=/`;
+        // Store tokens in localStorage
+        localStorage.setItem("access_token", response.tokens?.access);
+        localStorage.setItem("refresh_token", response.tokens?.refresh);
+        dispatch(setMerchant(response?.data));
+        console.log("/prompt/prompt");
+        router.push("/prompt/prompt");
+      } else {
+        throw new Error("Invalid response structure");
+      }
     } catch (error) {
       console.error("Registration failed:", error.message);
       console.log("Response:", error?.response);
@@ -56,10 +59,7 @@ export default function Register({ params: { locale } }) {
   useEffect(() => {
     const loadTranslations = async () => {
       try {
-        const { t, resources } = await initTranslations(
-          locale,
-          i18nNamespaces
-        );
+        const { t, resources } = await initTranslations(locale, i18nNamespaces);
         setTranslations({ t, resources });
         console.log("Translations initialized successfully");
       } catch (error) {
@@ -178,7 +178,10 @@ export default function Register({ params: { locale } }) {
                   <div className="text-center mt-2">
                     <span className="text-sm">
                       {translations.t("already have account?")}{" "}
-                      <Link href="/auth/login" className="font-bold text-lightBlue-500">
+                      <Link
+                        href="/auth/login"
+                        className="font-bold text-lightBlue-500"
+                      >
                         {translations.t("Sign in")}
                       </Link>
                     </span>
