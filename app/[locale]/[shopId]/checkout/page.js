@@ -7,6 +7,7 @@ import MenuBar from "../../components/MenuBar/MenuBar";
 
 export default function Shop({ params }) {
   const shopId = params.shopId;
+  const unique_id = localStorage.getItem("unique_id");
   const [checkOutPage, setCheckOutPage] = useState({});
   const { data, error, isLoading } = useGetshopQuery(shopId);
   const router = useRouter();
@@ -112,6 +113,7 @@ export default function Shop({ params }) {
         handleClick(event, "shopping-cart")
       );
     }
+    console.log("cart items in the local storage checkout", cartItems);
 
     // Cleanup event listener on component unmount
     return () => {
@@ -164,8 +166,6 @@ export default function Shop({ params }) {
     };
     console.log("checkout data ", checkoutData);
     console.log("handle form submit called");
-    const unique_id = localStorage.getItem("unique_id");
-    const uid = localStorage.getItem("uid");
 
     console.log("unique-idb  ", unique_id, " uid  ", uid);
     try {
@@ -190,6 +190,7 @@ export default function Shop({ params }) {
       console.error("Error submitting form:", error);
       // Handle error, e.g., show an error message
     }
+    handleOrderData();
     setCustomerData(checkoutData);
 
     // if (
@@ -232,6 +233,52 @@ export default function Shop({ params }) {
     //   zipCode = "";
     //   handleFormSubmit();
     // }
+  };
+
+  const handleOrderData = () => {
+    const defaultProductValues = {
+      slug: "default-slug",
+      productHolder: "merchant-id-here",
+      stock: 10,
+      is_available: true,
+      category: 1,
+      description: "Default description",
+    };
+
+    const orderItems = cartItems.map((item) => ({
+      product: {
+        name: item.name,
+        slug: defaultProductValues.slug,
+        productHolder: defaultProductValues.productHolder,
+        image: item.image,
+        stock: defaultProductValues.stock,
+        is_available: defaultProductValues.is_available,
+        category: defaultProductValues.category,
+        price: parseFloat(item.price),
+        description: defaultProductValues.description,
+      },
+      quantity_ordered: parseInt(item.quantity),
+    }));
+
+    let totalPrice = 0;
+
+    cartItems.forEach((item) => {
+      totalPrice += parseFloat(item.price) * parseInt(item.quantity);
+    });
+    const Order = {
+      customer: unique_id,
+      merchant: shopId,
+      total_amount: totalPrice,
+      order_status: "pending",
+      payment_status: "Paid",
+      payment_method: "Credit Card",
+      shipping_option: {
+        name: "Standard Shipping",
+        cost: 5.0,
+        delivery_time: "1 00:00:00",
+      },
+      order_items: orderItems,
+    };
   };
 
   if (isLoading) {

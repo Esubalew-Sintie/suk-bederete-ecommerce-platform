@@ -4,10 +4,7 @@ import { useRouter } from "next/navigation"; // Import useRouter from next/route
 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-<<<<<<< HEAD
-=======
 import useCheckUnauthorized from "@/lib/features/auth/unauthorise";
->>>>>>> main
 
 import {
   useGetWebBuilderQuery,
@@ -25,27 +22,6 @@ import {
 } from "@/lib/features/products/products";
 function PreviewPage({ params }) {
   const status = useSelector((state) => state.status.status);
-<<<<<<< HEAD
-  console.log(status + "status");
-  // Check if "status" exists in localStorage
-
-  const templateId = params.templetId;
-  const pageName = params.pageName;
-  const { data, isLoading: templateLoading } = useGetCustomisedPageQuery({
-    templateId,
-    pageName,
-  });
-  const [updateProduct, { isLoading: updateLoading, isUpdateError }] =
-    useUpdateProductMutation();
-  const [hasMounted, setHasMounted] = useState(false);
-  const router = useRouter(); // Initialize useRouter
-  const [editedProducts, setEditedProducts] = useState(null);
-  const [updatedProducts, setUpdatedProducts] = useState(null);
-  const [finalUpdatedProducts, setfinalUpdatedProducts] = useState(null);
-  const [message, setMessage] = useState("");
-  const merchantId = localStorage.getItem("unique_id");
-
-=======
 
   console.log(status + "status");
   // Check if "status" exists in localStorage
@@ -67,122 +43,12 @@ function PreviewPage({ params }) {
   const [message, setMessage] = useState("");
   const merchantId = localStorage.getItem("unique_id");
 
->>>>>>> main
   const {
     data: customizedTemplateDataHook,
     refetch,
     isLoading: isLoadingQuery,
     error: queryError,
   } = useGetCustomizedTemplateQuery(merchantId);
-<<<<<<< HEAD
-  const [updateCustomizedTemplate, { isLoading: isUpdating }] =
-    useUpdatecustomizedTemplateMutation();
-  //   const [customisedTemplate, { isLoading: isCustomized }] =
-  //     useCustomisedTemplateMutation();
-  const captureAndUploadScreenshot = async () => {
-    const container = document.querySelector("#features");
-
-    // Check if the container is not null
-    if (!container) {
-      console.error("Container not found");
-      return;
-    }
-    try {
-      const canvas = await html2canvas(container);
-      const imgData = canvas.toDataURL("image/png");
-      const binaryData = atob(imgData.split(",")[1]);
-      const dataArray = new Uint8Array(binaryData.length);
-      for (let i = 0; i < binaryData.length; i++) {
-        dataArray[i] = binaryData.charCodeAt(i);
-      }
-      const blob = new Blob([dataArray], { type: "image/png" });
-      const file = new File([blob], "screenshot.png", { type: "image/png" });
-      const formData = new FormData();
-      formData.append("image", file);
-      const response = await fetch("http://localhost:8000/shop/upload/", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (response.ok) {
-        setMessage("Screenshot uploaded successfully");
-      } else {
-        setMessage("Failed to upload screenshot");
-      }
-    } catch (error) {
-      console.error("Error capturing or uploading screenshot:", error);
-      setMessage("Error capturing or uploading screenshot");
-    }
-    if (finalUpdatedProducts) {
-      await updateProduct(finalUpdatedProducts);
-    }
-    localStorage.removeItem("status");
-    router.push("/admin/dashboard"); // Navigate to /admin/dashboard
-  };
-  const merchant_id = localStorage.getItem("unique_id");
-  const {
-    data: products,
-    isLoading,
-    isError,
-  } = useGetProductsQuery(merchant_id);
-  const [finalContent, setFinalContent] = useState(null);
-  console.log(products);
-  useEffect(() => {
-    // Find all elements with the class 'product-cart'
-    const productsContainer = document.querySelector("#products");
-    const productsPageContainer = document.querySelector("#new-arrival");
-    const newArrivalContainer = document.querySelector("#new-arrival-section");
-
-    // Clear existing content
-    if (products?.featured?.length > 0 || products?.new_arrival?.length > 0) {
-      if (productsContainer) {
-        productsContainer.innerHTML = ""; // Clear the entire container
-      }
-      if (productsPageContainer) {
-        productsPageContainer.innerHTML = ""; // Clear the entire container
-      }
-    }
-
-    console.log("products", products?.featured);
-    // Iterate over the products array
-    if (!isLoading && products?.featured?.length > 0) {
-      console.log("products");
-      products?.featured?.forEach((product, index) => {
-        console.log("products", product);
-        const productHTML = generateProductHTML(product);
-        productsContainer?.insertAdjacentHTML("beforeend", productHTML);
-      });
-      // Iterate over the products array
-      if (!isLoading && products?.new_arrival?.length > 0) {
-        products?.new_arrival?.forEach((product, index) => {
-          const productHTML = generateProductHTML(product);
-          productsPageContainer?.insertAdjacentHTML("beforeend", productHTML);
-        });
-      } else if (products?.length === 0) {
-        newArrivalContainer.innerHTML = "";
-      }
-
-      // After replacing the content, capture the updated DOM structure
-      const updatedDom = document.getElementById("dom")?.outerHTML;
-      console.log("updatd dom", updatedDom);
-      setFinalContent(updatedDom);
-    }
-  }, [products, isLoading]);
-
-  useEffect(() => {
-    setHasMounted(true);
-    setTimeout(() => {
-      if (hasMounted) {
-        if (localStorage.getItem("status")) {
-          // Retrieve the status
-          const st = localStorage.getItem("status");
-          if (st === "publish") {
-            captureAndUploadScreenshot();
-          }
-
-          // Use the status value
-          console.log(`Status: ${st}`);
-=======
   useCheckUnauthorized(queryError);
   console.log(customizedTemplateDataHook);
 
@@ -299,7 +165,6 @@ function PreviewPage({ params }) {
 
           // Use the status value
           console.log(`Status: ${status}`);
->>>>>>> main
         } else {
           // Handle the case where "status" does not exist
           console.log("No status found.");
@@ -339,57 +204,6 @@ function PreviewPage({ params }) {
       css: data?.css,
       js: data?.js,
     };
-<<<<<<< HEAD
-    if (finalContent) {
-      updateCustomizedTemplate({
-        originalTemplateId: templateId,
-        modifiedMerhant: merchantId,
-        modifiedPages: modifiedPagesData,
-      })
-        .unwrap()
-        .then((response) => {
-          console.log("Mutation successful:", response);
-        })
-        .catch((error) => {
-          console.error("Mutation failed:", error);
-        });
-    }
-  }, [finalContent, customizedTemplateDataHook?.id, data?.css, data?.js]);
-
-  //
-  useEffect(() => {
-    const productCarts = document.querySelectorAll(".product-cart");
-    let editedProducts = [];
-
-    productCarts.forEach((productCart) => {
-      const imageSrc = productCart.querySelector("img").src;
-      const name = productCart.querySelector("span").textContent.trim();
-      const description = productCart.querySelector("h4").textContent.trim(); // Assuming the second h4 contains the description
-      const price = productCart.querySelector(".price").textContent;
-      const productId = productCart.querySelector(".productId")?.textContent;
-
-      editedProducts.push({
-        image: imageSrc,
-        name: name,
-        description: description,
-        price: price,
-        productId: productId,
-      });
-    });
-    setUpdatedProducts(editedProducts);
-
-    console.log(updatedProducts);
-  }, [finalContent]);
-
-  useEffect(() => {
-    let updatedProductList = [];
-    if (products?.length > 0 && !isLoading) {
-      products?.forEach((originalProduct) => {
-        const updatedProduct = updatedProducts?.find(
-          (updatedProd) => updatedProd.productId === originalProduct.id
-        );
-
-=======
 
     if (finalContent) {
       updateCustomisedTemplate({
@@ -439,7 +253,6 @@ function PreviewPage({ params }) {
           (updatedProd) => updatedProd.productId === originalProduct.id
         );
 
->>>>>>> main
         if (updatedProduct) {
           if (
             updatedProduct.image !== originalProduct.image ||

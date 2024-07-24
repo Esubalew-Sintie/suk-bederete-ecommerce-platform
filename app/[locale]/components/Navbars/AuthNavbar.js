@@ -1,25 +1,43 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import LanguageSwitcher from "../LanguageSwitcher/LanguageSwitcher";
-// components
-import {
-  ClerkProvider,
-  SignInButton,
-  SignOutButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-  useAuth,
-} from "@clerk/nextjs";
-
-import PagesDropdown from "../Dropdowns/PagesDropdown";
 import { Button } from "@/components/ui/button";
-import UserDropdown from "../Dropdowns/UserDropdown";
+import { useRouter } from "next/router";
+import { useGetMerchantQuery } from "@/lib/features/auth/authMerchant";
+import { useGetCustomerQuery } from "@/lib/features/auth/authCustomer";
 
 export default function Navbar(props) {
-  const [navbarOpen, setNavbarOpen] = React.useState(false);
+  const [navbarOpen, setNavbarOpen] = useState(false);
+  const [uniqueId, setUniqueId] = useState(null);
+  const [role, setRole] = useState(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setUniqueId(localStorage.getItem("unique_id"));
+      setRole(localStorage.getItem("role"));
+    }
+  }, []);
+
+  const {
+    data: merchant,
+    error: merchantError,
+    isLoading: isLoadingMerchant,
+  } = useGetMerchantQuery(uniqueId);
+  const {
+    data: customer,
+    error: customerError,
+    isLoading: isLoadingCustomer,
+  } = useGetCustomerQuery(uniqueId);
+
+  const handleProfileClick = () => {
+    if (role === "client") {
+      router.push("/profile");
+    } else if (role === "merchant") {
+      router.push("/admin/settings");
+    }
+  };
+
   return (
     <>
       <nav className="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg">
@@ -48,10 +66,59 @@ export default function Navbar(props) {
           >
             <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
               <li className="flex items-center">
-                <PagesDropdown />
-                {/* <UserDropdown /> */}
+                {uniqueId ? (
+                  <button
+                    className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 mx-3 lg:py-2 flex items-center text-xs uppercase font-bold"
+                    onClick={handleProfileClick}
+                  >
+                    Profile
+                  </button>
+                ) : (
+                  <button
+                    className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 mx-3 lg:py-2 flex items-center text-xs uppercase font-bold"
+                    disabled
+                  >
+                    Profile
+                  </button>
+                )}
               </li>
-              <LanguageSwitcher />
+              {role === "merchant" && (
+                <li className="flex items-center">
+                  <button className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 mx-3 lg:py-2 flex items-center text-xs uppercase font-bold">
+                    <Link href="/admin/dashboard" className={""}>
+                      Dashboard
+                    </Link>
+                  </button>
+                </li>
+              )}
+              {!uniqueId && (
+                <li className="flex items-center">
+                  <button className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 mx-3 lg:py-2 flex items-center text-xs uppercase font-bold">
+                    <Link href="/auth/login" className={""}>
+                      Login
+                    </Link>
+                  </button>
+                </li>
+              )}
+              {!uniqueId && (
+                <li className="flex items-center">
+                  <button className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 mx-3 lg:py-2 flex items-center text-xs uppercase font-bold">
+                    <Link href="/auth/register" className={""}>
+                      Register
+                    </Link>
+                  </button>
+                </li>
+              )}
+              <li className="flex items-center">
+                <button className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 mx-3 lg:py-2 flex items-center text-xs uppercase font-bold">
+                  <Link href="/auth/register" className={""}>
+                    Welcome to Suk-Bederete
+                  </Link>
+                </button>
+              </li>
+              <li className="flex items-center">
+                <LanguageSwitcher />
+              </li>
             </ul>
           </div>
         </div>

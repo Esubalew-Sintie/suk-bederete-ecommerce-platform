@@ -21,19 +21,32 @@ const PagesDropdown = () => {
   };
   return (
     <>
-      <button
-        className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 mx-3 lg:py-2 flex items-center text-xs uppercase font-bold"
-        ref={btnDropdownRef}
-        onClick={(e) => {
-          e.preventDefault();
-          dropdownPopoverShow ? closeDropdownPopover() : openDropdownPopover();
-        }}
-      >
+      <button className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 mx-3 lg:py-2 flex items-center text-xs uppercase font-bold">
         <Link href="/profile" className={""}>
           Profile
         </Link>{" "}
       </button>
-      <button
+      <button className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 mx-3 lg:py-2 flex items-center text-xs uppercase font-bold">
+        <Link href="/admin/dashboard" className={""}>
+          Dashboard
+        </Link>
+      </button>
+      <button className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 mx-3 lg:py-2 flex items-center text-xs uppercase font-bold">
+        <Link href="/auth/login" className={""}>
+          Login
+        </Link>
+      </button>
+      <button className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 mx-3 lg:py-2 flex items-center text-xs uppercase font-bold">
+        <Link href="/auth/register" className={""}>
+          Register
+        </Link>
+      </button>
+      <button className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 mx-3 lg:py-2 flex items-center text-xs uppercase font-bold">
+        <Link href="/auth/register" className={""}>
+          Welcome to Suk-Bederete, Yours Platform
+        </Link>
+      </button>
+      {/* <button
         className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
         ref={btnDropdownRef}
         onClick={(e) => {
@@ -42,8 +55,8 @@ const PagesDropdown = () => {
         }}
       >
         Demo Pages
-      </button>
-      <div
+      </button> */}
+      {/* <div
         ref={popoverDropdownRef}
         className={
           (dropdownPopoverShow ? "block " : "hidden ") +
@@ -57,14 +70,7 @@ const PagesDropdown = () => {
         >
           Admin Layout
         </span>
-        <Link
-          href="/admin/dashboard"
-          className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-          }
-        >
-          Dashboard
-        </Link>
+
         <Link
           href="/admin/settings"
           className={
@@ -97,14 +103,7 @@ const PagesDropdown = () => {
         >
           Auth Layout
         </span>
-        <Link
-          href="/auth/login"
-          className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-          }
-        >
-          Login
-        </Link>
+
         <Link
           href="/auth/register"
           className={
@@ -137,7 +136,7 @@ const PagesDropdown = () => {
         >
           Profile
         </Link>
-      </div>
+      </div> */}
     </>
   );
 };
