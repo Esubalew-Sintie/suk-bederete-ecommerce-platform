@@ -18,6 +18,9 @@ function ThemeLayout({ children }) {
     }));
   };
 
+  console.log("Search Query:", searchQuery);
+  console.log("Filters:", filters);
+
   return (
     <div className="bg-blueGray-800 text-white">
       <Navbar onSearch={handleSearch} onFilter={handleFilter} />

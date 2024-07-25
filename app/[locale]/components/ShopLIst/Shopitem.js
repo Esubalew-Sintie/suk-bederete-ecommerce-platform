@@ -5,9 +5,12 @@ import RatingSet from "./RatingSet";
 import ReactStars from "react-stars"; // Import the ReactStars component
 
 const ShopItem = ({ shop, fullWidth }) => {
+  console.log(shop?.
+    preview_image
+    )
   const router = useRouter();
   const rating = 11;
-
+ console.log("shop", shop);
   // Function to determine the star rating
   const getStarRating = (rating) => {
     if (rating === null || rating === undefined) return 0; // Default to 0 if rating is not provided
@@ -24,7 +27,9 @@ const ShopItem = ({ shop, fullWidth }) => {
       <div className="relative h-80 overflow-hidden">
         <img
           className="transition-all duration-1000 hover:scale-105 inset-0 h-full w-full object-cover"
-          src="https://media.istockphoto.com/id/1206906927/photo/the-word-preview-on-a-blue-keyboard-button.jpg?b=1&s=612x612&w=0&k=20&c=d6ukqegO-dwN5FBgU8aDuhp54tYhmcoMCqVbUeKXRPY="
+          src={shop?.
+            preview_image
+            }
           alt=""
         />
       </div>
@@ -42,7 +47,7 @@ const ShopItem = ({ shop, fullWidth }) => {
             style={{ transitionDuration: "2s" }}
             onClick={() => router.push(`/${shop?.unique_id}`)}
           >
-            Visit
+            Visit 
           </button>
         </div>
         <p className="my-4 font-bold md:text-xl sm:text-lg">
@@ -55,7 +60,7 @@ const ShopItem = ({ shop, fullWidth }) => {
       </div>
       <div className="transition-all duration-500 hover:border-stone-500 hover:bg-stone-200 p-4 border-t border-b text-xs bg-stone-300 text-[#1E293B] flex">
         <span className="hover:ml-2 flex items-center text-xl font-bold transition-all duration-500">
-          Category
+          {shop?.category}
         </span>
 
         <span className="font-bold text-xl ml-auto">
