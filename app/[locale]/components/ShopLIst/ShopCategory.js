@@ -8,9 +8,11 @@ import Footer from "../Footers/Footer";
 
 import { useGetShopsQuery } from "@/lib/features/shop/publicShopSlice";
 
+
 const ShopCategory = () => {
   const { data, error, isLoading } = useGetShopsQuery();
   console.log("shop list data", data);
+
   return (
     <>
       <div className="">

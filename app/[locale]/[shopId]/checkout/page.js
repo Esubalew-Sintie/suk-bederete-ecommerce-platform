@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Loading from "@/app/[locale]/loading";
 import { useRouter } from "next/navigation";
-
+import { useGetshopQuery } from "@/lib/features/shop/publicShopSlice";
 import MenuBar from "../../components/MenuBar/MenuBar";
 import {
   useGetShopQuery,

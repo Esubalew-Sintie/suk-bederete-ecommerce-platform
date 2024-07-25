@@ -12,6 +12,7 @@ import { KeyboardBackspaceOutlined } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import { data } from "autoprefixer";
 import Link from "next/link";
+import { useGetshopCategoryQuery } from "@/lib/features/shop/publicShopSlice";
 import {
   useGetWebBuilderQuery,
   useUpdatePageContentMutation,
@@ -86,6 +87,7 @@ const WithGrapesjs = ({ data, page, templateId }) => {
   const { data: template, isLoading: templateLoading } =
     useGetWebBuilderQuery(templateId);
   const modifier_merchant = useSelector((state) => state.merchant);
+  const {data:ShopCategoryData, error:ShopCategoryError, isLoading:ShopCategoryLoading} = useGetshopCategoryQuery();
   useCheckUnauthorized(queryError);
   useCheckUnauthorized(createShopError);
 

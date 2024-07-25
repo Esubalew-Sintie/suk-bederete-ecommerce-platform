@@ -7,11 +7,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useRouter } from "next/navigation";
+import { useGetshopCategoryQuery } from "@/lib/features/shop/publicShopSlice";
+const { useRouter } = require("next/navigation");
 
 const Dropdown = ({ name, shops }) => {
+  const { data: categoryData, error: categoryError, isLoading: categoryLoading } = useGetshopCategoryQuery();
   const router = useRouter();
-
   return (
     <DropdownMenu className="focus:outline-none">
       <DropdownMenuTrigger className="focus:outline-none focus:border-red-500 px-2">
@@ -33,15 +34,12 @@ const Dropdown = ({ name, shops }) => {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="bg-[#FCD34D] min-w-52 px-9 mt-1 border-[#78350F]  text-[#78350F] font-light">
-        {shops?.map((shop, index) => (
+        {categoryData?.map((category, index) => (
           <React.Fragment key={index}>
             {/* <DropdownMenuLabel className="text-xl">{shop.id}</DropdownMenuLabel> */}
             <DropdownMenuSeparator />
-            <DropdownMenuItem
-              className="text-xl transition-all duration-700 bg-[#FCD34D] hover:text-white hover:bg-transparent ease-in-out font-bold "
-              onClick={() => router.push(`/${shop?.unique_id}`)}
-            >
-              {shop.name}
+            <DropdownMenuItem className="text-xl transition-all duration-700 bg-[#FCD34D] hover:text-white hover:bg-transparent ease-in-out font-bold ">
+              {category.catagory_name}
             </DropdownMenuItem>
           </React.Fragment>
         ))}

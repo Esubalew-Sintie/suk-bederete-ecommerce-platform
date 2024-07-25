@@ -97,7 +97,7 @@ const Prompt2 = ({ link }) => {
         ) : (
           <>
             <div>
-              <label htmlFor="physical_shop_name">physical hop name</label>
+              <label htmlFor="physical_shop_name">physical shop name</label>
               <Input
                 id="physical_shop_name"
                 name="physical_shop_name"

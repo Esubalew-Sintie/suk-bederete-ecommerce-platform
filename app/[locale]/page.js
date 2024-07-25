@@ -177,21 +177,20 @@ export default function Index({ params: { locale } }) {
                   <i className="fas fa-user-friends text-xl"></i>
                 </div>
                 <h3 className="text-3xl mb-2 font-semibold leading-normal">
-                  Working with us is a pleasure
+                  Shopping using our platform a pleasure
                 </h3>
                 <p className="text-lg font-light leading-relaxed mt-4 mb-4 text-blueGray-600">
-                  Don&apos;t let your uses guess by attaching tooltips and
-                  popoves to any element. Just make sure you enable them first
-                  via JavaScript.
+                  Suk-Bederete, Ethiopian e-commerce with an intuitive platform
+                  that streamlines online business operations
                 </p>
                 <p className="text-lg font-light leading-relaxed mt-0 mb-4 text-blueGray-600">
-                  The kit comes with three pre-built pages to help you get
-                  started faster. You can change the text and images and
-                  you&apos;re good to go. Just make sure you enable them first
-                  via JavaScript.
+                  Empowering merchants with customizable templates and advanced
+                  order processing, Suk-Bederete ensures efficient operations
+                  and improved customer engagement, paving the way for a
+                  thriving digital marketplace.
                 </p>
                 <Link href="/" className="font-bold text-blueGray-700 mt-8">
-                  Check Notus NextJS!
+                  Enjoy our platform!
                 </Link>
               </div>
 
@@ -199,7 +198,7 @@ export default function Index({ params: { locale } }) {
                 <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-blueGray-700">
                   <img
                     alt="..."
-                    src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80"
+                    src="https://images.unsplash.com/photo-1688561808434-886a6dd97b8c?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                     className="w-full align-middle rounded-t-lg"
                   />
                   <blockquote className="relative p-8 mb-4">
@@ -218,9 +217,9 @@ export default function Index({ params: { locale } }) {
                       Top Notch Services
                     </h4>
                     <p className="text-md font-light mt-2 text-white">
-                      The Arctic Ocean freezes every winter and much of the
-                      sea-ice then thaws every summer, and that process will
-                      continue whatever happens.
+                      Your all-in-one e-commerce solution, blending effortless
+                      store customization, smart inventory management, and a
+                      smooth shopping experience on any device.
                     </p>
                   </blockquote>
                 </div>
@@ -264,11 +263,11 @@ export default function Index({ params: { locale } }) {
                   <div className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-blueGray-200">
                     <i className="fas fa-rocket text-xl"></i>
                   </div>
-                  <h3 className="text-3xl font-semibold">A growing company</h3>
+                  <h3 className="text-3xl font-semibold">A growing platform</h3>
                   <p className="mt-4 text-lg leading-relaxed text-blueGray-500">
-                    The extension comes with three pre-built pages to help you
-                    get started faster. You can change the text and images and
-                    you&apos;re good to go.
+                    The extension comes with three pre-built page template to
+                    help you get started faster. You can change the text and
+                    images and you&apos;re good to go.
                   </p>
                   <ul className="list-none mt-6">
                     <li className="py-2">
@@ -280,7 +279,7 @@ export default function Index({ params: { locale } }) {
                         </div>
                         <div>
                           <h4 className="text-blueGray-500">
-                            Carefully crafted components
+                            Carefully crafted templates
                           </h4>
                         </div>
                       </div>
@@ -294,7 +293,7 @@ export default function Index({ params: { locale } }) {
                         </div>
                         <div>
                           <h4 className="text-blueGray-500">
-                            Amazing page examples
+                            Amazing web builder
                           </h4>
                         </div>
                       </div>
@@ -307,9 +306,7 @@ export default function Index({ params: { locale } }) {
                           </span>
                         </div>
                         <div>
-                          <h4 className="text-blueGray-500">
-                            Dynamic components
-                          </h4>
+                          <h4 className="text-blueGray-500">Dynamic pages</h4>
                         </div>
                       </div>
                     </li>
@@ -324,11 +321,15 @@ export default function Index({ params: { locale } }) {
           <div className="container mx-auto px-4">
             <div className="flex flex-wrap justify-center text-center mb-24">
               <div className="w-full lg:w-6/12 px-4">
-                <h2 className="text-4xl font-semibold">Here are our heroes</h2>
+                <h2 className="text-4xl font-semibold">
+                  Here are our testimonials
+                </h2>
                 <p className="text-lg leading-relaxed m-4 text-blueGray-500">
-                  According to the National Oceanic and Atmospheric
-                  Administration, Ted, Scambos, NSIDClead scentist, puts the
-                  potentially record maximum.
+                  Discover what our users are saying about Suk-Bederete! From
+                  streamlined operations to seamless shopping experiences, our
+                  platform is transforming e-commerce in Ethiopia. Hear directly
+                  from merchants and customers who have experienced the ease and
+                  efficiency of our innovative solutions.
                 </p>
               </div>
             </div>
@@ -343,7 +344,11 @@ export default function Index({ params: { locale } }) {
                   <div className="pt-6 text-center">
                     <h5 className="text-xl font-bold">Ryan Tompson</h5>
                     <p className="mt-1 text-sm text-blueGray-400 uppercase font-semibold">
-                      Web Developer
+                      Merchant
+                    </p>
+                    <p className="mt-1 text-sm text-blueGray-400 uppercase font-semibold">
+                      Shopping on Suk-Bederete is a breeze! It easy to find and
+                      purchase products quickly. I love the convenience!
                     </p>
                     <div className="mt-6">
                       <button
@@ -378,7 +383,11 @@ export default function Index({ params: { locale } }) {
                   <div className="pt-6 text-center">
                     <h5 className="text-xl font-bold">Romina Hadid</h5>
                     <p className="mt-1 text-sm text-blueGray-400 uppercase font-semibold">
-                      Marketing Specialist
+                      Merchant
+                    </p>
+                    <p className="mt-1 text-sm text-blueGray-400 uppercase font-semibold">
+                      Customizing my online store has never been easier, and my
+                      sales have increased significantly!
                     </p>
                     <div className="mt-6">
                       <button
@@ -407,7 +416,11 @@ export default function Index({ params: { locale } }) {
                   <div className="pt-6 text-center">
                     <h5 className="text-xl font-bold">Alexa Smith</h5>
                     <p className="mt-1 text-sm text-blueGray-400 uppercase font-semibold">
-                      UI/UX Designer
+                      Customer
+                    </p>
+                    <p className="mt-1 text-sm text-blueGray-400 uppercase font-semibold">
+                      I always find what I need, and the delivery is prompt and
+                      reliable.
                     </p>
                     <div className="mt-6">
                       <button
@@ -442,7 +455,11 @@ export default function Index({ params: { locale } }) {
                   <div className="pt-6 text-center">
                     <h5 className="text-xl font-bold">Jenna Kardi</h5>
                     <p className="mt-1 text-sm text-blueGray-400 uppercase font-semibold">
-                      Founder and CEO
+                      Merchant
+                    </p>
+                    <p className="mt-1 text-sm text-blueGray-400 uppercase font-semibold">
+                      Suk-Bederete has streamlined my business operations,
+                      saving me time and effort.
                     </p>
                     <div className="mt-6">
                       <button
@@ -505,9 +522,7 @@ export default function Index({ params: { locale } }) {
                   Build something
                 </h2>
                 <p className="text-lg leading-relaxed mt-4 mb-4 text-blueGray-400">
-                  Put the potentially record low maximum sea ice extent tihs
-                  year down to low ice. According to the National Oceanic and
-                  Atmospheric Administration, Ted, Scambos.
+                  Experience the future of e-commerce with Suk-Bederete
                 </p>
               </div>
             </div>
@@ -519,10 +534,6 @@ export default function Index({ params: { locale } }) {
                 <h6 className="text-xl mt-5 font-semibold text-white">
                   Excelent Services
                 </h6>
-                <p className="mt-2 mb-4 text-blueGray-400">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card&apos;s content.
-                </p>
               </div>
               <div className="w-full lg:w-3/12 px-4 text-center">
                 <div className="text-blueGray-800 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
@@ -531,10 +542,6 @@ export default function Index({ params: { locale } }) {
                 <h5 className="text-xl mt-5 font-semibold text-white">
                   Grow your market
                 </h5>
-                <p className="mt-2 mb-4 text-blueGray-400">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card&apos;s content.
-                </p>
               </div>
               <div className="w-full lg:w-3/12 px-4 text-center">
                 <div className="text-blueGray-800 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
@@ -543,10 +550,6 @@ export default function Index({ params: { locale } }) {
                 <h5 className="text-xl mt-5 font-semibold text-white">
                   Launch time
                 </h5>
-                <p className="mt-2 mb-4 text-blueGray-400">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card&apos;s content.
-                </p>
               </div>
             </div>
           </div>
