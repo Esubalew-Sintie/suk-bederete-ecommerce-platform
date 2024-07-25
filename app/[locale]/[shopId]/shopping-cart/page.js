@@ -2,8 +2,9 @@
 import React, { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import Loading from "@/app/[locale]/loading";
-import MenuBar from "../../components/MenuBar/MenuBar";
 import { useGetshopQuery } from "@/lib/features/shop/publicShopSlice";
+import MenuBar from "../../components/MenuBar/MenuBar";
+
 
 export default function cartPage({ params }) {
   const shopId = params.shopId;

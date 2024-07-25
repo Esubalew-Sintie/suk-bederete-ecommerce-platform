@@ -172,12 +172,13 @@ function PreviewPage({ params }) {
       }
     }, 2000); // Adjust the delay as needed
   }, [hasMounted]);
-  function generateProductHTML(product, index) {
-    const imagePath = `${process.env.NEXT_PUBLIC_BASE_URL}${product.image}`;
+  function generateProductHTML(product) {
+    // const imagePath = `${process.env.NEXT_PUBLIC_BASE_URL}${product.image}`;
     return `
-       <div class="product-cart" id=${index}>
-      <img src="${imagePath}" alt="Dynamic Product" />
-        <h4 class="name">${product?.name}</h4>
+       <div class="product-cart">
+      <img src="${product.image}" alt="Dynamic Product" />
+      <span>${product?.name}</span>
+        <h4>${product?.description}</h4>
         <div class="stars">
           <svg
                   style="display: inline"

@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['127.0.0.1'], // Allow loading images from localhost
+    domains: ['isecqywtiwzstvxppsbd.supabase.co'],// Allow loading images from localhost
   },
   async rewrites() {
     return [
