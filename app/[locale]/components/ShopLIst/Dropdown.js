@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useGetshopCategoryQuery } from "@/lib/features/shop/publicShopSlice";
+const { useRouter } = require("next/navigation");
 
 const Dropdown = ({ name, shops }) => {
   const { data: categoryData, error: categoryError, isLoading: categoryLoading } = useGetshopCategoryQuery();
