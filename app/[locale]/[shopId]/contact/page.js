@@ -29,16 +29,16 @@ export default function ContactPage({ params }) {
     }
   }, [data]);
 
-  useEffect(() => {
-    const cartItemNumber = document.getElementById("cart-item-number");
-    if (cartItemNumber) {
-      if (cartItems.length !== 0) {
-        cartItemNumber.textContent = cartItems.length;
-      } else {
-        cartItemNumber.textContent = "";
-      }
-    }
-  }, [cartItems]);
+  // useEffect(() => {
+  //   const cartItemNumber = document.getElementById("cart-item-number");
+  //   if (cartItemNumber) {
+  //     if (cartItems.length !== 0) {
+  //       cartItemNumber.textContent = cartItems.length;
+  //     } else {
+  //       cartItemNumber.textContent = "";
+  //     }
+  //   }
+  // }, [cartItems, contactPage.html]);
 
   useEffect(() => {
     const handleClick = (event, link) => {
@@ -65,6 +65,15 @@ export default function ContactPage({ params }) {
     const contactLink = document.getElementById("contact");
     const aboutLink = document.getElementById("about");
     const shopCartLink = document.getElementById("shopping-cart");
+
+    const cartItemNumber = document.getElementById("cart-item-number");
+    if (cartItemNumber) {
+      if (cartItems.length !== 0) {
+        cartItemNumber.textContent = cartItems.length;
+      } else {
+        cartItemNumber.textContent = "";
+      }
+    }
 
     if (checkOutLink) {
       checkOutLink.addEventListener("click", (event) =>

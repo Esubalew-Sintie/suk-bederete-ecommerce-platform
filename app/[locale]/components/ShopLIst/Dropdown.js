@@ -11,6 +11,7 @@ import { useGetshopCategoryQuery } from "@/lib/features/shop/publicShopSlice";
 
 const Dropdown = ({ name, shops }) => {
   const { data: categoryData, error: categoryError, isLoading: categoryLoading } = useGetshopCategoryQuery();
+  const router = useRouter();
   return (
     <DropdownMenu className="focus:outline-none">
       <DropdownMenuTrigger className="focus:outline-none focus:border-red-500 px-2">

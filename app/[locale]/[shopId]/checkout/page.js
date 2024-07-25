@@ -1,16 +1,26 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
 import Loading from "@/app/[locale]/loading";
 import { useRouter } from "next/navigation";
 import { useGetshopQuery } from "@/lib/features/shop/publicShopSlice";
 import MenuBar from "../../components/MenuBar/MenuBar";
+import {
+  useGetShopQuery,
+  useGetShopWithIdQuery,
+} from "@/lib/features/shop/shop";
 
 export default function Shop({ params }) {
   const shopId = params.shopId;
+  const unique_id = localStorage.getItem("unique_id");
   const [checkOutPage, setCheckOutPage] = useState({});
-  const { data, error, isLoading } = useGetshopQuery(shopId);
+  const { data, error, isLoading } = useGetShopQuery(shopId);
   const router = useRouter();
-
+  const {
+    data: shopsData,
+    error: shopsError,
+    isLoading: shopsLoading,
+  } = useGetShopWithIdQuery(shopId);
   const [customerData, setCustomerData] = useState({});
 
   const storedData = localStorage.getItem("cart");
@@ -31,16 +41,16 @@ export default function Shop({ params }) {
     }
   }, [data]);
 
-  useEffect(() => {
-    const cartItemNumber = document.getElementById("cart-item-number");
-    if (cartItemNumber) {
-      if (cartItems.length !== 0) {
-        cartItemNumber.textContent = cartItems.length;
-      } else {
-        cartItemNumber.textContent = "";
-      }
-    }
-  }, [cartItems]);
+  // useEffect(() => {
+  //   const cartItemNumber = document.getElementById("cart-item-number");
+  //   if (cartItemNumber) {
+  //     if (cartItems.length !== 0) {
+  //       cartItemNumber.textContent = cartItems.length;
+  //     } else {
+  //       cartItemNumber.textContent = "";
+  //     }
+  //   }
+  // }, [cartItems]);
 
   useEffect(() => {
     const handleClick = (event, link) => {
@@ -54,19 +64,34 @@ export default function Shop({ params }) {
       } else if (link === "about") {
         router.push(`/${shopId}/about`);
       } else if (link === "shopping-cart") {
-        router.push(`/${shopId}/shopping-cart`);
+        router.pushashe(`/${shopId}/shopping-cart`);
       } else if (link === "checkout") {
         router.push(`/${shopId}/checkout`);
       } else if (link == "home") {
         router.push(`/${shopId}`);
       }
     };
+
     const checkOutLink = document.getElementById("checkout");
     const homeLink = document.getElementById("home");
     const blogLink = document.getElementById("blog");
     const contactLink = document.getElementById("contact");
     const aboutLink = document.getElementById("about");
     const shopCartLink = document.getElementById("shopping-cart");
+    const proceedPaymentButton = document.getElementById("Proceed-payment-btn");
+    if (proceedPaymentButton) {
+      console.log("proceed to payment event listener add");
+      proceedPaymentButton.addEventListener("click", handleSubmit);
+    }
+
+    const cartItemNumber = document.getElementById("cart-item-number");
+    if (cartItemNumber) {
+      if (cartItems.length !== 0) {
+        cartItemNumber.textContent = cartItems.length;
+      } else {
+        cartItemNumber.textContent = "";
+      }
+    }
 
     if (checkOutLink) {
       checkOutLink.addEventListener("click", (event) =>
@@ -95,37 +120,8 @@ export default function Shop({ params }) {
         handleClick(event, "shopping-cart")
       );
     }
-    const handleSubmit = () => {
-      const firstName =
-        document.getElementById("first-name-input")?.value || "";
-      const lastName = document.getElementById("last-name-input")?.value || "";
-      const phoneNumber =
-        document.getElementById("phone-number-input")?.value || "";
-      const streetAddress =
-        document.getElementById("street-address-input")?.value || "";
-      const city = document.getElementById("city-input")?.value || "";
-      const country = document.getElementById("country-input");
-      const state = document.getElementById("state-input")?.value || "";
-      const zipCode = document.getElementById("zip-code-input")?.value || "";
+    console.log("cart items in the local storage checkout", cartItems);
 
-      const checkoutData = {
-        firstName,
-        lastName,
-        phoneNumber,
-        streetAddress,
-        city,
-        state,
-        zipCode,
-      };
-      setCustomerData(checkoutData);
-      console.log("Checkout Data:", checkoutData);
-    };
-
-    const paymentButton = document.getElementById("Payment-method");
-    if (paymentButton) {
-      console.log("event listener add");
-      paymentButton.addEventListener("click", handleSubmit);
-    }
     // Cleanup event listener on component unmount
     return () => {
       const blogLink = document.getElementById("blog");
@@ -140,7 +136,110 @@ export default function Shop({ params }) {
         console.log("removed event to ", index);
       });
     };
-  }, [router, shopId, checkOutPage?.html, customerData]);
+  }, [router, shopId, checkOutPage?.html, cartItems]);
+
+  useEffect(() => {
+    const proceedPaymentButton = document.getElementById("Proceed-payment-btn");
+    if (proceedPaymentButton) {
+      console.log("proceed to payment event listener add in use Effect");
+      proceedPaymentButton.addEventListener("click", handleSubmit);
+    }
+  }, [customerData]);
+
+  const handleSubmit = async () => {
+    console.log("handle submit called");
+    let first_name = document.getElementById("first-name-input")?.value;
+    let last_name = document.getElementById("last-name-input")?.value;
+    let phone_number = document.getElementById("phone-number-input")?.value;
+    let address1 = document.getElementById("province-address-input")?.value;
+    let address2 = document.getElementById("street-address-input")?.value;
+    let city = document.getElementById("city-input")?.value;
+    let country = document.getElementById("country-input").value;
+    let state = document.getElementById("state-input")?.value;
+    let zip_code = document.getElementById("zip-code-input")?.value;
+    const checkoutData = {
+      first_name,
+      last_name,
+      phone_number,
+      address2,
+      address1,
+      country,
+      city,
+      state,
+      zip_code,
+    };
+    setCustomerData(checkoutData);
+
+    console.log("checkout data ", checkoutData);
+    console.log("handle form submit called");
+
+    try {
+      const response = await fetch(
+        `http://localhost:8000/auth/customer/update/${unique_id}/`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...checkoutData }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to submit form");
+      }
+
+      const result = await response.json();
+      console.log("Customer created:", result);
+      // Handle successful creation, e.g., redirect or show a success message
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      // Handle error, e.g., show an error message
+    }
+
+    console.log("handle order executed");
+
+    let totalPrice = 0;
+
+    cartItems.forEach((item) => {
+      totalPrice += parseFloat(item.price) * parseInt(item.quantity);
+    });
+    console.log(shopsData);
+    const Order = {
+      customer: unique_id,
+      merchant: shopsData?.owner?.unique_id,
+      total_amount: totalPrice,
+      order_status: "Pending",
+      payment_status: "Paid",
+      payment_method: "Credit Card",
+      shipping_option: 1,
+      order_items: cartItems.map((item) => ({
+        product: item.id,
+        quantity_ordered: item.quantity,
+      })),
+    };
+    console.log(Order);
+    try {
+      const response = await fetch(`http://localhost:8000/order/orders/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(Order),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to submit form");
+      }
+
+      const result = await response.json();
+      console.log("Customer created:", result);
+      // Handle successful creation, e.g., redirect or show a success message
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      // Handle error, e.g., show an error message
+    }
+  };
+
+  const handleOrderData = () => {};
 
   if (isLoading) {
     return <Loading />;

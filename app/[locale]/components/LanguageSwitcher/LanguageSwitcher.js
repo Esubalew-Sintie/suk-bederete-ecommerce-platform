@@ -1,4 +1,6 @@
+"use client";
 import React, { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 
 const LanguageSwitcher = () => {
   // Step 1: Retrieve the default language from the cookie
@@ -13,10 +15,13 @@ const LanguageSwitcher = () => {
 
   const handleLanguageChange = (event) => {
     const newLanguage = event.target.value;
+
     console.log("new language", newLanguage);
     const date = new Date();
-    date.setFullYear(date.getFullYear() + 1); // Set cookie to expire in one year
-    document.cookie = `NEXT_LOCALE=${newLanguage}; path=/; expires=${date.toUTCString()}`;
+    date.setTime(date.getTime() + 30 * 24 * 60 * 60 * 1000);
+    Cookies.set("NEXT_LOCALE", newLanguage, { path: "/" });
+
+    // document.cookie = `NEXT_LOCALE=${newLanguage}; path=/; expires=${date.toUTCString()}`;
     window.location.reload();
   };
 

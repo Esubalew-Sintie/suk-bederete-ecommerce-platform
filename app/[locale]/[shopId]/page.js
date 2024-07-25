@@ -45,6 +45,7 @@ export default function Shop({ params }) {
       const aboutLink = document.getElementById("about");
       const shopCartLink = document.getElementById("shopping-cart");
 
+<<<<<<< HEAD
       if (blogLink) {
         blogLink.addEventListener("click", (event) => handleClick(event, "blog"));
       }
@@ -91,6 +92,40 @@ export default function Shop({ params }) {
     attachEventListeners();
     return () => detachEventListeners();
   }, [router, shopId, homepage?.html]);
+=======
+    const addToCartButtons = document.querySelectorAll(
+      ".product-cart .add-to-cart-button"
+    );
+    addToCartButtons.forEach((button, index) => {
+      button.id = `${index}`;
+      console.log("attached event to ", index);
+      button.addEventListener("click", addToCart);
+    });
+
+    const productDetailButton = document.querySelectorAll(
+      ".product-cart .product-detail-button"
+    );
+    productDetailButton.forEach((button) => {
+      button.addEventListener("click", handleProductDetail);
+    });
+
+    // Cleanup event listener on component unmount
+    // return () => {
+    //   const blogLink = document.getElementById("blog");
+    //   if (blogLink) {
+    //     blogLink.removeEventListener("click", handleClick);
+    //   }
+    //   const addToCartButtons = document.querySelectorAll(
+    //     ".product-cart button"
+    //   );
+    //   addToCartButtons.forEach((button, index) => {
+    //     button.id = `${index}`;
+    //     console.log("removed event to ", index);
+    //     return button.removeEventListener("click", addToCart);
+    //   });
+    // };
+  }, [router, shopId, homepage?.html, cart, numberOfItems]);
+>>>>>>> main
 
   useEffect(() => {
     const cartItemNumber = document.getElementById("cart-item-number");

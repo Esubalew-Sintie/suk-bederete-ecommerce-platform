@@ -47,7 +47,7 @@ export default function Login({ params: { locale } }) {
   const [responseMessage, setResponseMessage] = useState("");
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
-
+  const unique_id = localStorage.getItem("unique_id");
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -66,11 +66,11 @@ export default function Login({ params: { locale } }) {
     skip: !merchantId,
   });
 
-  useEffect(() => {
-    if (merchantId) {
-      router.back();
-    }
-  }, [merchantId]);
+  // useEffect(() => {
+  //   if (unique_id) {
+  //     router.back();
+  //   }
+  // }, [unique_id]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -101,15 +101,20 @@ export default function Login({ params: { locale } }) {
       console.log("Response:", response);
 
       if (response?.tokens) {
-        console.log(response.message);
-        dispatch(setMerchant(response.data));
-        console.log("unique_id:", response.data.unique_id);
-        localStorage.setItem("unique_id", response.data.unique_id);
-        localStorage.setItem("access_token", response.tokens.access);
-        localStorage.setItem("refresh_token", response.tokens.refresh);
-        document.cookie = `access_token=${response.tokens.access}; path=/`;
-        document.cookie = `refresh_token=${response.tokens.refresh}; path=/`;
-        setMerchantId(response.data.unique_id);
+        if (response?.tokens) {
+          console.log("uid", response?.data?.unique_id);
+          localStorage.setItem("unique_id", response?.data?.unique_id);
+          localStorage.setItem("role", response?.data?.user?.role);
+          document.cookie = `access_token=${response?.tokens?.access}; path=/`;
+          document.cookie = `refresh_token=${response?.tokens?.refresh}; path=/`;
+          // Store tokens in localStorage
+          localStorage.setItem("access_token", response.tokens?.access);
+          localStorage.setItem("refresh_token", response.tokens?.refresh);
+          dispatch(setMerchant(response?.data));
+          router.back();
+        } else {
+          throw new Error("Invalid response structure");
+        }
       } else {
         throw new Error("Invalid response structure");
       }
