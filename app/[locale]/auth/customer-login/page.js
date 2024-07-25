@@ -102,7 +102,7 @@ export default function Login({ params: { locale } }) {
 
       if (response?.tokens) {
         if (response?.tokens) {
-          console.log("uid", response?.data?.unique_id);
+          console.log("role", response?.data?.user?.role);
           localStorage.setItem("unique_id", response?.data?.unique_id);
           localStorage.setItem("role", response?.data?.user?.role);
           document.cookie = `access_token=${response?.tokens?.access}; path=/`;
@@ -259,7 +259,10 @@ export default function Login({ params: { locale } }) {
                   </Link>
                 </div>
                 <div className="w-1/2 text-right">
-                  <Link href="/auth/register" className="text-blueGray-200">
+                  <Link
+                    href="/auth/customer-register"
+                    className="text-blueGray-200"
+                  >
                     <small>{translations.t("create_new_account")}</small>
                   </Link>
                 </div>

@@ -38,7 +38,7 @@ export default function Register({ params: { locale } }) {
         localStorage.setItem("access_token", response.tokens?.access);
         localStorage.setItem("refresh_token", response.tokens?.refresh);
         dispatch(setMerchant(response?.data));
-        router.push("/");
+        router.back();
       } else {
         throw new Error("Invalid response structure");
       }
@@ -176,7 +176,7 @@ export default function Register({ params: { locale } }) {
                     <span className="text-sm">
                       {translations.t("already have account?")}{" "}
                       <Link
-                        href="/auth/login"
+                        href="/auth/customer-login"
                         className="font-bold text-lightBlue-500"
                       >
                         {translations.t("Sign in")}

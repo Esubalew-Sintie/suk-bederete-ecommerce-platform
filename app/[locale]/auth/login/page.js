@@ -125,7 +125,7 @@ export default function Login({ params: { locale } }) {
         localStorage.setItem("refresh_token", response.tokens?.refresh);
 
         dispatch(setMerchant(response?.data));
-        router.push("/prompt/prompt");
+        router.push("admin/dashboard");
       } else {
         throw new Error("Invalid response structure");
       }

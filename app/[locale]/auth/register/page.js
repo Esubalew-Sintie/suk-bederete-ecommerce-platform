@@ -41,6 +41,7 @@ export default function Register({ params: { locale } }) {
         localStorage.setItem("refresh_token", response.tokens?.refresh);
         dispatch(setMerchant(response?.data));
         router.push("/prompt/prompt");
+        redirect;
       } else {
         throw new Error("Invalid response structure");
       }

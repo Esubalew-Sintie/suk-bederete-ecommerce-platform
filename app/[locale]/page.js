@@ -20,9 +20,11 @@ export default function Index({ params: { locale } }) {
   const merchantId = localStorage.getItem("unique_id");
   const handleClick = () => {
     if (merchantId) {
-      router.push("/prompt/prompt");
+      router.push("/admin/dashboard");
     } else {
-      router.push("auth/login");
+      const currentPath = router.asPath;
+      console.log(currentPath, "currentpath");
+      router.push(`/login?redirect=${encodeURIComponent(currentPath)}`);
     }
   };
   const [translations, setTranslations] = useState({
