@@ -27,16 +27,16 @@ const ShopCategory = () => {
           <span className="w-[30%] border-[#1E293B] border-t-[1px] ">
             <hr className="border-none  " />
           </span>
-          <span className="border border-[#1E293B] py-2 px-4 rounded-full">
+          {/* <span className="border border-[#1E293B] py-2 px-4 rounded-full">
             Top Rated Shops{" "}
-          </span>
+          </span> */}
           <span className="w-[30%] border-[#1E293B] border-t-[1px]">
             <hr className="border-none  " />
           </span>
         </div>
-        <div className="mx-auto  w-[95vw]">
+        {/* <div className="mx-auto  w-[95vw]">
           <ProductSlider />
-        </div>
+        </div> */}
         <div className="  max-w-[90vw] mx-auto my-14">
           <div className="flex  items-center justify-center my-10 text-[#1E293B] md:text-2xl sm:xl font-normal">
             <span className="w-[30%] border-[#1E293B] border-t-[1px] ">

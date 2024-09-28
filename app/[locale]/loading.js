@@ -3,6 +3,14 @@ import "../globals.css";
 
 import { RotatingLines } from "react-loader-spinner";
 
+export default function Loading() {
+  return (
+    <div className="loader-container">
+      <Loader />
+    </div>
+  );
+}
+
 function Loader() {
   return (
     <RotatingLines
@@ -12,13 +20,5 @@ function Loader() {
       width="96"
       visible={true}
     />
-  );
-}
-
-export default function Loading() {
-  return (
-    <div className="loader-container">
-      <Loader />
-    </div>
   );
 }

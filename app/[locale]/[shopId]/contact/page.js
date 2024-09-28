@@ -29,16 +29,16 @@ export default function ContactPage({ params }) {
     }
   }, [data]);
 
-  // useEffect(() => {
-  //   const cartItemNumber = document.getElementById("cart-item-number");
-  //   if (cartItemNumber) {
-  //     if (cartItems.length !== 0) {
-  //       cartItemNumber.textContent = cartItems.length;
-  //     } else {
-  //       cartItemNumber.textContent = "";
-  //     }
-  //   }
-  // }, [cartItems, contactPage.html]);
+  useEffect(() => {
+    const cartItemNumber = document.getElementById("cart-item-number");
+    if (cartItemNumber) {
+      if (cartItems.length !== 0) {
+        cartItemNumber.textContent = cartItems.length;
+      } else {
+        cartItemNumber.textContent = "";
+      }
+    }
+  }, [cartItems, contactPage.html]);
 
   useEffect(() => {
     const handleClick = (event, link) => {

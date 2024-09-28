@@ -7,8 +7,8 @@ import { useRouter } from "next/router";
 import { useGetMerchantQuery } from "@/lib/features/auth/authMerchant";
 import { useGetCustomerQuery } from "@/lib/features/auth/authCustomer";
 
-export default function Navbar(props) {
-  const [navbarOpen, setNavbarOpen] = useState(false);
+export default function Navbar({ setNavbarOpen, navbarOpen }) {
+  // const [navbarOpen, setNavbarOpen] = useState(false);
   const [uniqueId, setUniqueId] = useState(null);
   const [role, setRole] = useState(null);
 
@@ -41,10 +41,13 @@ export default function Navbar(props) {
             >
               Suk-Bederete
             </Link>
+            <div onClick={() => setNavbarOpen(false)} className=" w-full"></div>
             <button
               className="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
               type="button"
-              onClick={() => setNavbarOpen(!navbarOpen)}
+              onClick={(e) => {
+                setNavbarOpen(!navbarOpen);
+              }}
             >
               <i className="text-white fas fa-bars"></i>
             </button>
@@ -56,36 +59,32 @@ export default function Navbar(props) {
             }
             id="example-navbar-warning"
           >
-            <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
-              <li className="flex items-center">
-                {uniqueId ? (
-                  <button className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 mx-3 lg:py-2 flex items-center text-xs uppercase font-bold">
-                    <Link
-                      href={
-                        role === "merchant" ? "/admin/settings" : "/profile"
-                      }
-                    >
-                      Profile
-                    </Link>
-                  </button>
-                ) : (
-                  <button
-                    className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 mx-3 lg:py-2 flex items-center text-xs uppercase font-bold bg-red-300"
-                    disabled
-                  >
-                    Profile
-                  </button>
-                )}
-              </li>
-              {role === "merchant" && (
-                <li className="flex items-center">
-                  <button className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 mx-3 lg:py-2 flex items-center text-xs uppercase font-bold">
-                    <Link href="/admin/dashboard" className={""}>
-                      Dashboard
-                    </Link>
-                  </button>
-                </li>
+            <ul className="flex flex-col lg:flex-row list-none lg:ml-auto sm:pl-10 pb-10">
+              {uniqueId && (
+                <>
+                  <li className="flex items-center">
+                    <button className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 mx-3 lg:py-2 flex items-center text-xs uppercase font-bold">
+                      <Link
+                        href={
+                          role === "merchant" ? "/admin/settings" : "/profile"
+                        }
+                      >
+                        Profile
+                      </Link>
+                    </button>
+                  </li>
+                  {role === "merchant" && (
+                    <li className="flex items-center">
+                      <button className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 mx-3 lg:py-2 flex items-center text-xs uppercase font-bold">
+                        <Link href="/admin/dashboard" className={""}>
+                          Dashboard
+                        </Link>
+                      </button>
+                    </li>
+                  )}
+                </>
               )}
+
               {!uniqueId && (
                 <li className="flex items-center">
                   <button className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 mx-3 lg:py-2 flex items-center text-xs uppercase font-bold">

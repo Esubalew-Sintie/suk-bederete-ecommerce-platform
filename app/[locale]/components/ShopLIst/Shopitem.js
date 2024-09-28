@@ -5,12 +5,10 @@ import RatingSet from "./RatingSet";
 import ReactStars from "react-stars"; // Import the ReactStars component
 
 const ShopItem = ({ shop, fullWidth }) => {
-  console.log(shop?.
-    preview_image
-    )
+  console.log(shop?.preview_image);
   const router = useRouter();
   const rating = 11;
- console.log("shop", shop);
+  console.log("shop", shop);
   // Function to determine the star rating
   const getStarRating = (rating) => {
     if (rating === null || rating === undefined) return 0; // Default to 0 if rating is not provided
@@ -27,9 +25,7 @@ const ShopItem = ({ shop, fullWidth }) => {
       <div className="relative h-80 overflow-hidden">
         <img
           className="transition-all duration-1000 hover:scale-105 inset-0 h-full w-full object-cover"
-          src={shop?.
-            preview_image
-            }
+          src={`http://localhost:8000/${shop?.preview_image}`}
           alt=""
         />
       </div>
@@ -47,7 +43,7 @@ const ShopItem = ({ shop, fullWidth }) => {
             style={{ transitionDuration: "2s" }}
             onClick={() => router.push(`/${shop?.unique_id}`)}
           >
-            Visit 
+            Visit
           </button>
         </div>
         <p className="my-4 font-bold md:text-xl sm:text-lg">

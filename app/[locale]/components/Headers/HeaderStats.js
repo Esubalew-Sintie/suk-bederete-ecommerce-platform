@@ -10,7 +10,7 @@ export default function HeaderStats({
   subtitle3,
   subtitle4,
 }) {
-  const merchant_id = localStorage.getItem("unique_id");
+  const merchant_id = ge.getItem("unique_id");
   const { data, isLoading, isError } = useGetProductsQuery(merchant_id);
   const [outOfStocks, setOutOfStock] = useState([]);
   const [notification, setNotification] = useState([]);

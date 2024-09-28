@@ -5,7 +5,6 @@ import Loading from "@/app/[locale]/loading";
 import { useGetshopQuery } from "@/lib/features/shop/publicShopSlice";
 import MenuBar from "../../components/MenuBar/MenuBar";
 
-
 export default function cartPage({ params }) {
   const shopId = params.shopId;
   const [shopCartPage, setShopCartPage] = useState({});
@@ -133,7 +132,7 @@ export default function cartPage({ params }) {
           <span class="delete-item-btn" data-id="${item.id}"><button>Remove</button></span>
         </div>
         <div class="image" >
-          <img src="${item.image}" alt="${item.name}" />
+          <img src="http://localhost:8000/${item.image}" alt="${item.name}" />
         </div>
         <div class="description">
           <span class="name">${item.name}</span>

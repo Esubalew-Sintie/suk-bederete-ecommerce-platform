@@ -20,7 +20,6 @@ const getOptions = (plugin) => {
     let blockCategories = value.blockCategories;
     optMap.set(keyString, { blocks, blockCategories });
   });
-  //console.log(Object.fromEntries(optMap))
   return Object.fromEntries(optMap);
 };
 

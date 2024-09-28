@@ -28,16 +28,16 @@ export default function BlogPage({ params }) {
     }
   }, [data]);
 
-  // useEffect(() => {
-  //   const cartItemNumber = document.getElementById("cart-item-number");
-  //   if (cartItemNumber) {
-  //     if (cartItems.length !== 0) {
-  //       cartItemNumber.textContent = cartItems.length;
-  //     } else {
-  //       cartItemNumber.textContent = "";
-  //     }
-  //   }
-  // }, [cartItems]);
+  useEffect(() => {
+    const cartItemNumber = document.getElementById("cart-item-number");
+    if (cartItemNumber) {
+      if (cartItems.length !== 0) {
+        cartItemNumber.textContent = cartItems.length;
+      } else {
+        cartItemNumber.textContent = "";
+      }
+    }
+  }, [cartItems]);
 
   useEffect(() => {
     const handleClick = (event, link) => {

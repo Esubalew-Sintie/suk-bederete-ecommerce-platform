@@ -131,7 +131,7 @@ export default function Shop({ params }) {
       productNameElement &&
       productPriceElement
     ) {
-      productImageElement.src = storedProductItem.image;
+      productImageElement.src = `http://localhost:8000/${storedProductItem.image}`;
       productNameElement.textContent = storedProductItem.name;
       productPriceElement.textContent = storedProductItem.price;
     }

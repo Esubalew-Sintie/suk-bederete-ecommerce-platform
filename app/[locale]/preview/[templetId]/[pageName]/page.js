@@ -41,8 +41,14 @@ function PreviewPage({ params }) {
   const [updatedProducts, setUpdatedProducts] = useState(null);
   const [finalUpdatedProducts, setfinalUpdatedProducts] = useState(null);
   const [message, setMessage] = useState("");
-  const merchantId = localStorage.getItem("unique_id");
+  const [merchantId, setMerchantId] = useState(null);
+  // const merchantId = localStorage.getItem("unique_id");
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setMerchantId(localStorage.getItem("unique_id"));
+    }
+  }, []);
   const {
     data: customizedTemplateDataHook,
     refetch,
@@ -79,7 +85,7 @@ function PreviewPage({ params }) {
       const formData = new FormData();
       formData.append("preview_image", file);
       const response = await fetch(
-        `http://localhost:8000/shop/update-preview-image/${merchant_id}/`,
+        `http://localhost:8000/shop/update-preview-image/${merchantId}/`,
         {
           method: "PATCH",
           body: formData,
@@ -102,12 +108,11 @@ function PreviewPage({ params }) {
     localStorage.removeItem("status");
     router.push("/admin/dashboard"); // Navigate to /admin/dashboard
   };
-  const merchant_id = localStorage.getItem("unique_id");
   const {
     data: products,
     isLoading,
     isError,
-  } = useGetProductsQuery(merchant_id);
+  } = useGetProductsQuery(merchantId);
   const [finalContent, setFinalContent] = useState(null);
   console.log(products);
   useEffect(() => {
@@ -132,13 +137,13 @@ function PreviewPage({ params }) {
       console.log("products");
       products?.featured?.forEach((product, index) => {
         console.log("products", product);
-        const productHTML = generateProductHTML(product, index);
+        const productHTML = generateProductHTML(product, product?.id);
         productsContainer?.insertAdjacentHTML("beforeend", productHTML);
       });
       // Iterate over the products array
       if (!isLoading && products?.new_arrival?.length > 0) {
         products?.new_arrival?.forEach((product, index) => {
-          const productHTML = generateProductHTML(product, index);
+          const productHTML = generateProductHTML(product, product?.id);
           productsPageContainer?.insertAdjacentHTML("beforeend", productHTML);
         });
       } else if (products?.length === 0) {
@@ -172,13 +177,12 @@ function PreviewPage({ params }) {
       }
     }, 2000); // Adjust the delay as needed
   }, [hasMounted]);
-  function generateProductHTML(product) {
-    // const imagePath = `${process.env.NEXT_PUBLIC_BASE_URL}${product.image}`;
+  function generateProductHTML(product, index) {
+    const imagePath = `${process.env.NEXT_PUBLIC_BASE_URL}${product.image}`;
     return `
-       <div class="product-cart">
-      <img src="${product.image}" alt="Dynamic Product" />
-      <span>${product?.name}</span>
-        <h4>${product?.description}</h4>
+       <div class="product-cart" id=${index}>
+      <img src="${imagePath}" alt="Dynamic Product" />
+        <h4 class="name">${product?.name}</h4>
         <div class="stars">
           <svg
                   style="display: inline"
@@ -237,7 +241,6 @@ function PreviewPage({ params }) {
                   />
                 </svg>
         </div>
-
           <h4 class="price">$<span class="price price-value">${product?.price}</span></h4>
           <button class="product-detail-button">Product Detail</button>
           <button class="add-to-cart-button buy-icon">
@@ -257,9 +260,8 @@ function PreviewPage({ params }) {
                   />
                 </svg>
               </button>
-        <p class='productId'  style="display: hidden;">${product?.id}</p>
         <span id="added-cart-message"></span>
-		</div>
+    </div>
     `;
   }
 

@@ -2,6 +2,7 @@ import React from "react";
 import ClientLayout from "./ClientLayout";
 import { Inter } from "next/font/google";
 import "../globals.css";
+
 import AppProvider from "./AppProvider";
 import { ClerkProvider } from "@clerk/nextjs";
 

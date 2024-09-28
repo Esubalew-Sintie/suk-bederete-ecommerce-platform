@@ -14,17 +14,21 @@ import { useAuth } from "@clerk/nextjs";
 const i18nNamespaces = ["home"]; // Define your namespaces
 export default function Index({ params: { locale } }) {
   const router = useRouter();
+  const [merchantId, setMerchantId] = useState(null);
+  const [navbarOpen, setNavbarOpen] = useState(false);
 
   // const merchantId = localStorage.getItem("unique_id");
 
-  const merchantId = localStorage.getItem("unique_id");
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setMerchantId(localStorage.getItem("unique_id"));
+    }
+  }, []);
   const handleClick = () => {
     if (merchantId) {
       router.push("/admin/dashboard");
     } else {
-      const currentPath = router.asPath;
-      console.log(currentPath, "currentpath");
-      router.push(`/login?redirect=${encodeURIComponent(currentPath)}`);
+      router.push(`/auth/login`);
     }
   };
   const [translations, setTranslations] = useState({
@@ -56,8 +60,12 @@ export default function Index({ params: { locale } }) {
       locale={locale}
       resources={translations.resources}
     >
-      <Navbar transparent />
-      <main>
+      <Navbar
+        transparent
+        setNavbarOpen={setNavbarOpen}
+        navbarOpen={navbarOpen}
+      />
+      <main onClick={() => setNavbarOpen(false)}>
         <div className="relative pt-16 pb-32 flex content-center items-center justify-center min-h-screen-75">
           <div
             className="absolute top-0 w-full h-full bg-center bg-cover"
@@ -543,7 +551,7 @@ export default function Index({ params: { locale } }) {
                   Grow your market
                 </h5>
               </div>
-              <div className="w-full lg:w-3/12 px-4 text-center">
+              <div className="w-full lg:w-3/12 px-4 text-center ">
                 <div className="text-blueGray-800 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
                   <i className="fas fa-lightbulb text-xl"></i>
                 </div>
@@ -554,12 +562,12 @@ export default function Index({ params: { locale } }) {
             </div>
           </div>
         </section>
-        <section className="relative block py-24 lg:pt-0 bg-blueGray-800">
+        <section className="relative block py-24 lg:pt-0 bg-blueGray-800  ">
           <div className="container mx-auto px-4">
             <div className="flex flex-wrap justify-center lg:-mt-64 -mt-48">
-              <div className="w-full lg:w-6/12 px-4">
+              <div className="w-full lg:w-6/12 px-4 max-lg:mt-11">
                 <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200">
-                  <div className="flex-auto p-5 lg:p-10">
+                  <div className="flex-auto p-5 lg:p-10 ">
                     <h4 className="text-2xl font-semibold">
                       Want to work with us?
                     </h4>
@@ -567,7 +575,7 @@ export default function Index({ params: { locale } }) {
                       Complete this form and we will get back to you in 24
                       hours.
                     </p>
-                    <div className="relative w-full mb-3 mt-8">
+                    <div className="relative w-full mb-3 mt-5">
                       <label
                         className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                         htmlFor="full-name"

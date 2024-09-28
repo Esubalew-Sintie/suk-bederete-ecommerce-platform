@@ -87,7 +87,11 @@ const WithGrapesjs = ({ data, page, templateId }) => {
   const { data: template, isLoading: templateLoading } =
     useGetWebBuilderQuery(templateId);
   const modifier_merchant = useSelector((state) => state.merchant);
-  const {data:ShopCategoryData, error:ShopCategoryError, isLoading:ShopCategoryLoading} = useGetshopCategoryQuery();
+  const {
+    data: ShopCategoryData,
+    error: ShopCategoryError,
+    isLoading: ShopCategoryLoading,
+  } = useGetshopCategoryQuery();
   useCheckUnauthorized(queryError);
   useCheckUnauthorized(createShopError);
 
@@ -438,12 +442,6 @@ const WithGrapesjs = ({ data, page, templateId }) => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
       loadGrapesJs();
-      // .then(() => {
-      //     // After the editor is loaded, apply global configuration
-      //     editor.AssetManager.storageType = "server";
-      //     editor.AssetManager.storeOnChange = true;
-      //     editor.AssetManager.storeAfterUpload = true;
-      //   });
     }
     //else {
     //   loadCustomData();
@@ -706,7 +704,7 @@ const WithGrapesjs = ({ data, page, templateId }) => {
           )}
 
           {/* </Link> */}
-          {pageContent.id && (
+          {pageContent?.id && (
             <Link
               href={`/preview/${customizedTemplateDataHook?.id}/${pageContent.name}`}
               target="_blank"

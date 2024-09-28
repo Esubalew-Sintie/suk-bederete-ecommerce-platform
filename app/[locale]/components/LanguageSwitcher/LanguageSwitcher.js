@@ -4,11 +4,18 @@ import Cookies from "js-cookie";
 
 const LanguageSwitcher = () => {
   // Step 1: Retrieve the default language from the cookie
-  const initialLanguage =
-    document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("NEXT_LOCALE="))
-      ?.split("=")[1] || "en"; // Default to English if not found
+  const [initialLanguage, setLocal] = useState("en");
+
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      setLocal(
+        document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("NEXT_LOCALE="))
+          ?.split("=")[1] || "en"
+      );
+    }
+  }, []);
 
   // Step 2: Set up state for selected language
   const [selectedLanguage, setSelectedLanguage] = useState(initialLanguage);
